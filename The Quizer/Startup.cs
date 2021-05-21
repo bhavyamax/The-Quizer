@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using The_Quizer.Data;
+using The_Quizer.Models;
 
 namespace The_Quizer
 {
@@ -28,6 +30,8 @@ namespace The_Quizer
             services.AddDbContextPool<AppDBContext>(
                 options=>options.UseSqlServer(Configuration.GetConnectionString("QuizerDBConnection"))
             );
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<AppDBContext>();
             services.AddControllersWithViews();
         }
 
@@ -48,7 +52,7 @@ namespace The_Quizer
             app.UseStaticFiles();
 
             app.UseRouting();
-            
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
