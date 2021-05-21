@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using The_Quizer.Data;
+using The_Quizer.Models;
 
 namespace The_Quizer
 {
@@ -25,10 +27,19 @@ namespace The_Quizer
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
             services.AddDbContextPool<AppDBContext>(
                 options=>options.UseSqlServer(Configuration.GetConnectionString("QuizerDBConnection"))
             );
+
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<AppDBContext>();
+
             services.AddControllersWithViews();
+            services.AddSingleton<IExamQuestionRepository, SQLExamQuestionRepository>();
+            services.AddSingleton<IExamRepository, SQLExamRepository>();
+            services.AddSingleton<IExamQuestionRepository, SQLExamQuestionRepository>();
+            services.AddSingleton<IExamQuestionRepository, SQLExamQuestionRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,7 +61,7 @@ namespace The_Quizer
             app.UseRouting();
             
             app.UseAuthorization();
-
+            app.UseAuthentication();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
