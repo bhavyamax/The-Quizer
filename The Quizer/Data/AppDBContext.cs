@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using The_Quizer.Models;
 
 namespace The_Quizer.Data
 {
-    public class AppDBContext:IdentityDbContext
+    public class AppDBContext:IdentityDbContext<ApplicationUser>
     {
         public AppDBContext(DbContextOptions<AppDBContext> options)
             : base(options)
@@ -19,7 +20,7 @@ namespace The_Quizer.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<UserExam>().HasKey(ue => new { ue.Exam_id, ue.User_id });
+            modelBuilder.Seed();
         }
 
         public DbSet<Exam> Exams { get; set; }
