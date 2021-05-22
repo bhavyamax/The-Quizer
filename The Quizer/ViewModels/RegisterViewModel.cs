@@ -20,7 +20,8 @@ namespace The_Quizer.ViewModels
         [Required]
         [DataType(DataType.Password)]
         public string Password { get; set; }
-        [Display(Name ="Conform Password")]
+        [Display(Name ="Confirm Password")]
+        [DataType(DataType.Password)]
         [Compare("Password",ErrorMessage ="Confirm Password does not match password.")]
         public string ConfirmPassword { get; set; }
     }
