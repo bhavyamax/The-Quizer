@@ -9,8 +9,22 @@ namespace The_Quizer.Models
 {
     public class UserExam
     {
-        public int User_id { get; set; }
+        public UserExam()
+        {
+            Score = -1;
+        }
+
+        
+        [Required]
+        [ForeignKey("ApplicationUser")]
+        public string User_id { get; set; }
+        [Required]
+        [ForeignKey("Exam")]
         public int Exam_id { get; set; }
+        [Range(minimum: 0,maximum: 100)]
         public float? Score { get; set; }
+
+        public virtual ApplicationUser ApplicationUser { get; set; }
+        public virtual Exam Exam { get; set; }
     }
 }

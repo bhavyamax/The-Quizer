@@ -21,6 +21,7 @@ namespace The_Quizer.Data
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.Seed();
+            modelBuilder.DB_Relations();
         }
 
         public DbSet<Exam> Exams { get; set; }
