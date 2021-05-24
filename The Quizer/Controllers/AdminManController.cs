@@ -54,6 +54,10 @@ namespace The_Quizer.Controllers
                     Fname = model.Fname,
                     Lname = model.Lname
                 };
+                if (string.IsNullOrEmpty( model.Password))
+                {
+                    model.Password = "Admin@1";
+                }
                 var result = await userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -124,6 +128,30 @@ namespace The_Quizer.Controllers
                     ModelState.AddModelError("", error.Description);
                 }
                 return View(model);
+            }
+        }
+
+        public async Task<IActionResult> Delete(string id)
+        {
+            var user = await userManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                ViewBag.ErrorMessage = $"No User With ID = {id} found.";
+                return View("NotFound");
+            }
+            else
+            {
+                var result = await userManager.DeleteAsync(user);
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("ListUsers");
+                }
+
+                foreach (var item in result.Errors)
+                {
+                    ModelState.AddModelError("", item.Description);
+                }
+                return View("ListUsers");
             }
         }
     }

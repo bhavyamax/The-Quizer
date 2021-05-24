@@ -33,9 +33,13 @@
                     @Html.DisplayFor(modelItem => item.Email)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    <div class="row">
+                        <form asp-action="Delete" asp-route-id="@item.Id" method="post">
+                            <a asp-action="Edit"class="btn btn-link p-0" asp-route-id="@item.Id">Edit</a> |
+                            @*<a asp-action="Details" asp-route-id="@item.Id">Details</a> |*@
+                            <button type="submit" class="btn btn-link p-0">Delete</button>
+                        </form>
+                    </div>
                 </td>
             </tr>
         }
