@@ -27,7 +27,8 @@ namespace The_Quizer.Controllers
             AdminRegisterViewModel adminRegisterViewModel = new AdminRegisterViewModel
             {
                 Password = "Teacher@1",
-                UserRole = roleManager.Roles.Select(a => a.Name)
+                UserRole = roleManager.Roles.Select(a => a.Name),
+                SelectedRole = "Teacher"
             };
             return View(adminRegisterViewModel);
         }
@@ -42,11 +43,11 @@ namespace The_Quizer.Controllers
                     UserName = model.Email,
                     Email = model.Email,
                     Fname = model.Fname,
-                    Lname = model.Lname
+                    Lname = model.Lname,
                 };
                 if (string.IsNullOrEmpty(model.Password))
                 {
-                    model.Password = "Admin@1";
+                    model.Password = "Teacher@1";
                 }
                 var result = await userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
