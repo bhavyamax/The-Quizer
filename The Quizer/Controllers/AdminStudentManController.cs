@@ -26,7 +26,7 @@ namespace The_Quizer.Controllers
         [Route("[Controller]/Index")]
         public async Task<IActionResult> ListUsers()
         {
-            var users = await userManager.GetUsersInRoleAsync("Admin");
+            var users = await userManager.GetUsersInRoleAsync("Student");
             return View(users);
         }
 
@@ -35,9 +35,9 @@ namespace The_Quizer.Controllers
         {
             AdminRegisterViewModel adminRegisterViewModel = new AdminRegisterViewModel
             {
-                Password = "Admin@1",
+                Password = "Student@1",
                 UserRole = roleManager.Roles.Select(a => a.Name),
-                SelectedRole = "Admin"
+                SelectedRole = "Student"
             };
             return View(adminRegisterViewModel);
         }
@@ -56,7 +56,7 @@ namespace The_Quizer.Controllers
                 };
                 if (string.IsNullOrEmpty(model.Password))
                 {
-                    model.Password = "Admin@1";
+                    model.Password = "Student@1";
                 }
                 var result = await userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
