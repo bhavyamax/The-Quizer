@@ -34,7 +34,8 @@ namespace The_Quizer
             );
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<AppDBContext>();
-            services.AddControllersWithViews(options =>
+            services.AddControllersWithViews();
+            /*options =>
             {
                 var policy = new AuthorizationPolicyBuilder()
                                 .RequireAuthenticatedUser()
@@ -42,7 +43,7 @@ namespace The_Quizer
                 options.Filters.Add(new AuthorizeFilter(policy));
             }
                 
-            );
+            );*/
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

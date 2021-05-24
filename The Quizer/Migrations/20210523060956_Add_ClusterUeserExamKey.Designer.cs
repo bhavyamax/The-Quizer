@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using The_Quizer.Data;
 
 namespace The_Quizer.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    partial class AppDBContextModelSnapshot : ModelSnapshot
+    [Migration("20210523060956_Add_ClusterUeserExamKey")]
+    partial class Add_ClusterUeserExamKey
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -44,6 +46,29 @@ namespace The_Quizer.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "f91bb23c-b4ce-4cc3-a50c-ff29710e0d34",
+                            ConcurrencyStamp = "13ed5430-9637-4a05-ad67-1456ddf0b68c",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = "fe7d8385-812c-4f37-aa1a-0e95631458f3",
+                            ConcurrencyStamp = "870a3b54-ebc2-4e08-85cf-ad0623727d1b",
+                            Name = "Teacher",
+                            NormalizedName = "TEACHER"
+                        },
+                        new
+                        {
+                            Id = "405feda2-7b09-4457-94ee-8048170fad34",
+                            ConcurrencyStamp = "4794a3ef-5891-4501-bd89-5bfe1afa7f99",
+                            Name = "Student",
+                            NormalizedName = "STUDENT"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -318,7 +343,7 @@ namespace The_Quizer.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -327,7 +352,7 @@ namespace The_Quizer.Migrations
                     b.HasOne("The_Quizer.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -336,7 +361,7 @@ namespace The_Quizer.Migrations
                     b.HasOne("The_Quizer.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -345,13 +370,13 @@ namespace The_Quizer.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("The_Quizer.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -360,7 +385,7 @@ namespace The_Quizer.Migrations
                     b.HasOne("The_Quizer.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -369,7 +394,7 @@ namespace The_Quizer.Migrations
                     b.HasOne("The_Quizer.Models.Exam", "Exam")
                         .WithMany("ExamQuestions")
                         .HasForeignKey("Exam_id")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Exam");
@@ -380,7 +405,7 @@ namespace The_Quizer.Migrations
                     b.HasOne("The_Quizer.Models.ExamQuestion", "ExamQuestion")
                         .WithMany("QuestionAnswers")
                         .HasForeignKey("Ques_ID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("ExamQuestion");
@@ -391,13 +416,13 @@ namespace The_Quizer.Migrations
                     b.HasOne("The_Quizer.Models.Exam", "Exam")
                         .WithMany("UserExams")
                         .HasForeignKey("Exam_id")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("The_Quizer.Models.ApplicationUser", "ApplicationUser")
                         .WithMany("UserExams")
                         .HasForeignKey("User_id")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("ApplicationUser");

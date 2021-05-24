@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <RootNamespace>The_Quizer</RootNamespace>
+    <UserSecretsId>56ba2ffe-890e-42c8-b185-5c5066d55b76</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,6 +19,7 @@
 
   <ItemGroup>
     <Folder Include="Data\" />
+    <Folder Include="Utilities\" />
   </ItemGroup>
 
 </Project>
