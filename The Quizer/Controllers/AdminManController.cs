@@ -37,7 +37,8 @@ namespace The_Quizer.Controllers
             AdminRegisterViewModel adminRegisterViewModel = new AdminRegisterViewModel
             {
                 Password = "Admin@1",
-                UserRole = roleManager.Roles.Select(a => a.Name)
+                UserRole = roleManager.Roles.Select(a => a.Name),
+                SelectedRole = "Admin"
             };
             return View(adminRegisterViewModel);
         }

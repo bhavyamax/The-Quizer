@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>User Registration</h1>
+<h1>@Model.SelectedRole User Registration</h1>
 <div class="row">
     <div class="col-md-12">
         <form method="post">
@@ -28,14 +28,14 @@
             </div>
             <div class="form-group ">
                 <label asp-for="Password"></label>
-                <input asp-for="Password" placeholder="Defaulf password Admin@1" class="form-control" />
+                <input asp-for="Password" placeholder="Defaulf password @Model.Password" class="form-control" />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
             <div class="form-group ">
-                <label asp-for="@Model.SelectedRole">User Role: Default Value is Admin</label>
+                <label asp-for="@Model.SelectedRole">User Role: Default Value is @Model.SelectedRole</label>
                 <select class="form-control" asp-for="@Model.SelectedRole" asp-items="new SelectList(Model.UserRole)">
-                    <option value="Admin" selected hidden>
-                        Admin
+                    <option value="@Model.SelectedRole" selected hidden>
+                        @Model.SelectedRole
                     </option>
                 </select>
                 <span asp-validation-for="UserRole" class="text-danger"></span>
