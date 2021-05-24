@@ -27,21 +27,50 @@ namespace The_Quizer.Controllers
         }
 
         [HttpGet]
-        public async Task< IActionResult> ListUsers()
+        [Route("[Controller]/")]
+        [Route("[Controller]/ListUsers")]
+        [Route("[Controller]/Index")]
+        public async Task<IActionResult> ListUsers()
         {
             var users = await userManager.GetUsersInRoleAsync("Admin");
             return View(users);
         }
-        
+
         [HttpGet]
         public IActionResult Create()
         {
             AdminRegisterViewModel adminRegisterViewModel = new AdminRegisterViewModel
             {
                 Password = "Admin@1",
-                UserRole = roleManager.Roles.Select(a => new { a.Name, isSelected = false }).ToDictionary(a=>a.Name,(a=>a.Name=="Admin"))
+                UserRole = roleManager.Roles.Select(a => a.Name)
             };
-            return View();
+            return View(adminRegisterViewModel);
+        }
+        
+        [HttpPost]
+        public async Task<IActionResult> Create(AdminRegisterViewModel model)
+        {
+                if (ModelState.IsValid)
+                {
+                    var user = new ApplicationUser
+                    {
+                        UserName = model.Email,
+                        Email = model.Email,
+                        Fname = model.Fname,
+                        Lname = model.Lname
+                    };
+                    var result = await userManager.CreateAsync(user, model.Password);
+                    if (result.Succeeded)
+                    {
+                        await userManager.AddToRoleAsync(user, model.SelectedRole);
+                    }
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError("", error.Description);
+                    }
+                }
+                model.UserRole = roleManager.Roles.Select(a => a.Name);
+                return View(model);
         }
 
 
