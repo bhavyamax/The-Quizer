@@ -21,11 +21,6 @@ namespace The_Quizer.Controllers
             this.userManager = userManager;
             this.roleManager = roleManager;
         }
-        public IActionResult Index()
-        {
-            return View();
-        }
-
         [HttpGet]
         [Route("[Controller]/")]
         [Route("[Controller]/ListUsers")]
@@ -46,34 +41,90 @@ namespace The_Quizer.Controllers
             };
             return View(adminRegisterViewModel);
         }
-        
+
         [HttpPost]
         public async Task<IActionResult> Create(AdminRegisterViewModel model)
         {
-                if (ModelState.IsValid)
+            if (ModelState.IsValid)
+            {
+                var user = new ApplicationUser
                 {
-                    var user = new ApplicationUser
-                    {
-                        UserName = model.Email,
-                        Email = model.Email,
-                        Fname = model.Fname,
-                        Lname = model.Lname
-                    };
-                    var result = await userManager.CreateAsync(user, model.Password);
-                    if (result.Succeeded)
-                    {
-                        await userManager.AddToRoleAsync(user, model.SelectedRole);
-                    }
-                    foreach (var error in result.Errors)
-                    {
-                        ModelState.AddModelError("", error.Description);
-                    }
+                    UserName = model.Email,
+                    Email = model.Email,
+                    Fname = model.Fname,
+                    Lname = model.Lname
+                };
+                var result = await userManager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
+                {
+                    await userManager.AddToRoleAsync(user, model.SelectedRole);
                 }
-                model.UserRole = roleManager.Roles.Select(a => a.Name);
-                return View(model);
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+            }
+            model.UserRole = roleManager.Roles.Select(a => a.Name);
+            return View(model);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Edit(string id)
+        {
+            var user = await userManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                ViewBag.ErrorMessage = $"No User With ID = {id} found.";
+                return View("NotFound");
+            }
+            AdminEditViewModel adminEditViewModel = new AdminEditViewModel
+            {
+                ID = id,
+                Fname = user.Fname,
+                Lname = user.Lname,
+                Email = user.Email,
+                UserRole = roleManager.Roles.Select(a => a.Name)
+            };
+            return View(adminEditViewModel);
+        }
 
-
+        [HttpPost]
+        public async Task<IActionResult> Edit(AdminEditViewModel model)
+        {
+            var user = await userManager.FindByIdAsync(model.ID);
+            if (user == null)
+            {
+                ViewBag.ErrorMeassage = $"No User With ID = {model.ID} found.";
+                return View("NotFound");
+            }
+            else
+            {
+                user.UserName = user.Email = model.Email;
+                user.Fname = model.Fname;
+                user.Lname = model.Lname;
+                var userResult = await userManager.UpdateAsync(user);
+                if (userResult.Succeeded)
+                {
+                    var roles = await userManager.GetRolesAsync(user);
+                    var result = await userManager.RemoveFromRolesAsync(user, roles);
+                    //user = await userManager.FindByIdAsync(model.ID);
+                    if (result.Succeeded)
+                    {
+                        result = await userManager.AddToRoleAsync(user, model.SelectedRole);
+                        if (result.Succeeded)
+                        {
+                            return RedirectToAction("index");
+                        }
+                    }
+                    ModelState.AddModelError("", "Cannot Update User Role.");
+                    return View(model);
+                }
+                foreach (var error in userResult.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+                return View(model);
+            }
+        }
     }
 }
