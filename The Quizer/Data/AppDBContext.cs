@@ -20,7 +20,7 @@ namespace The_Quizer.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Seed();
+            //modelBuilder.Seed();
             modelBuilder.DB_Relations();
         }
 

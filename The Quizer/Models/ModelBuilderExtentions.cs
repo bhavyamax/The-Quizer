@@ -31,11 +31,13 @@ namespace The_Quizer.Models
         }
         public static void DB_Relations(this ModelBuilder modelBuilder)
         {
-            foreach (var foreignKey in modelBuilder.Model.GetEntityTypes()
-                                        .SelectMany(e=>e.GetForeignKeys()))
-            {
-                foreignKey.DeleteBehavior = DeleteBehavior.Restrict;
-            }
+            //foreach (var foreignKey in modelBuilder.Model.GetEntityTypes()
+            //                            .SelectMany(e=>e.GetForeignKeys()))
+            //{
+            //    foreignKey.DeleteBehavior = DeleteBehavior.Restrict;
+            //}
+
+            
             modelBuilder.Entity<UserExam>().HasKey(ue => new { ue.Exam_id, ue.User_id });
         }
 
