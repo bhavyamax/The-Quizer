@@ -10,25 +10,15 @@ using The_Quizer.ViewModels;
 
 namespace The_Quizer.Controllers
 {
-    public class AdminManController : Controller
+    public class TeacherManController : Controller
     {
-        private readonly UserManager<ApplicationUser> userManager;
         private readonly RoleManager<IdentityRole> roleManager;
-
-        public AdminManController(UserManager<ApplicationUser> userManager,
+        private readonly UserManager<ApplicationUser> userManager;
+        public TeacherManController(UserManager<ApplicationUser> userManager,
                                     RoleManager<IdentityRole> roleManager)
         {
             this.userManager = userManager;
             this.roleManager = roleManager;
-        }
-        [HttpGet]
-        [Route("[Controller]/")]
-        [Route("[Controller]/ListUsers")]
-        [Route("[Controller]/Index")]
-        public async Task<IActionResult> ListUsers()
-        {
-            var users = await userManager.GetUsersInRoleAsync("Admin");
-            return View(users);
         }
 
         [HttpGet]
@@ -36,9 +26,9 @@ namespace The_Quizer.Controllers
         {
             AdminRegisterViewModel adminRegisterViewModel = new AdminRegisterViewModel
             {
-                Password = "Admin@1",
+                Password = "Teacher@1",
                 UserRole = roleManager.Roles.Select(a => a.Name),
-                SelectedRole = "Admin"
+                SelectedRole = "Teacher"
             };
             return View(adminRegisterViewModel);
         }
@@ -53,11 +43,11 @@ namespace The_Quizer.Controllers
                     UserName = model.Email,
                     Email = model.Email,
                     Fname = model.Fname,
-                    Lname = model.Lname
+                    Lname = model.Lname,
                 };
-                if (string.IsNullOrEmpty( model.Password))
+                if (string.IsNullOrEmpty(model.Password))
                 {
-                    model.Password = "Admin@1";
+                    model.Password = "Teacher@1";
                 }
                 var result = await userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
@@ -71,6 +61,31 @@ namespace The_Quizer.Controllers
             }
             model.UserRole = roleManager.Roles.Select(a => a.Name);
             return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(string id)
+        {
+            var user = await userManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                ViewBag.ErrorMessage = $"No User With ID = {id} found.";
+                return View("NotFound");
+            }
+            else
+            {
+                var result = await userManager.DeleteAsync(user);
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("ListUsers");
+                }
+
+                foreach (var item in result.Errors)
+                {
+                    ModelState.AddModelError("", item.Description);
+                }
+                return View("ListUsers");
+            }
         }
 
         [HttpGet]
@@ -132,28 +147,14 @@ namespace The_Quizer.Controllers
             }
         }
 
-        public async Task<IActionResult> Delete(string id)
+        [HttpGet]
+        [Route("[Controller]/")]
+        [Route("[Controller]/ListUsers")]
+        [Route("[Controller]/Index")]
+        public async Task<IActionResult> ListUsers()
         {
-            var user = await userManager.FindByIdAsync(id);
-            if (user == null)
-            {
-                ViewBag.ErrorMessage = $"No User With ID = {id} found.";
-                return View("NotFound");
-            }
-            else
-            {
-                var result = await userManager.DeleteAsync(user);
-                if (result.Succeeded)
-                {
-                    return RedirectToAction("ListUsers");
-                }
-
-                foreach (var item in result.Errors)
-                {
-                    ModelState.AddModelError("", item.Description);
-                }
-                return View("ListUsers");
-            }
+            var users = await userManager.GetUsersInRoleAsync("Teacher");
+            return View(users);
         }
     }
 }
