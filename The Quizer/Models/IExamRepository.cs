@@ -7,8 +7,8 @@ namespace The_Quizer.Models
 {
     public interface IExamRepository
     {
-        List<Exam> GetAllUserExams(int userid);
-        Exam GetUserExam(int userid);
+        List<Exam> GetAllUserExams(string userid);
+        Exam GetUserExam(string userid,int examid);
         Exam CreateExam(Exam exam);
     }
 }

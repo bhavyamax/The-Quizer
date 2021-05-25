@@ -9,7 +9,8 @@ namespace The_Quizer.Models
     public class Exam
     {
         [Key]
-        public int Id { get; set; }
+        [StringLength(450)]
+        public string Id { get; set; }
         [Required]
         public string Title { get; set; }
         public string Status { get; set; }

@@ -12,12 +12,12 @@ namespace The_Quizer.Models
             throw new NotImplementedException();
         }
 
-        public List<Exam> GetAllUserExams(int userid)
+        public List<Exam> GetAllUserExams(string userid)
         {
             throw new NotImplementedException();
         }
 
-        public Exam GetUserExam(int userid)
+        public Exam GetUserExam(string userid, int examid)
         {
             throw new NotImplementedException();
         }

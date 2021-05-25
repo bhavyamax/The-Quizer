@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using The_Quizer.Data;
 
 namespace The_Quizer.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    partial class AppDBContextModelSnapshot : ModelSnapshot
+    [Migration("20210525031621_prep_Change_ID_Types_to_string")]
+    partial class prep_Change_ID_Types_to_string
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -227,7 +229,7 @@ namespace The_Quizer.Migrations
 
             modelBuilder.Entity("The_Quizer.Models.Exam", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<string>("aId")
                         .HasMaxLength(450)
                         .HasColumnType("nvarchar(450)");
 
@@ -238,14 +240,14 @@ namespace The_Quizer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("aId");
 
                     b.ToTable("Exams");
                 });
 
             modelBuilder.Entity("The_Quizer.Models.ExamQuestion", b =>
                 {
-                    b.Property<string>("ID")
+                    b.Property<string>("aID")
                         .HasMaxLength(450)
                         .HasColumnType("nvarchar(450)");
 
@@ -262,7 +264,7 @@ namespace The_Quizer.Migrations
                     b.Property<float>("points")
                         .HasColumnType("real");
 
-                    b.HasKey("ID");
+                    b.HasKey("aID");
 
                     b.HasIndex("Exam_id");
 
@@ -271,7 +273,7 @@ namespace The_Quizer.Migrations
 
             modelBuilder.Entity("The_Quizer.Models.QuestionAnswer", b =>
                 {
-                    b.Property<string>("ID")
+                    b.Property<string>("aID")
                         .HasMaxLength(450)
                         .HasColumnType("nvarchar(450)");
 
@@ -286,7 +288,7 @@ namespace The_Quizer.Migrations
                     b.Property<bool>("isCorrect")
                         .HasColumnType("bit");
 
-                    b.HasKey("ID");
+                    b.HasKey("aID");
 
                     b.HasIndex("Ques_ID");
 
@@ -295,18 +297,25 @@ namespace The_Quizer.Migrations
 
             modelBuilder.Entity("The_Quizer.Models.UserExam", b =>
                 {
-                    b.Property<string>("Exam_id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("User_id")
+                    b.Property<string>("asUser_id")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<float?>("Score")
                         .HasColumnType("real");
 
-                    b.HasKey("Exam_id", "User_id");
+                    b.Property<string>("aExam_id")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
-                    b.HasIndex("User_id");
+                    b.Property<string>("aUser_id")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("asUser_id");
+
+                    b.HasIndex("aExam_id");
+
+                    b.HasIndex("aUser_id");
 
                     b.ToTable("UserExams");
                 });
@@ -386,13 +395,13 @@ namespace The_Quizer.Migrations
                 {
                     b.HasOne("The_Quizer.Models.Exam", "Exam")
                         .WithMany("UserExams")
-                        .HasForeignKey("Exam_id")
+                        .HasForeignKey("aExam_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("The_Quizer.Models.ApplicationUser", "ApplicationUser")
                         .WithMany("UserExams")
-                        .HasForeignKey("User_id")
+                        .HasForeignKey("aUser_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
