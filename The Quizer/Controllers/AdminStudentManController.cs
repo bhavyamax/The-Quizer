@@ -87,6 +87,7 @@ namespace The_Quizer.Controllers
                 Fname = user.Fname,
                 Lname = user.Lname,
                 Email = user.Email,
+                SelectedRole = userManager.GetRolesAsync(user).Result.First(),
                 UserRole = roleManager.Roles.Select(a => a.Name)
             };
             return View(adminEditViewModel);
