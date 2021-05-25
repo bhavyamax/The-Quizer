@@ -30,7 +30,7 @@ namespace The_Quizer
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContextPool<AppDBContext>(
-                options=>options.UseSqlServer(Configuration.GetConnectionString("QuizerDBConnection"))
+                options => options.UseSqlServer(Configuration.GetConnectionString("QuizerDBConnection"))
             );
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<AppDBContext>();
@@ -44,6 +44,11 @@ namespace The_Quizer
             }
                 
             );*/
+
+            services.AddScoped<IExamQuestionRepository, SQLExamQuestionRepository>();
+            services.AddScoped<IQuestionAnswerRepository, SQLQuestionsAnswerRepository>();
+            services.AddScoped<IExamRepository, SQLExamRepository>();
+            services.AddScoped<IUserExamRepository, SQLUserExamRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
