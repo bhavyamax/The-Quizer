@@ -11,9 +11,10 @@ namespace The_Quizer.Models
     {
         [Required]
         [Key]
-        public int ID { get; set; }
+        [StringLength(450)]
+        public string ID { get; set; }
         [ForeignKey("Exam")]
-        public int Exam_id { get; set; }
+        public string Exam_id { get; set; }
         [Required]
         public string Question { get; set; }
         [Required]

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace The_Quizer.Models
 {
-    public interface IQuestionAnswerRepository
+    public interface IQuestionAnswerStore
     {
         List<QuestionAnswer> GetquestionAnswers();
         bool CreateQuestionAnswer(QuestionAnswer questionAnswer);

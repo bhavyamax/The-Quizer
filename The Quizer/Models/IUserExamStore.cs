@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace The_Quizer.Models
 {
-    interface IUserExamRepository
+    interface IUserExamStore
     {
         UserExam AssignExam(int userid, int examD);
         UserExam UpdateExamScore(UserExam userExam);

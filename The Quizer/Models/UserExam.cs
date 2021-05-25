@@ -20,7 +20,7 @@ namespace The_Quizer.Models
         public string User_id { get; set; }
         [Required]
         [ForeignKey("Exam")]
-        public int Exam_id { get; set; }
+        public string Exam_id { get; set; }
         [Range(minimum: 0,maximum: 100)]
         public float? Score { get; set; }
 

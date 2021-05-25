@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 
 namespace The_Quizer.Models
 {
-    public interface IExamRepository
+    public interface IExamStore
     {
-        List<Exam> GetAllUserExams(string userid);
-        Exam GetUserExam(string userid,int examid);
+        List<Exam> GetAllUserExams(int userid);
+        Exam GetUserExam(int userid);
         Exam CreateExam(Exam exam);
     }
 }
