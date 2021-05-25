@@ -5,14 +5,19 @@ using System.Threading.Tasks;
 
 namespace The_Quizer.Models
 {
-    public class SQLQuestionsAnswerRepository : IQuestionAnswerRepository
+    public class SQLExamStore : IExamStore
     {
-        public bool CreateQuestionAnswer(QuestionAnswer questionAnswer)
+        public Exam CreateExam(Exam exam)
         {
             throw new NotImplementedException();
         }
 
-        public List<QuestionAnswer> GetquestionAnswers()
+        public List<Exam> GetAllUserExams(int userid)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Exam GetUserExam(int userid)
         {
             throw new NotImplementedException();
         }

@@ -45,10 +45,10 @@ namespace The_Quizer
                 
             );*/
 
-            services.AddScoped<IExamQuestionRepository, SQLExamQuestionRepository>();
-            services.AddScoped<IQuestionAnswerRepository, SQLQuestionsAnswerRepository>();
-            services.AddScoped<IExamRepository, SQLExamRepository>();
-            services.AddScoped<IUserExamRepository, SQLUserExamRepository>();
+            services.AddScoped<IExamQuestionStore, SQLExamQuestionStore>();
+            services.AddScoped<IQuestionAnswerStore, SQLQuestionsAnswerStore>();
+            services.AddScoped<IExamStore, SQLExamStore>();
+            services.AddScoped<IUserExamStore, SQLUserExamStore>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
