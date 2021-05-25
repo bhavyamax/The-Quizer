@@ -23,11 +23,10 @@ namespace The_Quizer.Controllers
         public async Task<IActionResult> Index()
         {
             return View(await _context.Exams.ToListAsync());
-
         }
 
         // GET: TeacherExamMan/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(string id)
         {
             if (id == null)
             {
@@ -67,7 +66,7 @@ namespace The_Quizer.Controllers
         }
 
         // GET: TeacherExamMan/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
             {
@@ -87,7 +86,7 @@ namespace The_Quizer.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Status")] Exam exam)
+        public async Task<IActionResult> Edit(string id, [Bind("Id,Title,Status")] Exam exam)
         {
             if (id != exam.Id)
             {
@@ -118,7 +117,7 @@ namespace The_Quizer.Controllers
         }
 
         // GET: TeacherExamMan/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
             {
@@ -138,7 +137,7 @@ namespace The_Quizer.Controllers
         // POST: TeacherExamMan/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(string id)
         {
             var exam = await _context.Exams.FindAsync(id);
             _context.Exams.Remove(exam);
@@ -146,7 +145,7 @@ namespace The_Quizer.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ExamExists(int id)
+        private bool ExamExists(string id)
         {
             return _context.Exams.Any(e => e.Id == id);
         }
