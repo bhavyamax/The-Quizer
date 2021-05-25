@@ -30,7 +30,7 @@ namespace The_Quizer
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContextPool<AppDBContext>(
-                options=>options.UseSqlServer(Configuration.GetConnectionString("QuizerDBConnection"))
+                options => options.UseSqlServer(Configuration.GetConnectionString("QuizerDBConnection"))
             );
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<AppDBContext>();
