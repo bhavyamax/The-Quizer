@@ -8,35 +8,35 @@ namespace The_Quizer.Models
     public interface IQuestionAnswerStore
     {
         /// <summary>
-        ///     Adds a exam to a role
+        ///     Adds a ExamQuestion to a role
         /// </summary>
-        /// <param name="exam"></param>
+        /// <param name="examQuestion"></param>
         /// <param name="QuestionID"></param>
         /// <returns></returns>
-        Task AddToRoleAsync(Exam exam, string QuestionID);
+        Task AddToRoleAsync(ExamQuestion examQuestion, string QuestionID);
 
         /// <summary>
-        ///     Removes the role for the exam
+        ///     Removes the role for the ExamQuestion
         /// </summary>
-        /// <param name="exam"></param>
+        /// <param name="examQuestion"></param>
         /// <param name="QuestionID"></param>
         /// <returns></returns>
-        Task RemoveFromRoleAsync(Exam exam, string QuestionID);
+        Task RemoveFromRoleAsync(ExamQuestion examQuestion, string QuestionID);
 
         /// <summary>
-        ///     Returns the roles for this exam
+        ///     Returns the roles for this ExamQuestion
         /// </summary>
-        /// <param name="exam"></param>
+        /// <param name="examQuestion"></param>
         /// <returns></returns>
-        Task<IList<string>> GetRolesAsync(Exam exam);
+        Task<IList<string>> GetRolesAsync(ExamQuestion examQuestion);
 
         /// <summary>
-        ///     Returns true if a exam is in the role
+        ///     Returns true if a ExamQuestion is in the role
         /// </summary>
-        /// <param name="exam"></param>
+        /// <param name="examQuestion"></param>
         /// <param name="QuestionID"></param>
         /// <returns></returns>
-        Task<bool> IsInRoleAsync(Exam exam, string QuestionID);
+        Task<bool> IsInRoleAsync(ExamQuestion examQuestion, string QuestionID);
 
 
     }
