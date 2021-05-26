@@ -9,8 +9,7 @@ namespace The_Quizer.Models
     /// <summary>
     ///     Interface that maps users to exams
     /// </summary>
-    /// <typeparam name="TUser"></typeparam>
-    interface IUserExamStore<TUser> : IUserStore<TUser> where TUser : ApplicationUser
+    interface IUserExamStore
     {
 
         /// <summary>
@@ -19,15 +18,15 @@ namespace The_Quizer.Models
         /// <param name="user"></param>
         /// <param name="examId"></param>
         /// <returns></returns>
-        Task AssignExamAsync(TUser user, string examId);
-        
+        Task AssignExamAsync(ApplicationUser user, string examId);
+
         /// <summary>
         ///     Removes the Exam for the user
         /// </summary>
         /// <param name="user"></param>
         /// <param name="examId"></param>
         /// <returns></returns>
-        Task UnAssignExamAsync(TUser user, string examId);
+        Task UnAssignExamAsync(ApplicationUser user, string examId);
 
         /// <summary>
         ///     Removes the role for the user
@@ -41,7 +40,7 @@ namespace The_Quizer.Models
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        Task GetExamsAsync(TUser user);
+        Task GetExamsAsync(ApplicationUser user);
 
         /// <summary>
         ///     Returns true if a user is enrolled in the exam
@@ -49,6 +48,6 @@ namespace The_Quizer.Models
         /// <param name="user"></param>
         /// <param name="roleId"></param>
         /// <returns></returns>
-        Task<bool> IsINExamAsync(TUser user, string roleId);
+        Task<bool> IsINExamAsync(ApplicationUser user, string roleId);
     }
 }

@@ -7,12 +7,27 @@ namespace The_Quizer.Models
 {
     public class SQLUserExamStore : IUserExamStore
     {
-        public UserExam AssignExam(int userid, int examD)
+        public Task AssignExamAsync(ApplicationUser user, string examId)
         {
             throw new NotImplementedException();
         }
 
-        public UserExam UpdateExamScore(UserExam userExam)
+        public Task GetExamsAsync(ApplicationUser user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> IsINExamAsync(ApplicationUser user, string roleId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task UnAssignExamAsync(ApplicationUser user, string examId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task UpdateExamScoreAsync(UserExam userExam)
         {
             throw new NotImplementedException();
         }
