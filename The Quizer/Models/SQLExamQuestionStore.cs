@@ -7,12 +7,27 @@ namespace The_Quizer.Models
 {
     public class SQLExamQuestionStore : IExamQuestionStore
     {
-        public bool CreateExamQuestion(ExamQuestion examQuestion)
+        public Task CreateAsync(ExamQuestion examQuestion)
         {
             throw new NotImplementedException();
         }
 
-        public List<ExamQuestion> GetExamQuestions(int Exam_id)
+        public Task DeleteAsync(ExamQuestion examQuestion)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<ExamQuestion> FindByIdAsync(string examQuestionId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<ExamQuestion> FindByNameAsync(string roleName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task UpdateAsync(ExamQuestion examQuestion)
         {
             throw new NotImplementedException();
         }
