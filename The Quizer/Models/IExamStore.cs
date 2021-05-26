@@ -7,8 +7,35 @@ namespace The_Quizer.Models
 {
     public interface IExamStore
     {
-        List<Exam> GetAllUserExams(int userid);
-        Exam GetUserExam(int userid);
-        Exam CreateExam(Exam exam);
+        /// <summary>
+        ///     Adds a user to a role
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="roleName"></param>
+        /// <returns></returns>
+        Task AddToRoleAsync(ApplicationUser user, string roleName);
+
+        /// <summary>
+        ///     Removes the role for the user
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="roleName"></param>
+        /// <returns></returns>
+        Task RemoveFromRoleAsync(ApplicationUser user, string roleName);
+
+        /// <summary>
+        ///     Returns the roles for this user
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        Task<IList<string>> GetRolesAsync(ApplicationUser user);
+
+        /// <summary>
+        ///     Returns true if a user is in the role
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="roleName"></param>
+        /// <returns></returns>
+        Task<bool> IsInRoleAsync(ApplicationUser user, string roleName);
     }
 }
