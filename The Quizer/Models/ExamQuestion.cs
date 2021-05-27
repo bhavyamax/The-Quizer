@@ -9,6 +9,10 @@ namespace The_Quizer.Models
 {
     public class ExamQuestion
     {
+        public ExamQuestion()
+        {
+            ID = Guid.NewGuid().ToString();
+        }
         [Required]
         [Key]
         [StringLength(450)]
@@ -22,7 +26,7 @@ namespace The_Quizer.Models
         public float points { get; set; }
 
         public virtual Exam Exam { get; set; }
-        public virtual List<QuestionAnswer> QuestionAnswers { get; set; }
+        public virtual ICollection<QuestionAnswer> QuestionAnswers { get; set; }
     }
 
     public enum QuestionType

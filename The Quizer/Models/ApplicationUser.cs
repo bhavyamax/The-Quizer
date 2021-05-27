@@ -19,10 +19,11 @@ namespace The_Quizer.Models
         [Display(Name ="Last Name")]
         public string Lname { get; set; }
 
-        public virtual List<UserExam> UserExams { get; set; }
+        public virtual ICollection<UserExam> UserExams { get; set; }
         [Display(Name ="Full Name")]
         [NotMapped]
         public String Name { get { return Fname + " " + Lname; } }
+
 
     }
 }
