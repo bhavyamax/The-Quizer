@@ -8,34 +8,38 @@ namespace The_Quizer.Models
     public interface IExamStore
     {
         /// <summary>
-        ///     Adds a user to a role
+        ///     Create a new examQuestion
         /// </summary>
-        /// <param name="user"></param>
-        /// <param name="roleName"></param>
+        /// <param name="examQuestion"></param>
         /// <returns></returns>
-        Task AddToRoleAsync(ApplicationUser user, string roleName);
+        Task CreateAsync(ExamQuestion examQuestion);
 
         /// <summary>
-        ///     Removes the role for the user
+        ///     Update a examQuestion
         /// </summary>
-        /// <param name="user"></param>
-        /// <param name="roleName"></param>
+        /// <param name="examQuestion"></param>
         /// <returns></returns>
-        Task RemoveFromRoleAsync(ApplicationUser user, string roleName);
+        Task UpdateAsync(ExamQuestion examQuestion);
 
         /// <summary>
-        ///     Returns the roles for this user
+        ///     Delete a examQuestion
         /// </summary>
-        /// <param name="user"></param>
+        /// <param name="examQuestion"></param>
         /// <returns></returns>
-        Task<IList<string>> GetRolesAsync(ApplicationUser user);
+        Task DeleteAsync(ExamQuestion examQuestion);
 
         /// <summary>
-        ///     Returns true if a user is in the role
+        ///     Find a examQuestion by id
         /// </summary>
-        /// <param name="user"></param>
+        /// <param name="examQuestionId"></param>
+        /// <returns></returns>
+        Task<ExamQuestion> FindByIdAsync(string examQuestionId);
+
+        /// <summary>
+        ///     Find a examQuestion by name
+        /// </summary>
         /// <param name="roleName"></param>
         /// <returns></returns>
-        Task<bool> IsInRoleAsync(ApplicationUser user, string roleName);
+        Task<ExamQuestion> FindByNameAsync(string roleName);
     }
 }
