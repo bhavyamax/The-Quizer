@@ -10,36 +10,37 @@ namespace The_Quizer.Models
         /// <summary>
         ///     Create a new examQuestion
         /// </summary>
-        /// <param name="examQuestion"></param>
+        /// <param name="exam"></param>
+        /// <param name="userId"></param>
         /// <returns></returns>
-        Task CreateAsync(ExamQuestion examQuestion);
+        Task CreateAsync(Exam exam,string userId);
 
         /// <summary>
         ///     Update a examQuestion
         /// </summary>
-        /// <param name="examQuestion"></param>
+        /// <param name="exam"></param>
         /// <returns></returns>
-        Task UpdateAsync(ExamQuestion examQuestion);
+        Task UpdateAsync(Exam exam);
 
         /// <summary>
         ///     Delete a examQuestion
         /// </summary>
-        /// <param name="examQuestion"></param>
+        /// <param name="exam"></param>
         /// <returns></returns>
-        Task DeleteAsync(ExamQuestion examQuestion);
+        Task DeleteAsync(Exam exam);
 
         /// <summary>
         ///     Find a examQuestion by id
         /// </summary>
-        /// <param name="examQuestionId"></param>
+        /// <param name="examId"></param>
         /// <returns></returns>
-        Task<ExamQuestion> FindByIdAsync(string examQuestionId);
+        Task<ExamQuestion> FindByIdAsync(string examId);
 
         /// <summary>
         ///     Find a examQuestion by name
         /// </summary>
-        /// <param name="roleName"></param>
+        /// <param name="examName"></param>
         /// <returns></returns>
-        Task<ExamQuestion> FindByNameAsync(string roleName);
+        Task<ExamQuestion> FindByNameAsync(string examName);
     }
 }
