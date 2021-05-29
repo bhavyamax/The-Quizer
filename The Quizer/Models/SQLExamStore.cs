@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using The_Quizer.Data;
@@ -8,9 +10,19 @@ namespace The_Quizer.Models
 {
     public class SQLExamStore : IExamStore
     {
+        private EntityStore<ApplicationUser> _userStore;
+        private readonly Microsoft.EntityFrameworkCore.DbSet<UserExam> _userExams;
+        private readonly EntityStore<Exam> _ExamStore;
         public SQLExamStore(AppDBContext context)
         {
-            Context = context;
+            if (context == null)
+            {
+                throw new ArgumentNullException("context");
+            }
+            Context = context; 
+            _userStore = new EntityStore<ApplicationUser>(context);
+            _ExamStore = new EntityStore<Exam>(context);
+            _userExams = Context.Set<UserExam>();
         }
 
         public AppDBContext Context { get; private set; }
@@ -23,9 +35,11 @@ namespace The_Quizer.Models
                 throw new ArgumentNullException("exam");
             }else if (string.IsNullOrWhiteSpace(userId))
             {
-
+                throw new ArgumentNullException("roleName");
             }
-            Context.Set<Exam>().Add(exam);
+
+            _ExamStore.Create(exam);
+            await SaveChanges();
 
         }
 
