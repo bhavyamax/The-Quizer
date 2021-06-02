@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Security.Claims;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,10 +15,12 @@ namespace The_Quizer.Controllers
     public class TeacherExamManController : Controller
     {
         private readonly AppDBContext _context;
+        private readonly IExamStore examStore;
+        public TeacherExamManController(AppDBContext context,IExamStore _examStore,UserManager<ApplicationUser> userManager)
 
-        public TeacherExamManController(AppDBContext context)
         {
             _context = context;
+            examStore = _examStore;
         }
 
         // GET: TeacherExamMan
@@ -54,7 +58,7 @@ namespace The_Quizer.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Status")] Exam exam)
+        public async Task<IActionResult> Create([Bind("Title,Status")] Exam exam)
         {
             if (ModelState.IsValid)
             {

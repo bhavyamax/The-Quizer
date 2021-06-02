@@ -13,7 +13,7 @@ namespace The_Quizer.Models
         /// <param name="exam"></param>
         /// <param name="userId"></param>
         /// <returns></returns>
-        Task CreateAsync(Exam exam,string userId);
+        Task<string> CreateAsync(Exam exam,string userId);
 
         /// <summary>
         ///     Update a examQuestion
@@ -34,13 +34,25 @@ namespace The_Quizer.Models
         /// </summary>
         /// <param name="examId"></param>
         /// <returns></returns>
-        Task<ExamQuestion> FindByIdAsync(string examId);
+        Task<Exam> FindByIdAsync(string examId);
+        /// <summary>
+        ///     List of all Exams for user
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        Task<List<Exam>> GetAllForUserAsync(string userId);
+        /// <summary>
+        ///     List of all Exams for user
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        Task<List<Exam>> GetAllAsync();
 
         /// <summary>
-        ///     Find a examQuestion by name
+        ///     Find a exam by title
         /// </summary>
-        /// <param name="examName"></param>
+        /// <param name="title"></param>
         /// <returns></returns>
-        Task<ExamQuestion> FindByNameAsync(string examName);
+        Task<Exam> FindByTitleAsync(string title);
     }
 }

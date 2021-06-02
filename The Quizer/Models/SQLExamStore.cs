@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
+//using Microsoft.EntityFrameworkCore;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,58 +10,19 @@ namespace The_Quizer.Models
 {
     public class SQLExamStore : IExamStore
     {
-        private EntityStore<ApplicationUser> _userStore;
-        private readonly Microsoft.EntityFrameworkCore.DbSet<UserExam> _userExams;
-        private readonly EntityStore<Exam> _ExamStore;
         public SQLExamStore(AppDBContext context)
         {
             if (context == null)
             {
                 throw new ArgumentNullException("context");
             }
-            Context = context; 
-            _userStore = new EntityStore<ApplicationUser>(context);
-            _ExamStore = new EntityStore<Exam>(context);
-            _userExams = Context.Set<UserExam>();
+            Context = context;
         }
 
         public AppDBContext Context { get; private set; }
-        public bool AutoSaveChanges { get;  set; }
+        public bool AutoSaveChanges { get; set; }
 
-        public virtual async Task CreateAsync(Exam exam, string userId)
-        {
-            if (exam==null)
-            {
-                throw new ArgumentNullException("exam");
-            }else if (string.IsNullOrWhiteSpace(userId))
-            {
-                throw new ArgumentNullException("roleName");
-            }
 
-            _ExamStore.Create(exam);
-            await SaveChanges();
-
-        }
-
-        public Task DeleteAsync(Exam exam)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<ExamQuestion> FindByIdAsync(string examId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<ExamQuestion> FindByNameAsync(string examName)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task UpdateAsync(Exam exam)
-        {
-            throw new NotImplementedException();
-        }
 
         private async Task SaveChanges()
         {
@@ -69,6 +30,60 @@ namespace The_Quizer.Models
             {
                 await Context.SaveChangesAsync();
             }
+        }
+
+        public async Task<string> CreateAsync(Exam exam, string userId)
+        {
+            if (exam == null)
+            {
+                throw new ArgumentNullException("exam");
+            }
+            else if (string.IsNullOrWhiteSpace(userId))
+            {
+                throw new ArgumentNullException("roleName");
+            }
+            await SaveChanges();
+            return exam.Id;
+        }
+
+        public Task UpdateAsync(Exam exam)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task DeleteAsync(Exam exam)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Exam> FindByIdAsync(string examId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<List<Exam>> GetAllForUserAsync(string userId)
+        {
+            if (string.IsNullOrWhiteSpace(userId))
+            {
+                throw new ArgumentNullException("roleName");
+            }
+            var userExams =  await Context.UserExams.Where(i => i.User_id == userId).Select(d=>d.Exam_id).ToListAsync();
+            var exams = from exam in Context.Exams
+                        where userExams.Contains(exam.Id)
+                        select exam;
+            return await exams.ToListAsync();
+        }
+
+        public Task<List<Exam>> GetAllAsync()
+        {
+            var data = from a in Context.Exams
+                       select a;
+            return data.ToListAsync();
+        }
+
+        public Task<Exam> FindByTitleAsync(string title)
+        {
+            throw new NotImplementedException();
         }
     }
 }
