@@ -16,7 +16,7 @@ namespace The_Quizer.Controllers
     {
         private readonly AppDBContext _context;
         private readonly IExamStore examStore;
-        public TeacherExamManController(AppDBContext context,IExamStore _examStore,UserManager<ApplicationUser> userManager)
+        public TeacherExamManController(AppDBContext context,IExamStore _examStore)
 
         {
             _context = context;
