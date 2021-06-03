@@ -7,22 +7,37 @@ namespace The_Quizer.Models
 {
     public class SQLQuestionsAnswerStore : IQuestionAnswerStore
     {
-        public Task AddToRoleAsync(ExamQuestion examQuestion, string QuestionID)
+        public Task<string> CreateAsync(Exam exam, string userId)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IList<string>> GetRolesAsync(ExamQuestion examQuestion)
+        public Task DeleteAsync(Exam exam)
         {
             throw new NotImplementedException();
         }
 
-        public Task<bool> IsInRoleAsync(ExamQuestion examQuestion, string QuestionID)
+        public Task<Exam> FindByIdAsync(string examId)
         {
             throw new NotImplementedException();
         }
 
-        public Task RemoveFromRoleAsync(ExamQuestion examQuestion, string QuestionID)
+        public Task<Exam> FindByTitleAsync(string title)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<Exam>> GetAllAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<Exam>> GetAllForUserAsync(string userId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task UpdateAsync(Exam exam)
         {
             throw new NotImplementedException();
         }
