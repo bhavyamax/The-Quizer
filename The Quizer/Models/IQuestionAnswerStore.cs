@@ -8,36 +8,52 @@ namespace The_Quizer.Models
     public interface IQuestionAnswerStore
     {
         /// <summary>
-        ///     Adds a ExamQuestion to a role
+        ///     Create a new examQuestion
         /// </summary>
-        /// <param name="examQuestion"></param>
-        /// <param name="QuestionID"></param>
+        /// <param name="exam"></param>
+        /// <param name="userId"></param>
         /// <returns></returns>
-        Task AddToRoleAsync(ExamQuestion examQuestion, string QuestionID);
+        Task<string> CreateAsync(Exam exam, string userId);
 
         /// <summary>
-        ///     Removes the role for the ExamQuestion
+        ///     Update a examQuestion
         /// </summary>
-        /// <param name="examQuestion"></param>
-        /// <param name="QuestionID"></param>
+        /// <param name="exam"></param>
         /// <returns></returns>
-        Task RemoveFromRoleAsync(ExamQuestion examQuestion, string QuestionID);
+        Task UpdateAsync(Exam exam);
 
         /// <summary>
-        ///     Returns the roles for this ExamQuestion
+        ///     Delete a examQuestion
         /// </summary>
-        /// <param name="examQuestion"></param>
+        /// <param name="exam"></param>
         /// <returns></returns>
-        Task<IList<string>> GetRolesAsync(ExamQuestion examQuestion);
+        Task DeleteAsync(Exam exam);
 
         /// <summary>
-        ///     Returns true if a ExamQuestion is in the role
+        ///     Find a examQuestion by id
         /// </summary>
-        /// <param name="examQuestion"></param>
-        /// <param name="QuestionID"></param>
+        /// <param name="examId"></param>
         /// <returns></returns>
-        Task<bool> IsInRoleAsync(ExamQuestion examQuestion, string QuestionID);
+        Task<Exam> FindByIdAsync(string examId);
+        /// <summary>
+        ///     List of all Exams for user
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        Task<List<Exam>> GetAllForUserAsync(string userId);
+        /// <summary>
+        ///     List of all Exams for user
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        Task<List<Exam>> GetAllAsync();
 
+        /// <summary>
+        ///     Find a exam by title
+        /// </summary>
+        /// <param name="title"></param>
+        /// <returns></returns>
+        Task<Exam> FindByTitleAsync(string title);
 
     }
 }
