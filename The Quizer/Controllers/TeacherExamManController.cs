@@ -26,7 +26,10 @@ namespace The_Quizer.Controllers
         // GET: TeacherExamMan
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Exams.ToListAsync());
+            //string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            //var exams = examStore.GetAllForUserAsync(userId);
+            var exams = await examStore.GetAllAsync();
+            return View(exams);
         }
 
         // GET: TeacherExamMan/Details/5
@@ -36,14 +39,11 @@ namespace The_Quizer.Controllers
             {
                 return NotFound();
             }
-
-            var exam = await _context.Exams
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var exam = await examStore.FindByIdAsync(id);
             if (exam == null)
             {
                 return NotFound();
             }
-
             return View(exam);
         }
 
@@ -54,16 +54,14 @@ namespace The_Quizer.Controllers
         }
 
         // POST: TeacherExamMan/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Title,Status")] Exam exam)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(exam);
-                await _context.SaveChangesAsync();
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                await examStore.CreateAsync(exam, userId);
                 return RedirectToAction(nameof(Index));
             }
             return View(exam);
@@ -77,7 +75,7 @@ namespace The_Quizer.Controllers
                 return NotFound();
             }
 
-            var exam = await _context.Exams.FindAsync(id);
+            var exam = await examStore.FindByIdAsync(id);
             if (exam == null)
             {
                 return NotFound();
@@ -86,8 +84,6 @@ namespace The_Quizer.Controllers
         }
 
         // POST: TeacherExamMan/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, [Bind("Id,Title,Status")] Exam exam)
@@ -101,8 +97,7 @@ namespace The_Quizer.Controllers
             {
                 try
                 {
-                    _context.Update(exam);
-                    await _context.SaveChangesAsync();
+                    await examStore.UpdateAsync(exam);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -128,8 +123,7 @@ namespace The_Quizer.Controllers
                 return NotFound();
             }
 
-            var exam = await _context.Exams
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var exam = await examStore.FindByIdAsync(id);
             if (exam == null)
             {
                 return NotFound();
@@ -144,9 +138,13 @@ namespace The_Quizer.Controllers
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
             var exam = await _context.Exams.FindAsync(id);
-            _context.Exams.Remove(exam);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            if (exam != null)
+            {
+                await examStore.DeleteAsync(exam);
+                return RedirectToAction(nameof(Index));
+            }
+            return NotFound();
+            
         }
 
         private bool ExamExists(string id)
