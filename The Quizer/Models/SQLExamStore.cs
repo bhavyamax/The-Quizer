@@ -16,6 +16,7 @@ namespace The_Quizer.Models
                 throw new ArgumentNullException("context");
             }
             Context = context;
+            AutoSaveChanges = true;
         }
 
         public bool AutoSaveChanges { get; set; }
