@@ -46,7 +46,7 @@ namespace The_Quizer
             );*/
 
             services.AddScoped<IExamQuestionStore, SQLExamQuestionStore>();
-            services.AddScoped<IQuestionAnswerStore, SQLQuestionsAnswerStore>();
+            services.AddScoped<IQuestionAnswerStore, SQLQuestionAnswerStore>();
             services.AddScoped<IExamStore, SQLExamStore>();
             services.AddScoped<IUserExamStore, SQLUserExamStore>();
         }
