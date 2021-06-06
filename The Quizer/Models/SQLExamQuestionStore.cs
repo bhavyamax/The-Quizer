@@ -12,6 +12,13 @@ namespace The_Quizer.Models
         //IExamQuestionStore
 
         public AppDBContext Context { get; private set; }
+
+        public SQLExamQuestionStore(AppDBContext context)
+        {
+            Context = context;
+            AutoSaveChanges = true;
+        }
+
         public bool AutoSaveChanges { get; set; }
 
         public async Task<string> CreateAsync(ExamQuestion examQuestion)
@@ -48,8 +55,8 @@ namespace The_Quizer.Models
 
         public async Task<List<ExamQuestion>> GetAllAsync()
         {
-            var examQuess = from exam in Context.ExamQuestions
-                            select exam;
+            var examQuess = from ques in Context.ExamQuestions
+                            select ques;
             return await examQuess.ToListAsync();
         }
 
