@@ -11,8 +11,6 @@ namespace The_Quizer.Models
     {
         //IExamQuestionStore
 
-        public AppDBContext Context { get; private set; }
-
         public SQLExamQuestionStore(AppDBContext context)
         {
             Context = context;
@@ -20,7 +18,7 @@ namespace The_Quizer.Models
         }
 
         public bool AutoSaveChanges { get; set; }
-
+        public AppDBContext Context { get; private set; }
         public async Task<string> CreateAsync(ExamQuestion examQuestion)
         {
             if (examQuestion == null)
