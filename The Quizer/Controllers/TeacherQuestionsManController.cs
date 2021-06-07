@@ -14,11 +14,13 @@ namespace The_Quizer.Controllers
     {
         private readonly AppDBContext _context;
         private readonly IExamQuestionStore examQuestionStore;
+        private readonly IExamStore examStore;
 
-        public TeacherQuestionsManController(AppDBContext context,IExamQuestionStore examQuestionStore)
+        public TeacherQuestionsManController(AppDBContext context,IExamQuestionStore examQuestionStore,IExamStore examStore)
         {
             _context = context;
             this.examQuestionStore = examQuestionStore;
+            this.examStore = examStore;
         }
 
         // GET: TeacherQuestionsMan
@@ -44,9 +46,17 @@ namespace The_Quizer.Controllers
         }
 
         // GET: TeacherQuestionsMan/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create(string examid)
         {
-            ViewData["Exam_id"] = new SelectList(_context.Exams, "Id", "Title");
+            if (string.IsNullOrEmpty(examid))
+            {
+                NotFound();
+            }
+            ViewBag.exam = await examStore.FindByIdAsync(examid);
+            if (ViewBag.exam==null)
+            {
+                NotFound();
+            }
             return View();
         }
 
@@ -55,7 +65,7 @@ namespace The_Quizer.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Exam_id,Question,Type,points")] ExamQuestion examQuestion)
+        public async Task<IActionResult> Create([Bind("Exam_id,Question,Type,points")] ExamQuestion examQuestion)
         {
             if (ModelState.IsValid)
             {
@@ -64,7 +74,7 @@ namespace The_Quizer.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["Exam_id"] = new SelectList(_context.Exams, "Id", "Id", examQuestion.Exam_id);
-            return View(examQuestion);
+            return RedirectToAction("Create","teacheranswerman",examQuestion);
         }
 
         // GET: TeacherQuestionsMan/Edit/5
