@@ -7,20 +7,14 @@
 
 <h1>Create</h1>
 
-<h4>ExamQuestion</h4>
+<h4>Question for "@ViewBag.Exam.Title"</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="ID" class="control-label"></label>
-                <input asp-for="ID" class="form-control" />
-                <span asp-validation-for="ID" class="text-danger"></span>
-            </div>
             <div class="form-group">
                 <label asp-for="Exam_id" class="control-label"></label>
-                <select asp-for="Exam_id" class ="form-control" asp-items="ViewBag.Exam_id"></select>
+                <input asp-for="Exam_id" readonly class ="form-control" value="@ViewBag.Exam.Id"/>
             </div>
             <div class="form-group">
                 <label asp-for="Question" class="control-label"></label>
