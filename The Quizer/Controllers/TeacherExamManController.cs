@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using The_Quizer.Data;
 using The_Quizer.Models;
+using AspNetCore;
+using The_Quizer.ViewModels.TeacherExamMan;
 
 namespace The_Quizer.Controllers
 {
@@ -16,11 +18,14 @@ namespace The_Quizer.Controllers
     {
         private readonly AppDBContext _context;
         private readonly IExamStore examStore;
-        public TeacherExamManController(AppDBContext context,IExamStore _examStore)
+        private readonly IExamQuestionStore examQuestionStore;
+
+        public TeacherExamManController(AppDBContext context,IExamStore _examStore,IExamQuestionStore _examQuestionStore)
 
         {
             _context = context;
             examStore = _examStore;
+            examQuestionStore = _examQuestionStore;
         }
 
         // GET: TeacherExamMan
@@ -35,16 +40,18 @@ namespace The_Quizer.Controllers
         // GET: TeacherExamMan/Details/5
         public async Task<IActionResult> Details(string id)
         {
+            ExamDetailsViewModel examDetailsViewModel = new ExamDetailsViewModel();
             if (id == null)
             {
                 return NotFound();
             }
-            var exam = await examStore.FindByIdAsync(id);
-            if (exam == null)
+            examDetailsViewModel.Exam = await examStore.FindByIdAsync(id);
+            examDetailsViewModel.examQuestions = examDetailsViewModel.Exam.ExamQuestions;
+            if (examDetailsViewModel.Exam == null)
             {
                 return NotFound();
             }
-            return View(exam);
+            return View(examDetailsViewModel);
         }
 
         // GET: TeacherExamMan/Create
