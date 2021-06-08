@@ -10,7 +10,6 @@ using Microsoft.EntityFrameworkCore;
 using The_Quizer.Data;
 using The_Quizer.Models;
 using Microsoft.AspNetCore;
-using The_Quizer.ViewModels.TeacherExamMan;
 
 namespace The_Quizer.Controllers
 {
