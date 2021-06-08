@@ -34,7 +34,6 @@ namespace The_Quizer
             );
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<AppDBContext>();
-            services.AddServerSideBlazor();
             services.AddControllersWithViews();
             /*options =>
             {
@@ -77,7 +76,6 @@ namespace The_Quizer
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
-                endpoints.MapBlazorHub();
             });
         }
     }
