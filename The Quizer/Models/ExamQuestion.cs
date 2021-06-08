@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json.Serialization;
 
 namespace The_Quizer.Models
 {
@@ -25,7 +24,7 @@ namespace The_Quizer.Models
         [Required]
         public QuestionType Type { get; set; }
         public float points { get; set; }
-        [JsonIgnore]
+
         public virtual Exam Exam { get; set; }
         public virtual ICollection<QuestionAnswer> QuestionAnswers { get; set; }
     }
