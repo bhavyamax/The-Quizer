@@ -11,11 +11,7 @@ namespace The_Quizer.Models
     {
         public SQLExamStore(AppDBContext context)
         {
-            if (context == null)
-            {
-                throw new ArgumentNullException("context");
-            }
-            Context = context;
+            Context = context ?? throw new ArgumentNullException(nameof(context));
             AutoSaveChanges = true;
         }
 
@@ -27,11 +23,11 @@ namespace The_Quizer.Models
         {
             if (exam == null)
             {
-                throw new ArgumentNullException("exam");
+                throw new ArgumentNullException(nameof(exam));
             }
             else if (string.IsNullOrWhiteSpace(userId))
             {
-                throw new ArgumentNullException("userId");
+                throw new ArgumentNullException(nameof(userId));
             } else if (await Context.Users.AnyAsync(a=>a.Id==userId))
             {
                 await Context.AddAsync<Exam>(exam);
@@ -74,7 +70,7 @@ namespace The_Quizer.Models
         {
             if (string.IsNullOrWhiteSpace(userId))
             {
-                throw new ArgumentNullException("roleName");
+                throw new ArgumentNullException(nameof(userId));
             }
             var userExams = await Context.UserExams.Where(i => i.User_id == userId).Select(d => d.Exam_id).ToListAsync();
             var exams = from exam in Context.Exams
