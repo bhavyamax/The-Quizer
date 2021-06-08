@@ -1,0 +1,20 @@
+﻿@using System.Net.Http
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.AspNetCore.Components.Routing
+@using Microsoft.AspNetCore.Components.Web
+@using Microsoft.AspNetCore.Components.Web.Virtualization
+@using Microsoft.JSInterop
+<h3>ExamQuestionList</h3>
+<label>@text</label>
+<input @onclick="click" type="button" />
+
+
+@code {
+    string text = "hello";
+    private void click()
+    {
+        text += "<br> hello";
+    }
+}

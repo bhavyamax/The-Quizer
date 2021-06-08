@@ -17,3 +17,4 @@
         <a asp-action="index" asp-controller="TeacherExamMan">Teacher Exam Managment</a>
     </div>
 </div>
+@(await Html.RenderComponentAsync<The_Quizer.Components.ExamQuestionList>(RenderMode.ServerPrerendered))
