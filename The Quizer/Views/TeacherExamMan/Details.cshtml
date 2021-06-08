@@ -40,6 +40,8 @@
 <br />
 <br />
 <div>
+    <h4>Questions</h4>
+    @Html.ActionLink("Select", "Create", "TeacherQuestionsMan")
     <table class="table">
         <tr>
             <th>Question</th>
@@ -68,9 +70,9 @@
                     @Html.DisplayFor(modelitem => item.ID)
                 </th>
                 <th>
-                    @Html.ActionLink("Select", "Details", new { quesId = item.ID })|
-                    @Html.ActionLink("Edit", "Edit", "TeacherQuestionsMan", new { id = item.ID })|
-                    @Html.ActionLink("Details", "Details", "TeacherQuestionsMan", new { id = item.ID })|
+                    @Html.ActionLink("Select", "Details", new { quesId = item.ID }) |
+                    @Html.ActionLink("Edit", "Edit", "TeacherQuestionsMan", new { id = item.ID }) |
+                    @Html.ActionLink("Details", "Details", "TeacherQuestionsMan", new { id = item.ID }) |
                     @Html.ActionLink("Delete", "Delete", "TeacherQuestionsMan", new { id = item.ID })
                 </th>
             </tr>
@@ -84,7 +86,9 @@
 @if (Model.QuestionAnswers != null)
 {
     <div>
-        <table>
+        <h4>Answers</h4>
+        @Html.ActionLink("Add New Answer", "Create", "TeacherAnswerMan")
+        <table class="table">
             <tr>
                 <th>Question</th>
                 <th>Type</th>
@@ -101,12 +105,18 @@
                         @Html.DisplayFor(modelitem => item.isCorrect)
                     </th>
                     <th>
-                        @Html.ActionLink("Edit", "Edit", "TeacherAnswerMan", new { id = item.ID })|
-                        @Html.ActionLink("Details", "Details", "TeacherAnswerMan", new { id = item.ID })|
+                        @Html.ActionLink("Edit", "Edit", "TeacherAnswerMan", new { id = item.ID }) |
+                        @Html.ActionLink("Details", "Details", "TeacherAnswerMan", new { id = item.ID }) |
                         @Html.ActionLink("Delete", "Delete", "TeacherAnswerMan", new { id = item.ID })
                     </th>
                 </tr>
             }
         </table>
+    </div>
+}
+else if (ViewBag.QuesId != null)
+{
+    <div class="card">
+        @Html.ActionLink("Add New Answer", "Create", "TeacherAnswerMan")
     </div>
 }
