@@ -6,7 +6,12 @@
 @using Microsoft.AspNetCore.Components.Web
 @using Microsoft.AspNetCore.Components.Web.Virtualization
 @using Microsoft.JSInterop
+@using Radzen
+@using Radzen.Blazor
+
 <h3>ExamQuestionList</h3>
+
+<RadzenButton Click="@click" Text="hi"></RadzenButton>
 <label>@text</label>
 <input @onclick="click" type="button" />
 
@@ -15,6 +20,6 @@
     string text = "hello";
     private void click()
     {
-        text += "<br> hello";
+        text += "hello";
     }
 }
