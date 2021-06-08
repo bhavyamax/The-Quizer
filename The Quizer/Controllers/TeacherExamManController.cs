@@ -39,18 +39,16 @@ namespace The_Quizer.Controllers
         // GET: TeacherExamMan/Details/5
         public async Task<IActionResult> Details(string id)
         {
-            ExamDetailsViewModel examDetailsViewModel = new ExamDetailsViewModel();
             if (id == null)
             {
                 return NotFound();
             }
-            examDetailsViewModel.Exam = await examStore.FindByIdAsync(id);
-            examDetailsViewModel.ExamQuestions = examDetailsViewModel.Exam.ExamQuestions;
-            if (examDetailsViewModel.Exam == null)
+            var exam = await examStore.FindByIdAsync(id);
+            if (exam == null)
             {
                 return NotFound();
             }
-            return View(examDetailsViewModel);
+            return View(exam);
         }
 
         // GET: TeacherExamMan/Create
