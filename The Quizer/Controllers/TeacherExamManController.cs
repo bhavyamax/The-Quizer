@@ -53,6 +53,7 @@ namespace The_Quizer.Controllers
             }
             if (quesId != null)
             {
+                ViewBag.QuesId = quesId;
                 viewModel.QuestionAnswers = viewModel.Exam.ExamQuestions.Where(a => a.ID == quesId).Single().QuestionAnswers;
             }
             return View(viewModel);
