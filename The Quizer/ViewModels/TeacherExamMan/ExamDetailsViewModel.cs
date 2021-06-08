@@ -9,6 +9,6 @@ namespace The_Quizer.ViewModels.TeacherExamMan
     public class ExamDetailsViewModel
     {
         public Exam Exam { get; set; }
-        public IEnumerable<ExamQuestion> examQuestions { get; set; }
+        public IEnumerable<ExamQuestion> ExamQuestions { get; set; }
     }
 }

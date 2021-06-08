@@ -46,7 +46,7 @@ namespace The_Quizer.Controllers
                 return NotFound();
             }
             examDetailsViewModel.Exam = await examStore.FindByIdAsync(id);
-            examDetailsViewModel.examQuestions = examDetailsViewModel.Exam.ExamQuestions;
+            examDetailsViewModel.ExamQuestions = examDetailsViewModel.Exam.ExamQuestions;
             if (examDetailsViewModel.Exam == null)
             {
                 return NotFound();
