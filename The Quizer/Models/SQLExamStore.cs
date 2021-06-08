@@ -53,6 +53,13 @@ namespace The_Quizer.Models
                 .FirstOrDefaultAsync(m => m.Id == examId);
             return exam;
         }
+        public async Task<Exam> FindByIdWithQueAnsAsync(string examId)
+        {
+            var exam = await Context.Exams.Include(e => e.ExamQuestions)
+                                            .ThenInclude(q => q.QuestionAnswers)
+                                            .SingleOrDefaultAsync(a => a.Id == examId);
+            return exam;
+        }
 
         public Task<Exam> FindByTitleAsync(string title)
         {

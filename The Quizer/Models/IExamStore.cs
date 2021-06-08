@@ -36,6 +36,12 @@ namespace The_Quizer.Models
         /// <returns></returns>
         Task<Exam> FindByIdAsync(string examId);
         /// <summary>
+        ///     Find a examQuestion by id
+        /// </summary>
+        /// <param name="examId"></param>
+        /// <returns></returns>
+        Task<Exam> FindByIdWithQueAnsAsync(string examId);
+        /// <summary>
         ///     List of all Exams for user
         /// </summary>
         /// <param name="userId"></param>

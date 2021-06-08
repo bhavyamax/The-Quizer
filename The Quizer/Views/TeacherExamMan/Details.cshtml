@@ -1,4 +1,4 @@
-﻿@model ExamDetailsViewModel
+﻿@model Exam
 
 @{
     ViewData["Title"] = "Details";
@@ -10,32 +10,64 @@
 <div>
     <h4>Exam</h4>
     <div>
-        <a asp-action="Edit" asp-route-id="@Model.Exam.Id">Edit</a> |
+        <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
         <a asp-action="Index">Back to List</a>
     </div>
     <hr />
 
     <dl class="row">
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Exam.Id)
+            @Html.DisplayNameFor(model => model.Id)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Exam.Id)
+            @Html.DisplayFor(model => model.Id)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Exam.Title)
+            @Html.DisplayNameFor(model => model.Title)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Exam.Title)
+            @Html.DisplayFor(model => model.Title)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Exam.Status)
+            @Html.DisplayNameFor(model => model.Status)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Exam.Status)
+            @Html.DisplayFor(model => model.Status)
         </dd>
     </dl>
 </div>
+<br />
+<br />
+<br />
 <div>
-    @await Component.InvokeAsync("QuestionList")
+    <table>
+        <tr>
+            <th>Question</th>
+            <th>Type</th>
+            <th>Points</th>
+            <th></th>
+        </tr>
+        @foreach (var item in Model.ExamQuestions)
+        {
+            <tr>
+                <th>
+                    @Html.DisplayFor(modelitem=>item.Question)
+                </th>
+                <th>
+                    @Html.DisplayFor(modelitem=>item.Type)
+                </th>
+                <th>
+                    @Html.DisplayFor(modelitem=>item.points)
+                </th>
+                <th>
+                    @Html.DisplayFor(modelitem=>item.ID)
+                </th>
+                <th>
+                    @Html.ActionLink("Edit","Edit", "TeacherQuestionsMan",new { id=item.ID})|
+                    @Html.ActionLink("Details","Details", "TeacherQuestionsMan",new { id=item.ID})|
+                    @Html.ActionLink("Delete","Delete", "TeacherQuestionsMan",new { id=item.ID})
+                </th>
+            </tr>
+        }
+    </table>
 </div>

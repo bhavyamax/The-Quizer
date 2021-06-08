@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using The_Quizer.Data;
 using The_Quizer.Models;
 using Microsoft.AspNetCore;
+using The_Quizer.ViewModels;
 
 namespace The_Quizer.Controllers
 {
@@ -37,18 +38,24 @@ namespace The_Quizer.Controllers
         }
 
         // GET: TeacherExamMan/Details/5
-        public async Task<IActionResult> Details(string id)
+        public async Task<IActionResult> Details(string id,string? quesId)
         {
             if (id == null)
             {
                 return NotFound();
             }
-            var exam = await examStore.FindByIdAsync(id);
-            if (exam == null)
+            var viewModel = new ExamDetailViewModel();
+            viewModel.Exam= await examStore.FindByIdWithQueAnsAsync(id);
+            viewModel.ExamQuestions = viewModel.Exam.ExamQuestions;
+            if (viewModel.Exam == null)
             {
                 return NotFound();
             }
-            return View(exam);
+            if (quesId != null)
+            {
+                viewModel.QuestionAnswers = viewModel.Exam.ExamQuestions.Where(a => a.ID == quesId).Single().QuestionAnswers;
+            }
+            return View(viewModel);
         }
 
         // GET: TeacherExamMan/Create
