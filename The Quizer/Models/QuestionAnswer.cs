@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace The_Quizer.Models
@@ -22,7 +23,7 @@ namespace The_Quizer.Models
         [Required]
         public string Answer { get; set; }
         public bool isCorrect { get; set; }
-
+        [JsonIgnore]
         public virtual ExamQuestion ExamQuestion { get; set; }
     }
 }
