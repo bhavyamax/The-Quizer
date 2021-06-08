@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using The_Quizer.Data;
 using The_Quizer.Models;
-using AspNetCore;
+using Microsoft.AspNetCore;
 using The_Quizer.ViewModels.TeacherExamMan;
 
 namespace The_Quizer.Controllers
