@@ -1,0 +1,9 @@
+﻿@model IEnumerable<ExamQuestion>
+
+    <h3>questions</h3>
+    <ul>
+        @foreach (var item in Model)
+        {
+            <li>@item.Question</li>
+        }
+    </ul>
