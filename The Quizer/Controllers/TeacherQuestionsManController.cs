@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using The_Quizer.Data;
 using The_Quizer.Models;
+using The_Quizer.ViewModels;
 
 namespace The_Quizer.Controllers
 {
@@ -15,12 +16,17 @@ namespace The_Quizer.Controllers
         private readonly AppDBContext _context;
         private readonly IExamQuestionStore examQuestionStore;
         private readonly IExamStore examStore;
+        private readonly IQuestionAnswerStore questionAnswerStore;
 
-        public TeacherQuestionsManController(AppDBContext context,IExamQuestionStore examQuestionStore,IExamStore examStore)
+        public TeacherQuestionsManController(AppDBContext context,
+                                             IExamQuestionStore examQuestionStore,
+                                             IExamStore examStore,
+                                             IQuestionAnswerStore questionAnswerStore)
         {
             _context = context;
             this.examQuestionStore = examQuestionStore;
             this.examStore = examStore;
+            this.questionAnswerStore = questionAnswerStore;
         }
 
         // GET: TeacherQuestionsMan
@@ -46,13 +52,14 @@ namespace The_Quizer.Controllers
         }
 
         // GET: TeacherQuestionsMan/Create
-        public async Task<IActionResult> Create(string examid)
+        public async Task<IActionResult> Create(string examid= "d9ad4c4f-53d0-4f15-9c25-55bc28e50260")
         {
             if (string.IsNullOrEmpty(examid))
             {
                 NotFound();
             }
-            ViewBag.exam = await examStore.FindByIdAsync(examid);
+            ViewBag.exam = await examStore.FindByIdWithQueAnsAsync(examid);
+
             if (ViewBag.exam==null)
             {
                 NotFound();
@@ -60,21 +67,48 @@ namespace The_Quizer.Controllers
             return View();
         }
 
-        // POST: TeacherQuestionsMan/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Exam_id,Question,Type,points")] ExamQuestion examQuestion)
+        public async Task<IActionResult> Create(CreateQuestionViewModel createQuestionViewModel)
         {
-            if (ModelState.IsValid)
+            if (createQuestionViewModel.questionAnswers.Count > 0 && string.IsNullOrEmpty(createQuestionViewModel.questionAnswers[0].Answer))
             {
-                _context.Add(examQuestion);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                ExamQuestion Question = new()
+                {
+                    Exam_id = createQuestionViewModel.Exam_id,
+                    Question = createQuestionViewModel.Question,
+                    Type = createQuestionViewModel.Type,
+                    points = createQuestionViewModel.points
+                };
+                await examQuestionStore.CreateAsync(Question);
+                foreach (var item in createQuestionViewModel.questionAnswers)
+                { 
+                    QuestionAnswer answer = new()
+                    {
+                        Answer = item.Answer,
+                        Ques_ID = Question.ID,
+                        isCorrect = item.isCorrect
+                    };
+                    await questionAnswerStore.CreateAsync(answer);
+                }
             }
-            ViewData["Exam_id"] = new SelectList(_context.Exams, "Id", "Id", examQuestion.Exam_id);
-            return RedirectToAction("Create","teacheranswerman",examQuestion);
+
+            ModelState.AddModelError("", "Atleast One Answer is needed");
+            ViewBag.exam = await examStore.FindByIdWithQueAnsAsync(createQuestionViewModel.Exam_id);
+
+            if (ViewBag.exam == null)
+            {
+                NotFound();
+            }
+            return View(createQuestionViewModel);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> AddQuestion(CreateQuestionViewModel createQuestionViewModel)
+        {
+            createQuestionViewModel.questionAnswers.Add(new CreateQuestionAnsViewModel());
+            return PartialView("CreateQuestionAns", createQuestionViewModel);
         }
 
         // GET: TeacherQuestionsMan/Edit/5

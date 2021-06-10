@@ -46,6 +46,13 @@ namespace The_Quizer.Models
             return examQues;
         }
 
+        public async Task<ExamQuestion> FindByIdWithAnsAsync(string examQuestionId)
+        {
+            var examQues = await Context.ExamQuestions.Include(q=>q.QuestionAnswers)
+                .SingleAsync(q=>q.ID==examQuestionId);
+            return examQues;
+        }
+
         public Task<ExamQuestion> FindByTitleAsync(string title)
         {
             throw new NotImplementedException();

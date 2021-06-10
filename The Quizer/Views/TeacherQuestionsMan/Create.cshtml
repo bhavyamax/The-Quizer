@@ -1,4 +1,4 @@
-﻿@model The_Quizer.Models.ExamQuestion
+﻿@model CreateQuestionViewModel
 
 @{
     ViewData["Title"] = "Create";
@@ -10,38 +10,90 @@
 <h4>Question for "@ViewBag.Exam.Title"</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
+    <div class="col-md-6">
+        <form asp-action="Create" id="form">
+            <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Exam_id" class="control-label"></label>
-                <input asp-for="Exam_id" readonly class ="form-control" value="@ViewBag.Exam.Id"/>
+                <input type="submit" value="Create" class="btn btn-primary" formenctype="multipart/form-data" />
             </div>
-            <div class="form-group">
-                <label asp-for="Question" class="control-label"></label>
-                <input asp-for="Question" class="form-control" />
-                <span asp-validation-for="Question" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Type" class="control-label"></label>
-                <select asp-for="Type" asp-items="@Html.GetEnumSelectList<QuestionType>()" class="form-control"></select>
-                <span asp-validation-for="Type" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="points" class="control-label"></label>
-                <input asp-for="points" class="form-control" />
-                <span asp-validation-for="points" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
+            <fieldset>
+                <div class="form-group">
+                    <label asp-for="Exam_id" class="control-label"></label>
+                    <input asp-for="Exam_id" readonly class="form-control" value="@ViewBag.Exam.Id" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="Question" class="control-label"></label>
+                    <input asp-for="Question" class="form-control" />
+                    <span asp-validation-for="Question" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Type" class="control-label"></label>
+                    <select asp-for="Type" asp-items="@Html.GetEnumSelectList<QuestionType>()" class="form-control">
+                    </select>
+                    <span asp-validation-for="Type" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="points" class="control-label"></label>
+                    <input asp-for="points" class="form-control" />
+                    <span asp-validation-for="points" class="text-danger"></span>
+                </div>
+            </fieldset>
+            <fieldset>
+                <div id="MultiAnswer">
+
+                    <div id="AnswersContainer">
+                        @Html.EditorFor(Model=>Model.questionAnswers)
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <input class="btn btn-outline-primary" type="button" id="btnAdd" value="Add Question" />
+                        </div>
+                    </div>
+    @*<table class="table table-responsive">
+                        <tr>
+                            <th>Answer</th>
+                            <th>isCorrect</th>
+                            <th></th>
+                        </tr>
+                        <tr>
+                            <th>
+                                <input asp-for="questionAnswers.Single().Answer" class="form-control"/>
+                            </th>
+                            <th>
+                                <input asp-for="questionAnswers.Single().isCorrect"class="form-control" value="false"/>
+                            </th>
+                            <th>
+                                <input type="button" id="add" name="add" class="btn btn-outline-primary form-control" value="Add New"/>
+                            </th>
+                        </tr>
+                    </table>*@
+                </div>
+            </fieldset>
         </form>
     </div>
 </div>
 
+
+
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
-
 @section Scripts {
+
+    <script type="text/javascript">
+        $("#btnAdd").on('click', function () {
+            $.ajax({
+                async: true,
+                data: $('#form').serialize(),
+                type: "Post",
+                url: '/TeacherQuestionsMan/AddQuestion',
+                success: function (partialView) {
+                    console.log("partialView: " + partialView);
+                    $("#AnswersContainer").html(partialView);
+                }
+            });
+        });
+    </script>
+
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

@@ -1,0 +1,20 @@
+﻿@model CreateQuestionAnsViewModel
+
+<div class="row">
+    <div class="col-md-5">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="Answer" class="control-label"></label>
+            <input asp-for="Answer" class="form-control" />
+            <span asp-validation-for="Answer" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="col-md-5">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="isCorrect" class="control-label"></label>
+            <input asp-for="isCorrect" class="form-control" />
+            <span asp-validation-for="isCorrect" class="text-danger"></span>
+        </div>
+    </div>
+</div>
