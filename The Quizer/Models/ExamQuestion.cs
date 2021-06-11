@@ -31,8 +31,8 @@ namespace The_Quizer.Models
 
     public enum QuestionType
     {
-        Single,
-        Multi,
+        Single_Choice,
+        Multiple_Choice,
         Text
     }
 }
