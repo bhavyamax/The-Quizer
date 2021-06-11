@@ -16,16 +16,15 @@ namespace The_Quizer.Controllers
 {
     public class TeacherExamManController : Controller
     {
-        private readonly AppDBContext _context;
         private readonly IExamStore examStore;
         private readonly IExamQuestionStore examQuestionStore;
+        private readonly IUserExamStore userExamStore;
 
-        public TeacherExamManController(AppDBContext context,IExamStore _examStore,IExamQuestionStore _examQuestionStore)
-
+        public TeacherExamManController(IExamStore _examStore,IExamQuestionStore _examQuestionStore,IUserExamStore userExamStore)
         {
-            _context = context;
             examStore = _examStore;
             examQuestionStore = _examQuestionStore;
+            this.userExamStore = userExamStore;
         }
 
         // GET: TeacherExamMan
@@ -57,6 +56,16 @@ namespace The_Quizer.Controllers
                 viewModel.QuestionAnswers = viewModel.Exam.ExamQuestions.Where(a => a.ID == quesId).Single().QuestionAnswers;
             }
             return View(viewModel);
+        }
+
+        public async Task<IActionResult> ExamResults(string id = "d9ad4c4f-53d0-4f15-9c25-55bc28e50260")
+        {
+            if (string.IsNullOrEmpty(id))
+            {
+                return NotFound();
+            }
+            var examRes = await userExamStore.GetExamResultsAsync(id);
+            return View(examRes);
         }
 
         // GET: TeacherExamMan/Create
@@ -113,7 +122,7 @@ namespace The_Quizer.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ExamExists(exam.Id))
+                    if (!await ExamExists(exam.Id))
                     {
                         return NotFound();
                     }
@@ -149,7 +158,7 @@ namespace The_Quizer.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var exam = await _context.Exams.FindAsync(id);
+            var exam = await examStore.FindByIdAsync(id);
             if (exam != null)
             {
                 await examStore.DeleteAsync(exam);
@@ -159,9 +168,9 @@ namespace The_Quizer.Controllers
             
         }
 
-        private bool ExamExists(string id)
+        private async Task<bool> ExamExists(string id)
         {
-            return _context.Exams.Any(e => e.Id == id);
+            return (await examStore.FindByIdAsync(id)) == null;
         }
     }
 }
