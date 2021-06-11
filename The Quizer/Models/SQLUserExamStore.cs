@@ -1,35 +1,62 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using The_Quizer.Data;
 
 namespace The_Quizer.Models
 {
     public class SQLUserExamStore : IUserExamStore
     {
-        public Task AssignExamAsync(ApplicationUser user, string examId)
+        public SQLUserExamStore(AppDBContext context)
         {
-            throw new NotImplementedException();
+            Context = context;
         }
 
-        public Task GetExamsAsync(ApplicationUser user)
+        public AppDBContext Context { get; private set; }
+        public bool AutoSaveChanges { get; set; }
+
+        public async Task<Exam> GetExamResultsAsync(string examId)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrEmpty(examId))
+            {
+                throw new ArgumentNullException("examId");
+            }
+            var exanRes = await Context.Exams.Include(eu => eu.UserExams)
+                                             .ThenInclude(eu => eu.ApplicationUser)
+                                             .SingleAsync(eu => eu.Id == examId);
+            return exanRes;
+        }
+        public async Task<UserExam> GetUserResultsAsync(string userId)
+        {
+            if (string.IsNullOrEmpty(userId))
+            {
+                throw new ArgumentNullException("examId");
+            }
+            var exanRes = await Context.UserExams.Include(eu => eu.ApplicationUser)
+                                                 .Include(eu => eu.Exam)
+                                                 .SingleAsync(eu => eu.User_id == userId);
+            return exanRes;
         }
 
-        public Task<bool> IsINExamAsync(ApplicationUser user, string roleId)
+        public async Task AddUserExamScoreAsync(UserExam userExam)
         {
-            throw new NotImplementedException();
+            if (userExam == null)
+            {
+                throw new ArgumentNullException("userExam");
+            }
+            await Context.AddAsync(userExam);
+            await SaveChanges();
+
         }
 
-        public Task UnAssignExamAsync(ApplicationUser user, string examId)
+        private async Task SaveChanges()
         {
-            throw new NotImplementedException();
-        }
-
-        public Task UpdateExamScoreAsync(UserExam userExam)
-        {
-            throw new NotImplementedException();
+            if (AutoSaveChanges)
+            {
+                await Context.SaveChangesAsync();
+            }
         }
     }
 }
