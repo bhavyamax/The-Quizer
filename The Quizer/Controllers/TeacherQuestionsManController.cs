@@ -13,17 +13,14 @@ namespace The_Quizer.Controllers
 {
     public class TeacherQuestionsManController : Controller
     {
-        private readonly AppDBContext _context;
         private readonly IExamQuestionStore examQuestionStore;
         private readonly IExamStore examStore;
         private readonly IQuestionAnswerStore questionAnswerStore;
 
-        public TeacherQuestionsManController(AppDBContext context,
-                                             IExamQuestionStore examQuestionStore,
+        public TeacherQuestionsManController(IExamQuestionStore examQuestionStore,
                                              IExamStore examStore,
                                              IQuestionAnswerStore questionAnswerStore)
         {
-            _context = context;
             this.examQuestionStore = examQuestionStore;
             this.examStore = examStore;
             this.questionAnswerStore = questionAnswerStore;
@@ -38,11 +35,11 @@ namespace The_Quizer.Controllers
         // GET: TeacherQuestionsMan/Details/5
         public async Task<IActionResult> Details(string id)
         {
-            if (id == null)
+            if (string.IsNullOrEmpty(id))
             {
                 return NotFound();
             }
-            var examQuestion=await examQuestionStore.FindByIdAsync(id);
+            var examQuestion=await examQuestionStore.FindByIdWithAnsAsync(id);
             if (examQuestion == null)
             {
                 return NotFound();
@@ -119,12 +116,11 @@ namespace The_Quizer.Controllers
                 return NotFound();
             }
 
-            var examQuestion = await _context.ExamQuestions.FindAsync(id);
+            var examQuestion = await examQuestionStore.FindByIdAsync(id);
             if (examQuestion == null)
             {
                 return NotFound();
             }
-            ViewData["Exam_id"] = new SelectList(_context.Exams, "Id", "Id", examQuestion.Exam_id);
             return View(examQuestion);
         }
 
@@ -144,12 +140,11 @@ namespace The_Quizer.Controllers
             {
                 try
                 {
-                    _context.Update(examQuestion);
-                    await _context.SaveChangesAsync();
+                    await examQuestionStore.UpdateAsync(examQuestion);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ExamQuestionExists(examQuestion.ID))
+                    if (!(await ExamQuestionExists(examQuestion.ID)))
                     {
                         return NotFound();
                     }
@@ -160,7 +155,6 @@ namespace The_Quizer.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["Exam_id"] = new SelectList(_context.Exams, "Id", "Id", examQuestion.Exam_id);
             return View(examQuestion);
         }
 
@@ -172,9 +166,7 @@ namespace The_Quizer.Controllers
                 return NotFound();
             }
 
-            var examQuestion = await _context.ExamQuestions
-                .Include(e => e.Exam)
-                .FirstOrDefaultAsync(m => m.ID == id);
+            var examQuestion = await examQuestionStore.FindByIdAsync(id);
             if (examQuestion == null)
             {
                 return NotFound();
@@ -188,15 +180,14 @@ namespace The_Quizer.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var examQuestion = await _context.ExamQuestions.FindAsync(id);
-            _context.ExamQuestions.Remove(examQuestion);
-            await _context.SaveChangesAsync();
+            var examQuestion = await examQuestionStore.FindByIdAsync(id);
+            await examQuestionStore.DeleteAsync(examQuestion);
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ExamQuestionExists(string id)
+        private async Task<bool> ExamQuestionExists(string id)
         {
-            return _context.ExamQuestions.Any(e => e.ID == id);
+            return (await examQuestionStore.FindByIdAsync(id))==null;
         }
     }
 }
