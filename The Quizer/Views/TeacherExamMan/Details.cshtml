@@ -35,50 +35,52 @@
             @Html.DisplayFor(model => model.Exam.Status)
         </dd>
     </dl>
+    <div><a asp-action="ExamResults" asp-route-id="@Model.Exam.Id" class="btn btn-primary">Exam Results</a></div>
 </div>
 <br />
 <br />
 <br />
-<div>
-    <h4>Questions</h4>
-    @Html.ActionLink("Select", "Create", "TeacherQuestionsMan")
-    <table class="table">
+<h4>Questions</h4>
+@Html.ActionLink("Create", "Create", "TeacherQuestionsMan", new { @class = "btn btn-outline-primary" })
+<table class="table table-responsive">
+    <thead>
         <tr>
             <th>Question</th>
             <th>Type</th>
             <th>Points</th>
+            <th class="w-25">Question Id</th>
             <th></th>
         </tr>
-        @foreach (var item in Model.ExamQuestions)
+    </thead>
+    @foreach (var item in Model.ExamQuestions)
+    {
+        string selected = "";
+        @if (ViewBag.QuesId == item.ID)
         {
-            string selected = "";
-            @if (ViewBag.QuesId == item.ID)
-            {
-                selected = "success";
-            }
-            <tr class="@selected">
-                <th>
-                    @Html.DisplayFor(modelitem => item.Question)
-                </th>
-                <th>
-                    @Html.DisplayFor(modelitem => item.Type)
-                </th>
-                <th>
-                    @Html.DisplayFor(modelitem => item.points)
-                </th>
-                <th>
-                    @Html.DisplayFor(modelitem => item.ID)
-                </th>
-                <th>
-                    @Html.ActionLink("Select", "Details", new { quesId = item.ID }) |
-                    @Html.ActionLink("Edit", "Edit", "TeacherQuestionsMan", new { id = item.ID }) |
-                    @Html.ActionLink("Details", "Details", "TeacherQuestionsMan", new { id = item.ID }) |
-                    @Html.ActionLink("Delete", "Delete", "TeacherQuestionsMan", new { id = item.ID })
-                </th>
-            </tr>
+            selected = "success";
         }
-    </table>
-</div>
+        <tr class="@selected">
+            <th>
+                @Html.DisplayFor(modelitem => item.Question)
+            </th>
+            <th>
+                @Html.DisplayFor(modelitem => item.Type)
+            </th>
+            <th>
+                @Html.DisplayFor(modelitem => item.points)
+            </th>
+            <th>
+                @Html.DisplayFor(modelitem => item.ID)
+            </th>
+            <th>
+                @Html.ActionLink("Select", "Details", new { quesId = item.ID }) |
+                @Html.ActionLink("Edit", "Edit", "TeacherQuestionsMan", new { id = item.ID }) |
+                @Html.ActionLink("Details", "Details", "TeacherQuestionsMan", new { id = item.ID }) |
+                @Html.ActionLink("Delete", "Delete", "TeacherQuestionsMan", new { id = item.ID })
+            </th>
+        </tr>
+    }
+</table>
 <br />
 <br />
 <br />
@@ -88,7 +90,7 @@
     <div>
         <h4>Answers</h4>
         @Html.ActionLink("Add New Answer", "Create", "TeacherAnswerMan")
-        <table class="table">
+        <table class="table table-responsive">
             <tr>
                 <th>Answer</th>
                 <th>isCorrect</th>

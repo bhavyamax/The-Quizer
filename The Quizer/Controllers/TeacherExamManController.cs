@@ -38,7 +38,7 @@ namespace The_Quizer.Controllers
         }
 
         // GET: TeacherExamMan/Details/5
-        public async Task<IActionResult> Details(string id,string? quesId)
+        public async Task<IActionResult> Details(string id = "d9ad4c4f-53d0-4f15-9c25-55bc28e50260", string? quesId=null)
         {
             if (id == null)
             {
