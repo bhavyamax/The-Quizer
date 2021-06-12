@@ -5,10 +5,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Details</h1>
+<h1>ExamDetails</h1>
 
 <div>
-    <h4>Exam</h4>
     <div>
         <a asp-action="Edit" asp-route-id="@Model.Exam.Id">Edit</a> |
         <a asp-action="Index">Back to List</a>
@@ -43,7 +42,7 @@
 <h4>Questions</h4>
 @Html.ActionLink("Create", "Create", "TeacherQuestionsMan", new { @class = "btn btn-outline-primary" })
 <table class="table table-responsive">
-    <thead>
+    <thead class="thead-dark">
         <tr>
             <th>Question</th>
             <th>Type</th>
@@ -52,34 +51,36 @@
             <th></th>
         </tr>
     </thead>
-    @foreach (var item in Model.ExamQuestions)
-    {
-        string selected = "";
-        @if (ViewBag.QuesId == item.ID)
+    <tbody>
+        @foreach (var item in Model.ExamQuestions)
         {
-            selected = "success";
+            string selected = "";
+            @if (ViewBag.QuesId == item.ID)
+            {
+                selected = "active";
+            }
+            <tr class="@selected">
+                <td>
+                    @Html.DisplayFor(modelitem => item.Question)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelitem => item.Type)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelitem => item.points)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelitem => item.ID)
+                </td>
+                <td>
+                    @Html.ActionLink("Select", "Details", new { quesId = item.ID }) |
+                    @Html.ActionLink("Edit", "Edit", "TeacherQuestionsMan", new { id = item.ID }) |
+                    @Html.ActionLink("Details", "Details", "TeacherQuestionsMan", new { id = item.ID }) |
+                    @Html.ActionLink("Delete", "Delete", "TeacherQuestionsMan", new { id = item.ID })
+                </td>
+            </tr>
         }
-        <tr class="@selected">
-            <th>
-                @Html.DisplayFor(modelitem => item.Question)
-            </th>
-            <th>
-                @Html.DisplayFor(modelitem => item.Type)
-            </th>
-            <th>
-                @Html.DisplayFor(modelitem => item.points)
-            </th>
-            <th>
-                @Html.DisplayFor(modelitem => item.ID)
-            </th>
-            <th>
-                @Html.ActionLink("Select", "Details", new { quesId = item.ID }) |
-                @Html.ActionLink("Edit", "Edit", "TeacherQuestionsMan", new { id = item.ID }) |
-                @Html.ActionLink("Details", "Details", "TeacherQuestionsMan", new { id = item.ID }) |
-                @Html.ActionLink("Delete", "Delete", "TeacherQuestionsMan", new { id = item.ID })
-            </th>
-        </tr>
-    }
+    </tbody>
 </table>
 <br />
 <br />
@@ -91,27 +92,31 @@
         <h4>Answers</h4>
         @Html.ActionLink("Add New Answer", "Create", "TeacherAnswerMan")
         <table class="table table-responsive">
-            <tr>
-                <th>Answer</th>
-                <th>isCorrect</th>
-                <th></th>
-            </tr>
-            @foreach (var item in Model.QuestionAnswers)
-            {
+            <thead class="thead-light">
                 <tr>
-                    <th>
-                        @Html.DisplayFor(modelitem => item.Answer)
-                    </th>
-                    <th>
-                        @Html.DisplayFor(modelitem => item.isCorrect)
-                    </th>
-                    <th>
-                        @Html.ActionLink("Edit", "Edit", "TeacherAnswerMan", new { id = item.ID }) |
-                        @Html.ActionLink("Details", "Details", "TeacherAnswerMan", new { id = item.ID }) |
-                        @Html.ActionLink("Delete", "Delete", "TeacherAnswerMan", new { id = item.ID })
-                    </th>
+                    <th>Answer</th>
+                    <th>isCorrect</th>
+                    <th></th>
                 </tr>
-            }
+            </thead>
+            <tbody>
+                @foreach (var item in Model.QuestionAnswers)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelitem => item.Answer)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelitem => item.isCorrect)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", "TeacherAnswerMan", new { id = item.ID }) |
+                            @Html.ActionLink("Details", "Details", "TeacherAnswerMan", new { id = item.ID }) |
+                            @Html.ActionLink("Delete", "Delete", "TeacherAnswerMan", new { id = item.ID })
+                        </td>
+                    </tr>
+                }
+            </tbody>
         </table>
     </div>
 }
