@@ -2,21 +2,25 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using The_Quizer.Data;
 using The_Quizer.Models;
+using The_Quizer.ViewModels;
 
 namespace The_Quizer.Controllers
 {
     public class AdminCourseManController : Controller
     {
         private readonly AppDBContext _context;
+        private readonly UserManager<ApplicationUser> userManager;
 
-        public AdminCourseManController(AppDBContext context)
+        public AdminCourseManController(AppDBContext context,UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            this.userManager = userManager;
         }
 
         // GET: AdminCourseMan
@@ -44,8 +48,9 @@ namespace The_Quizer.Controllers
         }
 
         // GET: AdminCourseMan/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            ViewBag.TeacherList = await userManager.GetUsersInRoleAsync("Teacher");
             return View();
         }
 
@@ -54,7 +59,7 @@ namespace The_Quizer.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Status")] Course course)
+        public async Task<IActionResult> Create(CreateCourseViewModel course)//[Bind("Id,Title,Status")] Course course)
         {
             if (ModelState.IsValid)
             {
@@ -62,6 +67,7 @@ namespace The_Quizer.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewBag.TeacherList = await userManager.GetUsersInRoleAsync("Teacher");
             return View(course);
         }
 
