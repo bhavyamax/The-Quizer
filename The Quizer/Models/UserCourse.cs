@@ -17,7 +17,7 @@ namespace The_Quizer.Models
         public string Course_id { get; set; }
 
         [Required]
-        public UserExamStatus Type { get; set; }
+        public UserCourseType Type { get; set; }
 
         public virtual ApplicationUser ApplicationUser { get; set; }
         public virtual Course Course { get; set; }
