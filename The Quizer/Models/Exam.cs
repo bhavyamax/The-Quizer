@@ -17,7 +17,6 @@ namespace The_Quizer.Models
         public string Id { get; set; }
         [Required]
         public string Title { get; set; }
-
         [Required]
         public ExamStatus Status { get; set; }
 
