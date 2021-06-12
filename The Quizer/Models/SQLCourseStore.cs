@@ -7,7 +7,7 @@ using The_Quizer.Data;
 
 namespace The_Quizer.Models
 {
-    public class SQLCourseStore
+    public class SQLCourseStore : ICourseStore
     {
         public SQLCourseStore(AppDBContext context)
         {
