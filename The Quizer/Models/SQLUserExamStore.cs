@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +10,12 @@ namespace The_Quizer.Models
 {
     public class SQLUserExamStore : IUserExamStore
     {
-        public SQLUserExamStore(AppDBContext context)
+        private readonly UserManager<ApplicationUser> userManager;
+
+        public SQLUserExamStore(AppDBContext context,UserManager<ApplicationUser> userManager)
         {
             Context = context;
+            this.userManager = userManager;
         }
 
         public AppDBContext Context { get; private set; }
@@ -83,6 +87,26 @@ namespace The_Quizer.Models
         {
             Context.Remove(userExam);
             await SaveChanges();
+        }
+
+        public async Task<List<ApplicationUser>> UsersInExamAsync(string examId)
+        {
+            var userExams = await Context.UserExams.Where(i => i.Exam_id == examId).Select(d => d.User_id).ToListAsync();
+            var allStudents = await  userManager.GetUsersInRoleAsync("Student");
+            var users = from user in allStudents
+                        where userExams.Contains(user.Id)
+                        select user;
+            return users.ToList();
+        }
+
+        public async Task<List<ApplicationUser>> UsersNotInExamAsync(string examId)
+        {
+            var userExams = await Context.UserExams.Where(i => i.Exam_id == examId).Select(d => d.User_id).ToListAsync();
+            var allStudents = await  userManager.GetUsersInRoleAsync("Student");
+            var users = from user in allStudents
+                        where !userExams.Contains(user.Id)
+                        select user;
+            return users.ToList();
         }
     }
 }
