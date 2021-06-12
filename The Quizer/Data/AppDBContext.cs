@@ -25,8 +25,10 @@ namespace The_Quizer.Data
         }
 
         public DbSet<Exam> Exams { get; set; }
+        public DbSet<Course> Coursess { get; set; }
         public DbSet<ExamQuestion> ExamQuestions { get; set; }
         public DbSet<QuestionAnswer> QuestionAnswers { get; set; }
         public DbSet<UserExam> UserExams { get; set; }
+        public DbSet<UserCourse> UserCourses { get; set; }
     }
 }

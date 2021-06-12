@@ -39,6 +39,7 @@ namespace The_Quizer.Models
 
             
             modelBuilder.Entity<UserExam>().HasKey(ue => new { ue.Exam_id, ue.User_id });
+            modelBuilder.Entity<UserCourse>().HasKey(ue => new { ue.Course_id, ue.User_id });
         }
 
     }
