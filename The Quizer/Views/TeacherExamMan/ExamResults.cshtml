@@ -1,5 +1,4 @@
 ﻿@model Exam
-
 @{
     ViewData["Title"] = "ExamResults";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -20,7 +19,7 @@
                 @Html.DisplayNameFor(model => model.UserExams.Single().ApplicationUser.Email)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.UserExams.Single().ApplicationUser.Id)
+                @Html.DisplayNameFor(model => model.UserExams.Single().User_id)
             </th>
             <th></th>
         </tr>
@@ -42,9 +41,8 @@
                     @Html.DisplayFor(modelItem => item.ApplicationUser.Id)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ examId = item.Exam_id, userId = item.User_id }) |
-                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ examId = item.Exam_id, userId = item.User_id }) |
-                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ examId = item.Exam_id, userId = item.User_id })
+                    @Html.ActionLink("Allow Resets", "ExamReTest", new { /* id=item.PrimaryKey */ examId = item.Exam_id, userId = item.User_id }) |
+                    @Html.ActionLink("Delete Record", "Delete", new { /* id=item.PrimaryKey */ examId = item.Exam_id, userId = item.User_id })
                 </td>
             </tr>
         }
