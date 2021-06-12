@@ -16,11 +16,15 @@ namespace The_Quizer.Controllers
     {
         private readonly AppDBContext _context;
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly ICourseStore courseStore;
 
-        public AdminCourseManController(AppDBContext context,UserManager<ApplicationUser> userManager)
+        public AdminCourseManController(AppDBContext context,
+                                        UserManager<ApplicationUser> userManager,
+                                        ICourseStore courseStore)
         {
             _context = context;
             this.userManager = userManager;
+            this.courseStore = courseStore;
         }
 
         // GET: AdminCourseMan
@@ -50,29 +54,34 @@ namespace The_Quizer.Controllers
         // GET: AdminCourseMan/Create
         public async Task<IActionResult> Create()
         {
-            var selList = from user in (await userManager.GetUsersInRoleAsync("Teacher"))
-                          select new SelectListItem(user.Name + " : " + user.Email, user.Id);
-            ViewBag.TeacherList = selList;
+            await PopulateTeacherList();
             return View();
         }
 
         // POST: AdminCourseMan/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(CreateCourseViewModel course)//[Bind("Id,Title,Status")] Course course)
+        public async Task<IActionResult> Create(CreateCourseViewModel course)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(course);
-                await _context.SaveChangesAsync();
+                Course course1 = new()
+                {
+                    Status = course.Status,
+                    Title = course.Title
+                };
+                await courseStore.CreateAsync(course1, course.TeacherId);
                 return RedirectToAction(nameof(Index));
             }
+            await PopulateTeacherList();
+            return View(course);
+        }
+
+        private async Task PopulateTeacherList()
+        {
             var selList = from user in (await userManager.GetUsersInRoleAsync("Teacher"))
                           select new SelectListItem(user.Name + " : " + user.Email, user.Id);
-            ViewBag.TeacherList = selList ;
-            return View(course);
+            ViewBag.TeacherList = selList;
         }
 
         // GET: AdminCourseMan/Edit/5
@@ -92,8 +101,6 @@ namespace The_Quizer.Controllers
         }
 
         // POST: AdminCourseMan/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, [Bind("Id,Title,Status")] Course course)
