@@ -58,5 +58,31 @@ namespace The_Quizer.Models
                 await Context.SaveChangesAsync();
             }
         }
+
+        public async Task<UserExam> GetUserExamRecordAsync(string userId, string examId)
+        {
+            var _userExam = await Context.UserExams.SingleOrDefaultAsync(ue => ue.User_id == userId && ue.Exam_id == examId);
+            return _userExam;
+        }
+
+        public async Task<UserExam> SetUserRetestAsync(UserExam userExam)
+        {
+            userExam.Status = UserExamStatus.Pending;
+            Context.Update(userExam);
+            await SaveChanges();
+            return userExam;
+        }
+
+        public async Task<UserExam> AssingUserToExamAsync(UserExam userExam)
+        {
+            await Context.AddAsync(userExam);
+            return userExam;
+        }
+
+        public async Task RemoveUserFromExamAsync(UserExam userExam)
+        {
+            Context.Remove(userExam);
+            await SaveChanges();
+        }
     }
 }
