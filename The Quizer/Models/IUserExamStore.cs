@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace The_Quizer.Models
 {
@@ -10,6 +11,8 @@ namespace The_Quizer.Models
         Task<UserExam> GetUserResultsAsync(string userId);
         Task<UserExam> SetUserRetestAsync(UserExam userExam);
         Task<UserExam> AssingUserToExamAsync(UserExam userExam);
+        Task<List<ApplicationUser>> UsersInExamAsync(string examId);
+        Task<List<ApplicationUser>> UsersNotInExamAsync(string examId);
         Task RemoveUserFromExamAsync(UserExam userExam);
     }
 }
