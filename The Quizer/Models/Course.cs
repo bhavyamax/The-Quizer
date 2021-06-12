@@ -11,6 +11,7 @@ namespace The_Quizer.Models
         public Course()
         {
             Id = Guid.NewGuid().ToString();
+            CreatedDate = DateTime.UtcNow.Date;
         }
         [Key]
         [StringLength(450)]
@@ -19,6 +20,7 @@ namespace The_Quizer.Models
         public string Title { get; set; }
         [Required]
         public CourseStatus Status { get; set; }
+        public DateTime CreatedDate { get; set; }
 
         public virtual ICollection<UserExam> UserExams { get; set; }
     }
