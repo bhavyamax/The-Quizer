@@ -158,6 +158,8 @@ namespace The_Quizer.Controllers
             var examRes = await userExamStore.GetExamResultsAsync(id);
             return View(examRes);
         }
+
+
         public async Task<IActionResult> ExamReTest(string examId ,string userId )
         {
             var userExam = await userExamStore.GetUserExamRecordAsync(userId, examId);
