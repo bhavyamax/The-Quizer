@@ -1,4 +1,4 @@
-﻿@model The_Quizer.Models.Course
+﻿@model CreateCourseViewModel
 
 @{
     ViewData["Title"] = "Create";
@@ -14,11 +14,6 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Id" class="control-label"></label>
-                <input asp-for="Id" class="form-control" />
-                <span asp-validation-for="Id" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="Title" class="control-label"></label>
                 <input asp-for="Title" class="form-control" />
                 <span asp-validation-for="Title" class="text-danger"></span>
@@ -27,6 +22,11 @@
                 <label asp-for="Status" class="control-label"></label>
                 <select asp-for="Status" asp-items="Html.GetEnumSelectList<CourseStatus>()" class="form-control"></select>
                 <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TeacherId" class="control-label"></label>
+                <select asp-for="TeacherId" asp-items="ViewBag.TeacherList" class="form-control"></select>
+                <span asp-validation-for="TeacherId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
@@ -41,4 +41,11 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#TeacherId').select2();
+    });
+</script>
 }

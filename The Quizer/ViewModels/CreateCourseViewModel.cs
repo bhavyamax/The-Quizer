@@ -16,7 +16,5 @@ namespace The_Quizer.ViewModels
         [Required]
         [Display(Name ="Teacher")]
         public string TeacherId{ get; set; }
-
-        public ICollection<ApplicationUser> Teachers{ get; set; }
     }
 }

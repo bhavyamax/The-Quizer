@@ -50,7 +50,9 @@ namespace The_Quizer.Controllers
         // GET: AdminCourseMan/Create
         public async Task<IActionResult> Create()
         {
-            ViewBag.TeacherList = await userManager.GetUsersInRoleAsync("Teacher");
+            var selList = from user in (await userManager.GetUsersInRoleAsync("Teacher"))
+                          select new SelectListItem(user.Name + " : " + user.Email, user.Id);
+            ViewBag.TeacherList = selList;
             return View();
         }
 
@@ -67,7 +69,9 @@ namespace The_Quizer.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewBag.TeacherList = await userManager.GetUsersInRoleAsync("Teacher");
+            var selList = from user in (await userManager.GetUsersInRoleAsync("Teacher"))
+                          select new SelectListItem(user.Name + " : " + user.Email, user.Id);
+            ViewBag.TeacherList = selList ;
             return View(course);
         }
 
