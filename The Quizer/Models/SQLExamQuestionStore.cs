@@ -49,7 +49,7 @@ namespace The_Quizer.Models
         public async Task<ExamQuestion> FindByIdWithAnsAsync(string examQuestionId)
         {
             var examQues = await Context.ExamQuestions.Include(q=>q.QuestionAnswers)
-                .SingleAsync(q=>q.ID==examQuestionId);
+                .SingleOrDefaultAsync(q=>q.ID==examQuestionId);
             return examQues;
         }
 
