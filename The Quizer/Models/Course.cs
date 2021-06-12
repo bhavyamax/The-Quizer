@@ -23,6 +23,8 @@ namespace The_Quizer.Models
         public DateTime CreatedDate { get; set; }
 
         public virtual ICollection<UserCourse> UserCourses { get; set; }
+        public virtual ICollection<Exam> Exams{ get; set; }
+
     }
     public enum CourseStatus
     {

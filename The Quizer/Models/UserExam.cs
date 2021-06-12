@@ -32,7 +32,6 @@ namespace The_Quizer.Models
     }
     public enum UserExamStatus
     {
-        Creator,
         Pending,
         Given
     }

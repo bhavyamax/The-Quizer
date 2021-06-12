@@ -19,20 +19,49 @@ namespace The_Quizer.Controllers
         private readonly IExamQuestionStore examQuestionStore;
         private readonly IExamStore examStore;
         private readonly IUserExamStore userExamStore;
+        private readonly ICourseStore courseStore;
+        private readonly IUserCourseStore userCourse;
 
-        public TeacherExamManController(IExamStore _examStore,IExamQuestionStore _examQuestionStore,IUserExamStore userExamStore)
+        public TeacherExamManController(
+            IExamStore _examStore,
+            IExamQuestionStore _examQuestionStore,
+            IUserExamStore userExamStore,
+            ICourseStore courseStore)//,IUserCourseStore userCourse)
         {
             examStore = _examStore;
             examQuestionStore = _examQuestionStore;
             this.userExamStore = userExamStore;
+            this.courseStore = courseStore;
+           // this.userCourse = userCourse;
         }
 
         // GET: TeacherExamMan/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create(string courseId)
         {
+            if (string.IsNullOrEmpty(courseId)&&false)
+            {
+                var course = await courseStore.FindByIdAsync(courseId);
+                if (course==null)
+                {
+                    return NotFound();
+                }
+                var lst = new List<SelectListItem>();
+                lst.Add(new SelectListItem { Text = course.Title, Value = course.Id });
+                ViewBag.CourseList = lst;
+            }
+            else
+            {
+                await PopulateCourseList();
+            }
             return View();
         }
-
+        private async Task PopulateCourseList()
+        {
+            var userId = "1401319e-f0f7-45f0-a0ce-be09403fd1d6";//User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var selList = from course in (await courseStore.GetAllForUserAsync(userId))
+                          select new SelectListItem(course.Title , course.Id);
+            ViewBag.CourseList = selList;
+        }
         // POST: TeacherExamMan/Create
         [HttpPost]
         [ValidateAntiForgeryToken]

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -17,9 +18,13 @@ namespace The_Quizer.Models
         public string Id { get; set; }
         [Required]
         public string Title { get; set; }
+        [ForeignKey("Course")]
         [Required]
+        public string Course_Id{ get; set; }
         public ExamStatus Status { get; set; }
 
+
+        public virtual Course Course { get; set; }
         public virtual ICollection<UserExam> UserExams { get; set; }
         public virtual ICollection<ExamQuestion> ExamQuestions { get; set; }
 
@@ -27,7 +32,6 @@ namespace The_Quizer.Models
     }
     public enum ExamStatus
     {
-        Unpublished,
         Active,
         Inactive
     }

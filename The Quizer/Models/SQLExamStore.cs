@@ -19,24 +19,19 @@ namespace The_Quizer.Models
         public AppDBContext Context { get; private set; }
         
         
-        public async Task<string> CreateAsync(Exam exam, string userId)
+        public async Task<string> CreateAsync(Exam exam, string CourseId)
         {
             if (exam == null)
             {
                 throw new ArgumentNullException(nameof(exam));
             }
-            else if (string.IsNullOrWhiteSpace(userId))
+            else if (string.IsNullOrWhiteSpace(CourseId))
             {
-                throw new ArgumentNullException(nameof(userId));
-            } else if (await Context.Users.AnyAsync(a=>a.Id==userId))
+                throw new ArgumentNullException(nameof(CourseId));
+            } else if (await Context.Users.AnyAsync(a=>a.Id==CourseId))
             {
                 await Context.AddAsync<Exam>(exam);
-                await Context.AddAsync<UserExam>(new UserExam
-                {
-                    Exam_id = exam.Id,
-                    User_id = userId,
-                    Status=UserExamStatus.Creator
-                });
+                
             }
             await SaveChanges();
             return exam.Id;

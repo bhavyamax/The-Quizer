@@ -19,9 +19,9 @@
                 <span asp-validation-for="@Model.Title" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="@Model.Status" class="control-label"></label>
-                <input asp-for="@Model.Status" class="form-control" />
-                <span asp-validation-for="@Model.Status" class="text-danger"></span>
+                <label asp-for="@Model.Course_Id" class="control-label"></label>
+                <select asp-for="@Model.Course_Id" asp-items="@ViewBag.CourseList" class="form-control" />
+                <span asp-validation-for="@Model.Course_Id" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

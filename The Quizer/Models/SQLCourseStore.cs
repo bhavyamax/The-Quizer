@@ -51,9 +51,9 @@ namespace The_Quizer.Models
 
         public async Task<Course> FindByIdAsync(string courseId)
         {
-            var exam = await Context.Courses
+            var course = await Context.Courses
                 .FirstOrDefaultAsync(m => m.Id == courseId);
-            return exam;
+            return course;
         }
 
         public Task<Course> FindByTitleAsync(string title)
@@ -63,9 +63,9 @@ namespace The_Quizer.Models
 
         public async Task<List<Course>> GetAllAsync()
         {
-            var exams = from exam in Context.Courses
-                        select exam;
-            return await exams.ToListAsync();
+            var courses = from course in Context.Courses
+                        select course;
+            return await courses.ToListAsync();
         }
 
         public async Task<List<Course>> GetAllForUserAsync(string userId)
@@ -75,15 +75,15 @@ namespace The_Quizer.Models
                 throw new ArgumentNullException(nameof(userId));
             }
             var userCourses = await Context.UserCourses.Where(i => i.User_id == userId).Select(d => d.Course_id).ToListAsync();
-            var exams = from exam in Context.Courses
-                        where userCourses.Contains(exam.Id)
-                        select exam;
-            return await exams.ToListAsync();
+            var courses = from course in Context.Courses
+                        where userCourses.Contains(course.Id)
+                        select course;
+            return await courses.ToListAsync();
         }
 
-        public async Task UpdateAsync(Course exam)
+        public async Task UpdateAsync(Course course)
         {
-            Context.Update(exam);
+            Context.Update(course);
             await Context.SaveChangesAsync();
         }
 
