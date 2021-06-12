@@ -17,11 +17,18 @@ namespace The_Quizer.Models
         public string Id { get; set; }
         [Required]
         public string Title { get; set; }
-        public string Status { get; set; }
+        [Required]
+        public ExamStatus Status { get; set; }
 
         public virtual ICollection<UserExam> UserExams { get; set; }
         public virtual ICollection<ExamQuestion> ExamQuestions { get; set; }
 
 
+    }
+    public enum ExamStatus
+    {
+        Unpublished,
+        Active,
+        Inactive
     }
 }

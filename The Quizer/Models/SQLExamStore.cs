@@ -34,7 +34,8 @@ namespace The_Quizer.Models
                 await Context.AddAsync<UserExam>(new UserExam
                 {
                     Exam_id = exam.Id,
-                    User_id = userId
+                    User_id = userId,
+                    Status=UserExamStatus.Creator
                 });
             }
             await SaveChanges();
