@@ -77,9 +77,9 @@
                 </td>
                 <td>
                     @Html.ActionLink("Select", "Details", new { quesId = item.ID }) |
-                    @Html.ActionLink("Edit", "Edit", "TeacherQuestionsMan", new { id = item.ID }) |
-                    @Html.ActionLink("Details", "Details", "TeacherQuestionsMan", new { id = item.ID }) |
-                    @Html.ActionLink("Delete", "Delete", "TeacherQuestionsMan", new { id = item.ID })
+                    @Html.ActionLink("Edit", "Edit", "TeacherQuestionsMan", new { id = item.ID, examId = Model.Exam.Id }) |
+                    @Html.ActionLink("Details", "Details", "TeacherQuestionsMan", new { id = item.ID, examId = Model.Exam.Id }) |
+                    @Html.ActionLink("Delete", "Delete", "TeacherQuestionsMan", new { id = item.ID ,examId=Model.Exam.Id})
                 </td>
             </tr>
         }
