@@ -20,7 +20,9 @@ namespace The_Quizer.Controllers
         private readonly IExamStore examStore;
         private readonly IUserExamStore userExamStore;
 
-        public TeacherExamManController(IExamStore _examStore,IExamQuestionStore _examQuestionStore,IUserExamStore userExamStore)
+        public TeacherExamManController(IExamStore _examStore,
+                                        IExamQuestionStore _examQuestionStore,
+                                        IUserExamStore userExamStore)
         {
             examStore = _examStore;
             examQuestionStore = _examQuestionStore;
@@ -159,13 +161,13 @@ namespace The_Quizer.Controllers
             return View(examRes);
         }
 
-
         public async Task<IActionResult> ExamReTest(string examId ,string userId )
         {
             var userExam = await userExamStore.GetUserExamRecordAsync(userId, examId);
             await userExamStore.SetUserRetestAsync(userExam);
             return RedirectToAction("ExamResults", new { id = examId });
         }
+
         // GET: TeacherExamMan
         public async Task<IActionResult> Index()
         {
@@ -174,6 +176,7 @@ namespace The_Quizer.Controllers
             var exams = await examStore.GetAllAsync();
             return View(exams);
         }
+
         private async Task<bool> ExamExists(string id)
         {
             return (await examStore.FindByIdAsync(id)) == null;
