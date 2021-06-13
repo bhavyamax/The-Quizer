@@ -9,6 +9,10 @@ namespace The_Quizer.Models
 {
     public class QuestionAnswer
     {
+        public QuestionAnswer()
+        {
+            ID = Guid.NewGuid().ToString();
+        }
         [Key]
         [StringLength(450)]
         public string ID { get; set; }

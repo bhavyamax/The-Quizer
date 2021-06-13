@@ -24,7 +24,16 @@ namespace The_Quizer.Models
         [Range(minimum: 0,maximum: 100)]
         public float? Score { get; set; }
 
+        [Required]
+        public UserExamStatus Status { get; set; }
+
         public virtual ApplicationUser ApplicationUser { get; set; }
         public virtual Exam Exam { get; set; }
+    }
+    public enum UserExamStatus
+    {
+        Creator,
+        Pending,
+        Given
     }
 }

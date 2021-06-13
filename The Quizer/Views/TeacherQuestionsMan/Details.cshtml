@@ -1,0 +1,82 @@
+﻿@model The_Quizer.Models.ExamQuestion
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Exam Question</h4>
+    <hr />
+    <div>
+        <a asp-action="Edit" asp-route-id="@Model.ID">Edit</a> |
+        <a asp-action="Details" asp-controller="TeacherExamMan" asp-route-id="@Model.Exam_id">Back to Exam Details</a>
+    </div>
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Question)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Question)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Type)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Type)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.points)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.points)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Exam)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Exam_id)
+        </dd>
+    </dl>
+</div>
+@if (Model.QuestionAnswers.Any())
+{
+    <div>
+        <h4>Answers</h4>
+        @Html.ActionLink("Add New Answer", "Create", "TeacherAnswerMan",new { quesId=Model.ID})
+        <table class="table table-responsive">
+            <tr>
+                <th>Answer</th>
+                @*<th>@Html.Raw((Model.Type == QuestionType.Text) ? "isCaseSensitive" : "isCorrect")</th>*@
+                <th>isCorrect</th>
+                <th></th>
+            </tr>
+            @foreach (var item in Model.QuestionAnswers)
+            {
+                <tr>
+                    <th>
+                        @Html.DisplayFor(modelitem => item.Answer)
+                    </th>
+                    <th>
+                        @Html.DisplayFor(modelitem => item.isCorrect)
+                    </th>
+                    <th>
+                        @Html.ActionLink("Edit", "Edit", "TeacherAnswerMan", new { id = item.ID }) |
+                        @Html.ActionLink("Delete", "Delete", "TeacherAnswerMan", new { id = item.ID,quesId = Model.ID })
+                    </th>
+                </tr>
+            }
+        </table>
+    </div>
+}
+else
+{
+    <div class="card">
+        <div class="card-header">No Ansewrs Found</div>
+        <div class="card-body">
+            @Html.ActionLink("Add New Answer", "Create", "TeacherAnswerMan", new { quesId = Model.ID })
+        </div>
+    </div>
+}

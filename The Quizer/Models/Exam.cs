@@ -8,16 +8,27 @@ namespace The_Quizer.Models
 {
     public class Exam
     {
+        public Exam()
+        {
+            Id = Guid.NewGuid().ToString();
+        }
         [Key]
         [StringLength(450)]
         public string Id { get; set; }
         [Required]
         public string Title { get; set; }
-        public string Status { get; set; }
+        [Required]
+        public ExamStatus Status { get; set; }
 
-        public virtual List<UserExam> UserExams { get; set; }
-        public virtual List<ExamQuestion> ExamQuestions { get; set; }
+        public virtual ICollection<UserExam> UserExams { get; set; }
+        public virtual ICollection<ExamQuestion> ExamQuestions { get; set; }
 
 
+    }
+    public enum ExamStatus
+    {
+        Unpublished,
+        Active,
+        Inactive
     }
 }
