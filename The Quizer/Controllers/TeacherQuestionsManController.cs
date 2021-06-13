@@ -69,7 +69,7 @@ namespace The_Quizer.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CreateQuestionViewModel createQuestionViewModel)
         {
-            if (createQuestionViewModel.questionAnswers.Count > 0 && string.IsNullOrEmpty(createQuestionViewModel.questionAnswers[0].Answer))
+            if (createQuestionViewModel.questionAnswers.Count > 0 )
             {
                 ExamQuestion Question = new()
                 {
@@ -89,6 +89,7 @@ namespace The_Quizer.Controllers
                     };
                     await questionAnswerStore.CreateAsync(answer);
                 }
+                return RedirectToAction("Details", "TeacherExamMan", new { id = Question.Exam_id });
             }
 
             ModelState.AddModelError("", "Atleast One Answer is needed");
