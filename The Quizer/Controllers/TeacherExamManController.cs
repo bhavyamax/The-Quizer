@@ -29,6 +29,52 @@ namespace The_Quizer.Controllers
             this.userExamStore = userExamStore;
         }
 
+        public async Task<IActionResult> AddRemoveStudents(string id)
+        {
+            var model = new AddRemoveStudentsViewModel()
+            {
+                examId = id,
+                Assigned = (from user in await userExamStore.UsersInExamAsync(id)
+                            select new SelcteStu { isSelected = true, student = user, id = user.Id }).ToList(),
+                notAssigned = (from user in await userExamStore.UsersNotInExamAsync(id)
+                               select new SelcteStu { isSelected = false, student = user, id = user.Id }).ToList(),
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddRemoveStudents(AddRemoveStudentsViewModel model)
+        {
+            if (await examStore.FindByIdAsync(model.examId) != null)
+            {
+                foreach (var item in model.Assigned)
+                {
+                    if (item.isSelected == false)
+                    {
+                        var userExam = await userExamStore.GetUserExamRecordAsync(userId: item.id, examId: model.examId);
+                        if (userExam != null)
+                            await userExamStore.RemoveUserFromExamAsync(userExam);
+                    }
+                }
+                foreach (var item in model.notAssigned)
+                {
+                    if (item.isSelected == true)
+                    {
+                        var userExam = await userExamStore.GetUserExamRecordAsync(userId: item.id, examId: model.examId);
+                        if (userExam == null)
+                            userExam = new()
+                            {
+                                User_id = item.id,
+                                Exam_id = model.examId
+                            };
+                        await userExamStore.AssingUserToExamAsync(userExam);
+                    }
+                }
+                return RedirectToAction(nameof(AddRemoveStudents), new { id = model.examId });
+            }
+            return NotFound();
+        }
+
         // GET: TeacherExamMan/Create
         public IActionResult Create()
         {
@@ -38,11 +84,11 @@ namespace The_Quizer.Controllers
         // POST: TeacherExamMan/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Title,Status")] Exam exam)
+        public async Task<IActionResult> Create([Bind("Title")] Exam exam)
         {
             if (ModelState.IsValid)
             {
-                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var userId = "1401319e-f0f7-45f0-a0ce-be09403fd1d6";//User.FindFirstValue(ClaimTypes.NameIdentifier);
                 await examStore.CreateAsync(exam, userId);
                 return RedirectToAction(nameof(Index));
             }
@@ -167,45 +213,6 @@ namespace The_Quizer.Controllers
             await userExamStore.SetUserRetestAsync(userExam);
             return RedirectToAction("ExamResults", new { id = examId });
         }
-
-        public async Task<IActionResult> AddRemoveStudents(string id)
-        {
-            var model = new AddRemoveStudentsViewModel()
-            {
-                examId = id,
-                Assigned = (from user in await userExamStore.UsersInExamAsync(id)
-                            select new SelcteStu { isSelected = true, student = user ,id=user.Id}).ToList(),
-                notAssigned = (from user in await userExamStore.UsersNotInExamAsync(id)
-                               select new SelcteStu { isSelected = false, student = user, id = user.Id }).ToList(),
-            };
-            return View(model);
-        }
-        
-        [HttpPost]
-        public async Task<IActionResult> AddRemoveStudents(AddRemoveStudentsViewModel model)
-        {
-            foreach(var item in model.Assigned)
-            {
-                if(item.isSelected==false)
-                {
-                    var userExam = await userExamStore.GetUserExamRecordAsync(userId:item.id,examId:model.examId);
-                    if (userExam!=null)
-                    await userExamStore.RemoveUserFromExamAsync(userExam);
-                }
-            }
-            foreach(var item in model.notAssigned)
-            {
-                if(item.isSelected==true)
-                {
-                    var userExam = await userExamStore.GetUserExamRecordAsync(userId:item.id,examId:model.examId);
-                    if (userExam!=null)
-                    await userExamStore.AssingUserToExamAsync(userExam);
-                }
-            }
-            return View(model);
-        }
-
-
         // GET: TeacherExamMan
         public async Task<IActionResult> Index()
         {
