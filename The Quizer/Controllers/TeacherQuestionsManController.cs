@@ -49,19 +49,20 @@ namespace The_Quizer.Controllers
         }
 
         // GET: TeacherQuestionsMan/Create
-        public async Task<IActionResult> Create(string examid= "d9ad4c4f-53d0-4f15-9c25-55bc28e50260")
+        public async Task<IActionResult> Create(string examId= "d9ad4c4f-53d0-4f15-9c25-55bc28e50260")
         {
-            if (string.IsNullOrEmpty(examid))
+            if (string.IsNullOrEmpty(examId))
             {
                 NotFound();
             }
-            ViewBag.exam = await examStore.FindByIdWithQueAnsAsync(examid);
+            ViewBag.exam = await examStore.FindByIdWithQueAnsAsync(examId);
 
             if (ViewBag.exam==null)
             {
                 NotFound();
             }
-            return View();
+            var model = new CreateQuestionViewModel { Exam_id = examId };
+            return View(model);
         }
 
         
@@ -179,11 +180,11 @@ namespace The_Quizer.Controllers
         // POST: TeacherQuestionsMan/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
+        public async Task<IActionResult> DeleteConfirmed(string id,string examId)
         {
             var examQuestion = await examQuestionStore.FindByIdAsync(id);
             await examQuestionStore.DeleteAsync(examQuestion);
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Details","TeacherExamMan",new { id = examId});
         }
 
         private async Task<bool> ExamQuestionExists(string id)
