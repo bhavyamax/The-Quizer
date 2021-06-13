@@ -88,7 +88,7 @@ namespace The_Quizer.Controllers
         {
             if (ModelState.IsValid)
             {
-                var userId = "1401319e-f0f7-45f0-a0ce-be09403fd1d6";//User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 await examStore.CreateAsync(exam, userId);
                 return RedirectToAction(nameof(Index));
             }
