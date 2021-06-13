@@ -45,7 +45,7 @@
 {
     <div>
         <h4>Answers</h4>
-        @Html.ActionLink("Add New Answer", "Create", "TeacherAnswerMan")
+        @Html.ActionLink("Add New Answer", "Create", "TeacherAnswerMan",new { quesId=Model.ID})
         <table class="table table-responsive">
             <tr>
                 <th>Answer</th>
@@ -76,7 +76,7 @@ else
     <div class="card">
         <div class="card-header">No Ansewrs Found</div>
         <div class="card-body">
-            @Html.ActionLink("Add New Answer", "Create", "TeacherAnswerMan")
+            @Html.ActionLink("Add New Answer", "Create", "TeacherAnswerMan", new { quesId = Model.ID })
         </div>
     </div>
 }
