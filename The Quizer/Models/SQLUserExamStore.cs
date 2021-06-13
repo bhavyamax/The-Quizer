@@ -15,6 +15,7 @@ namespace The_Quizer.Models
         public SQLUserExamStore(AppDBContext context,UserManager<ApplicationUser> userManager)
         {
             Context = context;
+            AutoSaveChanges = true;
             this.userManager = userManager;
         }
 
