@@ -43,7 +43,7 @@
 <br />
 <br />
 <h4>Questions</h4>
-@Html.ActionLink("Create", "Create", "TeacherQuestionsMan", new { @class = "btn btn-outline-primary" })
+<a asp-action="Create" asp-controller="TeacherQuestionsMan" asp-route-examId="@Model.Exam.Id" class="btn btn-outline-primary mb-2">Create</a>
 <table id="tblQues"  class="table table-responsive">
     <thead class="thead-dark">
         <tr>
