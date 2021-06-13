@@ -30,6 +30,7 @@ namespace The_Quizer.Models
                 throw new ArgumentNullException(nameof(userId));
             } else if (await Context.Users.AnyAsync(a=>a.Id==userId))
             {
+                exam.Status = ExamStatus.Unpublished;
                 await Context.AddAsync<Exam>(exam);
                 await Context.AddAsync<UserExam>(new UserExam
                 {
