@@ -30,7 +30,7 @@ namespace The_Quizer.Models
             }
             var exanRes = await Context.Exams.Include(eu => eu.UserExams)
                                              .ThenInclude(eu => eu.ApplicationUser)
-                                             .SingleAsync(eu => eu.Id == examId);
+                                             .SingleOrDefaultAsync(eu => eu.Id == examId);
             return exanRes;
         }
         public async Task<UserExam> GetUserResultsAsync(string userId)
@@ -41,7 +41,7 @@ namespace The_Quizer.Models
             }
             var exanRes = await Context.UserExams.Include(eu => eu.ApplicationUser)
                                                  .Include(eu => eu.Exam)
-                                                 .SingleAsync(eu => eu.User_id == userId);
+                                                 .SingleOrDefaultAsync(eu => eu.User_id == userId);
             return exanRes;
         }
 
