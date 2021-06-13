@@ -12,11 +12,11 @@ namespace The_Quizer.Controllers
 {
     public class TeacherAnswerManController : Controller
     {
-        private readonly AppDBContext _context;
+        private readonly IQuestionAnswerStore questionAnswerStore;
 
-        public TeacherAnswerManController(AppDBContext context)
+        public TeacherAnswerManController(IQuestionAnswerStore questionAnswerStore)
         {
-            _context = context;
+            this.questionAnswerStore = questionAnswerStore;
         }
 
         //// GET: TeacherAnswerMan
@@ -46,10 +46,10 @@ namespace The_Quizer.Controllers
         //}
 
         // GET: TeacherAnswerMan/Create
-        public IActionResult Create()
+        public IActionResult Create(string quesId)
         {
-            ViewData["Ques_ID"] = new SelectList(_context.ExamQuestions, "ID", "ID");
-            return View();
+            var model = new QuestionAnswer { Ques_ID = quesId };
+            return View(model);
         }
 
         // POST: TeacherAnswerMan/Create
@@ -57,15 +57,13 @@ namespace The_Quizer.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Ques_ID,Answer,isCorrect")] QuestionAnswer questionAnswer)
+        public async Task<IActionResult> Create([Bind("Ques_ID,Answer,isCorrect")] QuestionAnswer questionAnswer)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(questionAnswer);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                await questionAnswerStore.CreateAsync(questionAnswer);
+                return RedirectToAction("Details","TeacherQuestionsMan",new { id = questionAnswer.Ques_ID});
             }
-            ViewData["Ques_ID"] = new SelectList(_context.ExamQuestions, "ID", "ID", questionAnswer.Ques_ID);
             return View(questionAnswer);
         }
 
@@ -77,12 +75,11 @@ namespace The_Quizer.Controllers
                 return NotFound();
             }
 
-            var questionAnswer = await _context.QuestionAnswers.FindAsync(id);
+            var questionAnswer = await questionAnswerStore.FindByIdAsync(id);
             if (questionAnswer == null)
             {
                 return NotFound();
             }
-            ViewData["Ques_ID"] = new SelectList(_context.ExamQuestions, "ID", "ID", questionAnswer.Ques_ID);
             return View(questionAnswer);
         }
 
@@ -102,12 +99,11 @@ namespace The_Quizer.Controllers
             {
                 try
                 {
-                    _context.Update(questionAnswer);
-                    await _context.SaveChangesAsync();
+                    await questionAnswerStore.UpdateAsync(questionAnswer);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!QuestionAnswerExists(questionAnswer.ID))
+                    if (!await QuestionAnswerExists(questionAnswer.ID))
                     {
                         return NotFound();
                     }
@@ -116,13 +112,12 @@ namespace The_Quizer.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details","TeacherQuestionsMan",new { id = questionAnswer.Ques_ID});
             }
-            ViewData["Ques_ID"] = new SelectList(_context.ExamQuestions, "ID", "ID", questionAnswer.Ques_ID);
             return View(questionAnswer);
         }
 
-        // GET: TeacherAnswerMan/Delete/5
+        //    // GET: TeacherAnswerMan/Delete/5
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
@@ -130,9 +125,7 @@ namespace The_Quizer.Controllers
                 return NotFound();
             }
 
-            var questionAnswer = await _context.QuestionAnswers
-                .Include(q => q.ExamQuestion)
-                .FirstOrDefaultAsync(m => m.ID == id);
+            var questionAnswer = await questionAnswerStore.FindByIdAsync(id);
             if (questionAnswer == null)
             {
                 return NotFound();
@@ -144,17 +137,16 @@ namespace The_Quizer.Controllers
         // POST: TeacherAnswerMan/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
+        public async Task<IActionResult> DeleteConfirmed(string id,string Ques_ID)
         {
-            var questionAnswer = await _context.QuestionAnswers.FindAsync(id);
-            _context.QuestionAnswers.Remove(questionAnswer);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            var questionAnswer = await questionAnswerStore.FindByIdAsync(id);
+            await questionAnswerStore.DeleteAsync(questionAnswer);
+            return RedirectToAction("Details","TeacherQuestionsMan",new { id = Ques_ID});
         }
 
-        private bool QuestionAnswerExists(string id)
+        private async Task<bool> QuestionAnswerExists(string id)
         {
-            return _context.QuestionAnswers.Any(e => e.ID == id);
+            return await  questionAnswerStore.FindByIdAsync(id)!=null;
         }
     }
 }
