@@ -8,7 +8,15 @@
 
 <h1>Add/Remove Students</h1>
 <form asp-action="AddRemoveStudents" method="post">
-    <input type="submit" class="btn btn-success" value="Save Changes" />
+    <div class="btn-toolbar" role="toolbar">
+        <div class="btn-group mr-auto" role="group">
+            <input type="submit" class="btn btn-success" value="Save Changes" />
+        </div>
+        <div class="btn-group mr-2" role="group">
+            <a asp-action="Details" asp-route-id="@Model.examId" class="btn btn-secondary">Exam Details</a>
+            <a asp-action="Index" class="btn btn-secondary">Exams List</a>
+        </div>
+    </div>
     @Html.HiddenFor(item => item.examId)
     <div class="col-12">
         <h3>Students in Exam</h3>
