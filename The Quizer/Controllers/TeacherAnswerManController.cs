@@ -19,31 +19,31 @@ namespace The_Quizer.Controllers
             _context = context;
         }
 
-        // GET: TeacherAnswerMan
-        public async Task<IActionResult> Index()
-        {
-            var appDBContext = _context.QuestionAnswers.Include(q => q.ExamQuestion);
-            return View(await appDBContext.ToListAsync());
-        }
+        //// GET: TeacherAnswerMan
+        //public async Task<IActionResult> Index()
+        //{
+        //    var appDBContext = _context.QuestionAnswers.Include(q => q.ExamQuestion);
+        //    return View(await appDBContext.ToListAsync());
+        //}
 
-        // GET: TeacherAnswerMan/Details/5
-        public async Task<IActionResult> Details(string id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        //// GET: TeacherAnswerMan/Details/5
+        //public async Task<IActionResult> Details(string id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var questionAnswer = await _context.QuestionAnswers
-                .Include(q => q.ExamQuestion)
-                .FirstOrDefaultAsync(m => m.ID == id);
-            if (questionAnswer == null)
-            {
-                return NotFound();
-            }
+        //    var questionAnswer = await _context.QuestionAnswers
+        //        .Include(q => q.ExamQuestion)
+        //        .FirstOrDefaultAsync(m => m.ID == id);
+        //    if (questionAnswer == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return View(questionAnswer);
-        }
+        //    return View(questionAnswer);
+        //}
 
         // GET: TeacherAnswerMan/Create
         public IActionResult Create()
