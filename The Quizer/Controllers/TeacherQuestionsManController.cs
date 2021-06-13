@@ -26,11 +26,11 @@ namespace The_Quizer.Controllers
             this.questionAnswerStore = questionAnswerStore;
         }
 
-        // GET: TeacherQuestionsMan
-        public async Task<IActionResult> Index()
-        {
-            return View(await examQuestionStore.GetAllAsync());
-        }
+        //// GET: TeacherQuestionsMan
+        //public async Task<IActionResult> Index()
+        //{
+        //    return View(await examQuestionStore.GetAllAsync());
+        //}
 
         // GET: TeacherQuestionsMan/Details/5
         public async Task<IActionResult> Details(string id)
@@ -155,7 +155,7 @@ namespace The_Quizer.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details","TeacherExamMan",new { id = examQuestion.Exam_id });
             }
             return View(examQuestion);
         }
