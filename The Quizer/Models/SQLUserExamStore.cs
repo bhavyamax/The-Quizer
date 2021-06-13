@@ -79,7 +79,9 @@ namespace The_Quizer.Models
 
         public async Task<UserExam> AssingUserToExamAsync(UserExam userExam)
         {
+            userExam.Status = UserExamStatus.Pending;
             await Context.AddAsync(userExam);
+            await SaveChanges();
             return userExam;
         }
 
