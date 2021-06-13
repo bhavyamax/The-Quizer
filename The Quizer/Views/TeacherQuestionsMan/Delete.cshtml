@@ -42,6 +42,6 @@
         <input type="hidden" asp-for="ID" />
         <input type="hidden" for="examId" value="@Model.Exam_id" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+        <a asp-action="Details" asp-controller="TeacherExamMan" asp-route-id="@Model.Exam_id">Back to Exam Details</a>
     </form>
 </div>
