@@ -1,0 +1,115 @@
+﻿@model AddRemoveStudentsViewModel
+
+@{
+    ViewData["Title"] = "AddRemoveStudents";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<h1>Add/Remove Students</h1>
+<form asp-action="AddRemoveStudents" method="post">
+    <input type="submit" class="btn btn-success" value="Save Changes" />
+    @Html.HiddenFor(item => item.examId)
+    <div class="col-12">
+        <h3>Students in Exam</h3>
+        <table id="tblAss" class="table">
+            <thead>
+                <tr>
+
+                    <th>
+                        @Html.DisplayNameFor(model => model.Assigned.Single().isSelected)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Assigned.Single().student.Name)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Assigned.Single().student.Email)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Assigned.Single().student.Id)
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.Assigned.Count(); i++)
+                {
+                    <tr>
+                        <td>
+                            @Html.CheckBoxFor(modelItem => modelItem.Assigned[i].isSelected)
+                            @Html.HiddenFor(modelItem => modelItem.Assigned[i].id)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => modelItem.Assigned[i].student.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => modelItem.Assigned[i].student.Email)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => modelItem.Assigned[i].student.Id)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <br />
+    <br />
+    <br />
+    <br /><div class="col-12">
+        <h3>Students Not in Exam</h3>
+        <table id="tblNotAss" class="table">
+            <thead>
+                <tr>
+
+                    <th>
+                        @Html.DisplayNameFor(model => model.Assigned.Single().isSelected)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Assigned.Single().student.Name)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Assigned.Single().student.Email)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Assigned.Single().student.Id)
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.notAssigned.Count(); i++)
+                {
+                    <tr>
+                        <td>
+                            @Html.CheckBoxFor(modelItem => modelItem.notAssigned[i].isSelected)
+                            @Html.HiddenFor(modelItem => modelItem.notAssigned[i].id)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => modelItem.notAssigned[i].student.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => modelItem.notAssigned[i].student.Email)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => modelItem.notAssigned[i].student.Id)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</form>
+@section Scripts{
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.25/b-1.7.1/fc-3.3.3/sc-2.0.4/sb-1.1.0/sp-1.3.0/sl-1.3.3/datatables.min.css" />
+
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.25/b-1.7.1/fc-3.3.3/sc-2.0.4/sb-1.1.0/sp-1.3.0/sl-1.3.3/datatables.min.js"></script>
+    <script>
+    $(document).ready(function () {
+        $("#tblAss").DataTable({
+            paging: true
+        });
+        $("#tblNotAss").DataTable({
+            paging: true
+        });
+    });
+    </script>
+}

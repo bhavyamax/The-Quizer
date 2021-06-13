@@ -34,7 +34,10 @@
             @Html.DisplayFor(model => model.Exam.Status)
         </dd>
     </dl>
-    <div><a asp-action="ExamResults" asp-route-id="@Model.Exam.Id" class="btn btn-primary">Exam Results</a></div>
+    <div class="row">
+        <div class="p-lg-2"><a asp-action="ExamResults" asp-route-id="@Model.Exam.Id" class="btn btn-primary">Exam Results</a></div>
+        <div class="p-lg-2"><a asp-action="AddRemoveStudents" asp-route-id="@Model.Exam.Id" class="btn btn-primary">Add/Remove Students</a></div>
+    </div>
 </div>
 <br />
 <br />
