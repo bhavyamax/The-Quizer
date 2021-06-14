@@ -111,5 +111,15 @@ namespace The_Quizer.Models
                         select user;
             return users.ToList();
         }
+
+        public async Task<List<UserExam>> GetUserExamsAsync(string userId)
+        {
+            if (string.IsNullOrEmpty(userId))
+            {
+                throw new ArgumentNullException("userId");
+            }
+            var exams =await  Context.UserExams.Include(ue => ue.Exam).Where(ue => ue.User_id == userId).ToListAsync();
+            return exams;
+        }
     }
 }

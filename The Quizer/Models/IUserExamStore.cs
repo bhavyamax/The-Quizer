@@ -8,6 +8,7 @@ namespace The_Quizer.Models
         Task AddUserExamScoreAsync(UserExam userExam);
         Task<UserExam> GetUserExamRecordAsync(string userId, string examId);
         Task<Exam> GetExamResultsAsync(string examId);
+        Task<List<UserExam>> GetUserExamsAsync(string userId);
         Task<UserExam> GetUserResultsAsync(string userId);
         Task<UserExam> SetUserRetestAsync(UserExam userExam);
         Task<UserExam> AssingUserToExamAsync(UserExam userExam);
