@@ -66,7 +66,9 @@ namespace The_Quizer.Models
 
         public async Task<UserExam> GetUserExamRecordAsync(string userId, string examId)
         {
-            var _userExam = await Context.UserExams.SingleOrDefaultAsync(ue => ue.User_id == userId && ue.Exam_id == examId);
+            var _userExam = await Context.UserExams.Include(a => a.Exam)
+                .Include(a => a.ApplicationUser)
+                .SingleOrDefaultAsync(ue => ue.User_id == userId && ue.Exam_id == examId);
             return _userExam;
         }
 
