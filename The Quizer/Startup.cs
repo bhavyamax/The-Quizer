@@ -34,8 +34,8 @@ namespace The_Quizer
             );
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<AppDBContext>();
-            services.AddControllersWithViews();
-            /*options =>
+            services.AddControllersWithViews(
+            options =>
             {
                 var policy = new AuthorizationPolicyBuilder()
                                 .RequireAuthenticatedUser()
@@ -43,7 +43,7 @@ namespace The_Quizer
                 options.Filters.Add(new AuthorizeFilter(policy));
             }
                 
-            );*/
+            );
 
             services.AddScoped<IExamQuestionStore, SQLExamQuestionStore>();
             services.AddScoped<IQuestionAnswerStore, SQLQuestionAnswerStore>();

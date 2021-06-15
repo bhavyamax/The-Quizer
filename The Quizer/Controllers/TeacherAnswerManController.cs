@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ using The_Quizer.Models;
 
 namespace The_Quizer.Controllers
 {
+    [Authorize(Roles ="Teacher")]
     public class TeacherAnswerManController : Controller
     {
         private readonly IQuestionAnswerStore questionAnswerStore;
@@ -18,32 +20,6 @@ namespace The_Quizer.Controllers
         {
             this.questionAnswerStore = questionAnswerStore;
         }
-
-        //// GET: TeacherAnswerMan
-        //public async Task<IActionResult> Index()
-        //{
-        //    var appDBContext = _context.QuestionAnswers.Include(q => q.ExamQuestion);
-        //    return View(await appDBContext.ToListAsync());
-        //}
-
-        //// GET: TeacherAnswerMan/Details/5
-        //public async Task<IActionResult> Details(string id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var questionAnswer = await _context.QuestionAnswers
-        //        .Include(q => q.ExamQuestion)
-        //        .FirstOrDefaultAsync(m => m.ID == id);
-        //    if (questionAnswer == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return View(questionAnswer);
-        //}
 
         // GET: TeacherAnswerMan/Create
         public IActionResult Create(string quesId)

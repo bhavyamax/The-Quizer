@@ -11,9 +11,11 @@ using The_Quizer.Data;
 using The_Quizer.Models;
 using Microsoft.AspNetCore;
 using The_Quizer.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace The_Quizer.Controllers
 {
+    [Authorize(Roles ="Teacher")]
     public class TeacherExamManController : Controller
     {
         private readonly IExamQuestionStore examQuestionStore;

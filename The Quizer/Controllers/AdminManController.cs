@@ -10,6 +10,7 @@ using The_Quizer.ViewModels;
 
 namespace The_Quizer.Controllers
 {
+    [Authorize(Roles ="Admin")]
     public class AdminManController : Controller
     {
         private readonly UserManager<ApplicationUser> userManager;

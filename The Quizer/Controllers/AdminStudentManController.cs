@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ using The_Quizer.ViewModels;
 
 namespace The_Quizer.Controllers
 {
+    [Authorize(Roles ="Admin")]
     public class AdminStudentManController : Controller
     {
         private readonly UserManager<ApplicationUser> userManager;
