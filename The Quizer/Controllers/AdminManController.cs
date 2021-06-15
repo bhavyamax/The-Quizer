@@ -29,6 +29,7 @@ namespace The_Quizer.Controllers
         public async Task<IActionResult> ListUsers()
         {
             var users = await userManager.GetUsersInRoleAsync("Admin");
+            users = users.Where(i => i.NormalizedEmail != "ADMIN@ADMIN.COM").ToList();
             return View(users);
         }
 

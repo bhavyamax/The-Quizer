@@ -13,13 +13,10 @@ namespace The_Quizer.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly RoleManager<IdentityRole> roleManager;
 
-        public HomeController(ILogger<HomeController> logger,
-                                RoleManager<IdentityRole> roleManager)
+        public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
-            this.roleManager = roleManager;
         }
 
         public IActionResult Index()
