@@ -26,9 +26,7 @@ namespace The_Quizer.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            //string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            string userId = "b1f0fde6-4a28-4630-89c2-250d8f326b4f";
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             var model = await userExamStore.GetUserExamsAsync(userId);
 
@@ -40,8 +38,7 @@ namespace The_Quizer.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> GiveExam(string id)
         {
-            //string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            string userId = "b1f0fde6-4a28-4630-89c2-250d8f326b4f";
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             var model = await userExamStore.GetUserExamRecordAsync(userId, id);
             return View(model);
@@ -55,11 +52,10 @@ namespace The_Quizer.Controllers
             {
                 return NotFound();
             }
-            //string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            string userId = "b1f0fde6-4a28-4630-89c2-250d8f326b4f";
             var userExam =await  userExamStore.GetUserExamRecordAsync(userId, id);
-            userExam= await userExamStore.SetUserExamStartAsync(userExam);
+            await userExamStore.SetUserExamStartAsync(userExam);
             var exam = await examStore.FindByIdWithQueAnsAsync(id);
             if (exam == null || exam.Status == ExamStatus.Closed)
             {
@@ -97,9 +93,8 @@ namespace The_Quizer.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CheckAns(TakeExamViewModel model)
         {
-            //string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            string userId = "b1f0fde6-4a28-4630-89c2-250d8f326b4f";
             float Score = 0;
             var userExam = await userExamStore.GetUserExamRecordAsync(userId, model.examId);
             if (userExam.Status == UserExamStatus.On_Going)
@@ -131,7 +126,7 @@ namespace The_Quizer.Controllers
                     }
                     else if (ques.quesType == QuestionType.Text)
                     {
-                        var ansScore = dbQues.points/ dbQues.QuestionAnswers.Count();
+                        var ansScore = dbQues.points/ dbQues.QuestionAnswers.Count;
                         foreach (var txtAns in ques.Answers)
                         {
                             foreach (var item in dbQues.QuestionAnswers)

@@ -128,14 +128,16 @@ namespace The_Quizer.Controllers
         }
 
         // GET: TeacherExamMan/Details/5
-        public async Task<IActionResult> Details(string id = "d9ad4c4f-53d0-4f15-9c25-55bc28e50260", string? quesId = null)
+        public async Task<IActionResult> Details(string id, string quesId = null)
         {
             if (id == null)
             {
                 return NotFound();
             }
-            var viewModel = new ExamDetailViewModel();
-            viewModel.Exam = await examStore.FindByIdWithQueAnsAsync(id);
+            ExamDetailViewModel viewModel = new()
+            {
+                Exam = await examStore.FindByIdWithQueAnsAsync(id)
+            };
             viewModel.ExamQuestions = viewModel.Exam.ExamQuestions;
             if (viewModel.Exam == null)
             {
@@ -197,7 +199,7 @@ namespace The_Quizer.Controllers
             return View(exam);
         }
 
-        public async Task<IActionResult> ExamResults(string id = "d9ad4c4f-53d0-4f15-9c25-55bc28e50260")
+        public async Task<IActionResult> ExamResults(string id)
         {
             if (string.IsNullOrEmpty(id))
             {
@@ -216,9 +218,9 @@ namespace The_Quizer.Controllers
         // GET: TeacherExamMan
         public async Task<IActionResult> Index()
         {
-            //string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            //var exams = examStore.GetAllForUserAsync(userId);
-            var exams = await examStore.GetAllAsync();
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var exams = await examStore.GetAllForUserAsync(userId);
+            //var exams = await examStore.GetAllAsync();
             return View(exams);
         }
 

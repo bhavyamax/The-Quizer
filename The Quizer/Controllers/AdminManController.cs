@@ -34,7 +34,7 @@ namespace The_Quizer.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            AdminRegisterViewModel adminRegisterViewModel = new AdminRegisterViewModel
+            AdminRegisterViewModel adminRegisterViewModel = new ()
             {
                 Password = "Admin@1",
                 UserRole = roleManager.Roles.Select(a => a.Name),
