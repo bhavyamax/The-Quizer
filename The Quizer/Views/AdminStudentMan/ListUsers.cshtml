@@ -36,17 +36,10 @@
                     <div class="row">
                         <form asp-action="Delete" asp-route-id="@item.Id" method="post">
                             <a asp-action="Edit" class="btn btn-link p-0" asp-route-id="@item.Id">Edit</a> |
-                            <span id="confirmDeleteSpan_@item.Id" style="display:none">
-                                <br /><span>Sure?</span>
-                                <button type="submit" class="btn btn-danger">Yes</button>
-                                <a href="#" class="btn btn-primary"
-                                   onclick="confirmDelete('@item.Id', false)">No</a>
-                            </span>
-
-                            <span id="deleteSpan_@item.Id">
-                                <a href="#" class="btn btn-link text-danger m-0 p-0"
-                                   onclick="confirmDelete('@item.Id', true)">Delete</a>
-                            </span>
+                            <button type="submit" href="#" class="btn btn-link text-danger m-0 p-0"
+                                    onclick="return confirm('Sure you want to delete @item.Name?')">
+                                Delete
+                            </button>
                         </form>
                     </div>
                 </td>

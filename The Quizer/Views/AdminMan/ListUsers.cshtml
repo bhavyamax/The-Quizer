@@ -37,7 +37,7 @@
                         <form asp-action="Delete" asp-route-id="@item.Id" method="post">
                             <a asp-action="Edit" class="btn btn-link p-0" asp-route-id="@item.Id">Edit</a> |
                             <button type="submit" href="#" class="btn btn-link text-danger m-0 p-0"
-                                    onclick="confirm('Sure you want to delete @item.Name?')">
+                                    onclick="return confirm('Sure you want to delete @item.Name?')">
                                 Delete
                             </button>
                         </form>
