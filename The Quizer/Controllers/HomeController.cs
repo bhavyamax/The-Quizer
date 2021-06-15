@@ -24,6 +24,18 @@ namespace The_Quizer.Controllers
 
         public IActionResult Index()
         {
+            if (User.IsInRole("Student"))
+            {
+                return RedirectToAction("Index", "StudentExam");
+            }
+            else if (User.IsInRole("Teacher"))
+            {
+                return RedirectToAction("Index", "TeacherExamMan");
+            }
+            else if (User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Admin");
+            }
             return View();
         }
 
