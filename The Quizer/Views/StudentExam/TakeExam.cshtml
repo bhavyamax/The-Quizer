@@ -14,7 +14,7 @@
 </head>
 <body>
     <div class="container">
-        <form method="post">
+        <form method="post" asp-action="CheckAns">
             @Html.AntiForgeryToken()
             <div class="text-center">
                 <h1>@Model.Title</h1>
