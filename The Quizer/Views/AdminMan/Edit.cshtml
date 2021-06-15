@@ -12,7 +12,7 @@
             <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-group ">
                 <label asp-for="ID"></label>
-                <input asp-for="ID" class="form-control" disabled/>
+                <input asp-for="ID" class="form-control" disabled />
                 <span asp-validation-for="ID" class="text-danger"></span>
             </div>
             <div class="form-group ">
@@ -31,9 +31,14 @@
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="form-group ">
+                <label asp-for="Password"></label>
+                <input asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group ">
                 <label asp-for="@Model.SelectedRole">User Role: Default Value is Admin</label>
                 <select class="form-control" asp-for="@Model.SelectedRole" asp-items="new SelectList(Model.UserRole)">
-                    <option value="Admin" selected  hidden>
+                    <option value="Admin" selected hidden>
                         Admin
                     </option>
                 </select>
@@ -44,3 +49,6 @@
         </form>
     </div>
 </div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

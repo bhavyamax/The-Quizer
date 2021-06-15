@@ -102,12 +102,17 @@ namespace The_Quizer.Controllers
                 ViewBag.ErrorMeassage = $"No User With ID = {model.ID} found.";
                 return View("NotFound");
             }
-            else
+            if(ModelState.IsValid)
             {
                 user.UserName = user.Email = model.Email;
                 user.Fname = model.Fname;
                 user.Lname = model.Lname;
                 var userResult = await userManager.UpdateAsync(user);
+                if (model.Password != null)
+                {
+                    await userManager.RemovePasswordAsync(user);
+                    await userManager.AddPasswordAsync(user, model.Password);
+                }
                 if (userResult.Succeeded)
                 {
                     var roles = await userManager.GetRolesAsync(user);
@@ -128,8 +133,8 @@ namespace The_Quizer.Controllers
                 {
                     ModelState.AddModelError("", error.Description);
                 }
-                return View(model);
             }
+            return View(model);
         }
 
         public async Task<IActionResult> Delete(string id)
