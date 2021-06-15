@@ -21,7 +21,10 @@
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
             <button type="submit" class="btn btn-primary">Login</button>
-            <button type="reset" class="btn btn-primary">Login</button>
+            <button type="reset" class="btn btn-primary">Clear</button>
         </form>
     </div>
 </div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

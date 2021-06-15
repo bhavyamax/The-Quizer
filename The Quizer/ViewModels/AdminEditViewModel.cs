@@ -21,6 +21,8 @@ namespace The_Quizer.ViewModels
         [Required]
         [EmailAddress]
         public string Email { get; set; }
+        [DataType(DataType.Password)]
+        public string Password { get; set; }
         public IEnumerable<string> UserRole { get; set; }
         [Required]
         [Display(Name = "User Role")]

@@ -16,7 +16,7 @@ namespace The_Quizer.Controllers
         private readonly SignInManager<ApplicationUser> signInManager;
 
         public AccountController(UserManager<ApplicationUser> userManager,
-                                    SignInManager<ApplicationUser> signInManager)
+                                 SignInManager<ApplicationUser> signInManager)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
@@ -55,6 +55,7 @@ namespace The_Quizer.Controllers
             }
             return View(model);
         }
+
         [AllowAnonymous]
         [HttpGet]
         public IActionResult Login()
@@ -77,6 +78,36 @@ namespace The_Quizer.Controllers
                 }
 
                 ModelState.AddModelError("", "Invalid Login Credentials");
+            }
+            return View(model);
+        }
+        
+        [HttpGet]
+        public IActionResult ChangePassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user =await userManager.GetUserAsync(User);
+                if (user==null)
+                {
+                    RedirectToAction(nameof(Login));
+                }
+                var result = await userManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
+                if (!result.Succeeded)
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
+                    return View();
+                }
+                await signInManager.RefreshSignInAsync(user);
             }
             return View(model);
         }
