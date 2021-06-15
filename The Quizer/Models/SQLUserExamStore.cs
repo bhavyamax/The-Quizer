@@ -123,5 +123,13 @@ namespace The_Quizer.Models
             var exams =await  Context.UserExams.Include(ue => ue.Exam).Where(ue => ue.User_id == userId).ToListAsync();
             return exams;
         }
+
+        public async Task<UserExam> SetUserExamStartAsync(UserExam userExam)
+        {
+            userExam.Status = UserExamStatus.On_Going;
+            Context.Update(userExam);
+            await SaveChanges();
+            return userExam;
+        }
     }
 }

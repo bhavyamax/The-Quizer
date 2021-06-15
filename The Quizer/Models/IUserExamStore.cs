@@ -11,6 +11,7 @@ namespace The_Quizer.Models
         Task<List<UserExam>> GetUserExamsAsync(string userId);
         Task<UserExam> GetUserResultsAsync(string userId);
         Task<UserExam> SetUserRetestAsync(UserExam userExam);
+        Task<UserExam> SetUserExamStartAsync(UserExam userExam);
         Task<UserExam> AssingUserToExamAsync(UserExam userExam);
         Task<List<ApplicationUser>> UsersInExamAsync(string examId);
         Task<List<ApplicationUser>> UsersNotInExamAsync(string examId);
