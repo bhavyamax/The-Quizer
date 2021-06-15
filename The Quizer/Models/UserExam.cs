@@ -34,6 +34,7 @@ namespace The_Quizer.Models
     {
         Creator,
         Pending,
-        Given
+        Given,
+        On_Going
     }
 }
