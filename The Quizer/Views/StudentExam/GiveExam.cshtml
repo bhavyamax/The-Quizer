@@ -18,13 +18,13 @@
             @Html.DisplayFor(model => model.Exam.Title)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Exam.Status)
+           Exam @Html.DisplayNameFor(model => model.Exam.Status)
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Exam.Status)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Status)
+           Attempt @Html.DisplayNameFor(model => model.Status)
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Status)
@@ -42,9 +42,23 @@
     <div>
 
     </div>
-    <div class="btn-group-vertical w-100">
-        <a asp-action="TakeExam" asp-route-id="@Model.Exam_id" class="btn btn-primary btn-lg btn-block">Give Exam</a>
-        <a asp-action="Index" class="btn btn-success w-100">Back to List</a>
-    </div></div>
+    <form asp-action="TakeExam">
+        <div class="btn-group-vertical w-100" role="group">
+            @if (Model.Exam.Status == ExamStatus.Open)
+            {
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="id" value="@Model.Exam_id" />
+                <input type="submit" class="btn btn-primary btn-lg btn-block" value="Give Exams" />
+            }
+            else
+            {
+                <p class="text-center text-danger">The Exam Has Been Closed</p>
+                <a asp-action="TakeExam" asp-route-id="@Model.Exam_id" class="btn btn-primary btn-lg btn-block">Give Exam</a>
+
+            }
+            <a asp-action="Index" class="btn btn-success w-100">Back to List</a>
+        </div>
+    </form>
+</div>
 <div>
 </div>
