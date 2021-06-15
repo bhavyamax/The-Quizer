@@ -16,6 +16,7 @@
     <div class="container">
         <form method="post" asp-action="CheckAns">
             @Html.AntiForgeryToken()
+            @Html.HiddenFor(m=>m.examId)
             <div class="text-center">
                 <h1>@Model.Title</h1>
                 <h3> Total Number of Questions: @Model.Questions.Count()</h3>
