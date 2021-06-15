@@ -1,0 +1,88 @@
+﻿@model TakeExamViewModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Take Exam - @Model.Title</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    <div class="container">
+        <form method="post">
+            @Html.AntiForgeryToken()
+            <div class="text-center">
+                <h1>@Model.Title</h1>
+                <h3> Total Number of Questions: @Model.Questions.Count()</h3>
+            </div>
+            @for (int i = 0; i < Model.Questions.Count(); i++)
+            {
+                <fieldset id="@i">
+                    <div class="card w-100 m-4 mb-0">
+                        <div class="card-header">
+                            @("Q"+(i+1)+". ")
+                            @Model.Questions[i].question
+                            @Html.HiddenFor(m => m.Questions[i].quesId)
+                            @Html.HiddenFor(m => m.Questions[i].quesType)
+                        </div>
+                        @if (Model.Questions[i].quesType == QuestionType.Single_Choice)
+                        {
+                            <div class="card-body">
+                                @for (int j = 0; j < Model.Questions[i].Answers.Count(); j++)
+                                {
+                                    string tempId = "Questions_" + i + "__Answers_" + j + "__ansId";
+                                    string tempName = "Questions[" + i + "].Answers[" + 0 + "].ansId";
+
+                                    <div class="form-check">
+                                        <input type="radio" class="form-check-input" id="@tempId" name="@tempName" value="@Model.Questions[i].Answers[j].ansId" />
+                                        <label class="form-check-label" for="@tempId">
+                                            @Model.Questions[i].Answers[j].ans
+                                        </label>
+                                    </div>
+                                }
+                            </div>
+                        }
+                        else if (Model.Questions[i].quesType == QuestionType.Multiple_Choice)
+                        {
+                            <div class="card-body">
+                                @for (int j = 0; j < Model.Questions[i].Answers.Count(); j++)
+                                {
+                                    string tempId = "Questions_" + i + "__Answers_" + j + "__ans";
+                                    string tempName = "Questions[" + i + "].Answers[" + 0 + "].ansId";
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input" asp-for="@Model.Questions[i].Answers[j].isSelected" id="@tempId" />
+                                        @Html.HiddenFor(m => m.Questions[i].Answers[j].ansId)
+                                        <label class="form-check-label" asp-for="@Model.Questions[i].Answers[j].isSelected">
+                                            @Model.Questions[i].Answers[j].ans
+                                        </label>
+                                    </div>
+                                }
+                            </div>
+                        }
+                        else if (Model.Questions[i].quesType == QuestionType.Text)
+                        {
+                            <div class="card-body">
+                                @{
+                                    string tempId = "Questions_" + i + "__Answers_" + 0 + "__ans";
+                                    string tempName = "Questions[" + i + "].Answers[" + 0 + "].ans";
+                                }<div class="form-group">
+                                    <textarea class="form-control" id="@tempId" name="@tempName"></textarea>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </fieldset>
+            }
+            <input type="submit" class="btn btn-success btn-block btn-lg" value="Submit Exam" />
+        </form>
+    </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+</body>
+</html>
