@@ -1,9 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace The_Quizer.Models
 {
@@ -29,6 +25,7 @@ namespace The_Quizer.Models
                 }
                 );
         }
+
         public static void DB_Relations(this ModelBuilder modelBuilder)
         {
             //foreach (var foreignKey in modelBuilder.Model.GetEntityTypes()
@@ -37,9 +34,7 @@ namespace The_Quizer.Models
             //    foreignKey.DeleteBehavior = DeleteBehavior.Restrict;
             //}
 
-            
             modelBuilder.Entity<UserExam>().HasKey(ue => new { ue.Exam_id, ue.User_id });
         }
-
     }
 }

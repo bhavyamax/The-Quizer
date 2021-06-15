@@ -45,7 +45,7 @@
 {
     <div>
         <h4>Answers</h4>
-        @Html.ActionLink("Add New Answer", "Create", "TeacherAnswerMan",new { quesId=Model.ID})
+        @Html.ActionLink("Add New Answer", "Create", "TeacherAnswerMan", new { quesId = Model.ID })
         <table class="table table-responsive">
             <tr>
                 <th>Answer</th>
@@ -64,7 +64,7 @@
                     </th>
                     <th>
                         @Html.ActionLink("Edit", "Edit", "TeacherAnswerMan", new { id = item.ID }) |
-                        @Html.ActionLink("Delete", "Delete", "TeacherAnswerMan", new { id = item.ID,quesId = Model.ID })
+                        @Html.ActionLink("Delete", "Delete", "TeacherAnswerMan", new { id = item.ID, quesId = Model.ID })
                     </th>
                 </tr>
             }

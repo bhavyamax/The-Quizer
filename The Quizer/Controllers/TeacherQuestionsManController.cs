@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using The_Quizer.Data;
+using System.Threading.Tasks;
 using The_Quizer.Models;
 using The_Quizer.ViewModels;
 
 namespace The_Quizer.Controllers
 {
-    [Authorize(Roles ="Teacher")]
+    [Authorize(Roles = "Teacher")]
     public class TeacherQuestionsManController : Controller
     {
         private readonly IExamQuestionStore examQuestionStore;
@@ -41,7 +36,7 @@ namespace The_Quizer.Controllers
             {
                 return NotFound();
             }
-            var examQuestion=await examQuestionStore.FindByIdWithAnsAsync(id);
+            var examQuestion = await examQuestionStore.FindByIdWithAnsAsync(id);
             if (examQuestion == null)
             {
                 return NotFound();
@@ -59,7 +54,7 @@ namespace The_Quizer.Controllers
             }
             ViewBag.exam = await examStore.FindByIdWithQueAnsAsync(examId);
 
-            if (ViewBag.exam==null)
+            if (ViewBag.exam == null)
             {
                 NotFound();
             }
@@ -67,12 +62,11 @@ namespace The_Quizer.Controllers
             return View(model);
         }
 
-        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CreateQuestionViewModel createQuestionViewModel)
         {
-            if (createQuestionViewModel.questionAnswers.Count > 0 )
+            if (createQuestionViewModel.questionAnswers.Count > 0)
             {
                 ExamQuestion Question = new()
                 {
@@ -83,7 +77,7 @@ namespace The_Quizer.Controllers
                 };
                 await examQuestionStore.CreateAsync(Question);
                 foreach (var item in createQuestionViewModel.questionAnswers)
-                { 
+                {
                     QuestionAnswer answer = new()
                     {
                         Answer = item.Answer,
@@ -104,6 +98,7 @@ namespace The_Quizer.Controllers
             }
             return View(createQuestionViewModel);
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> AddQuestion(CreateQuestionViewModel createQuestionViewModel)
@@ -157,7 +152,7 @@ namespace The_Quizer.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction("Details","TeacherExamMan",new { id = examQuestion.Exam_id });
+                return RedirectToAction("Details", "TeacherExamMan", new { id = examQuestion.Exam_id });
             }
             return View(examQuestion);
         }
@@ -182,16 +177,16 @@ namespace The_Quizer.Controllers
         // POST: TeacherQuestionsMan/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id,string examId)
+        public async Task<IActionResult> DeleteConfirmed(string id, string examId)
         {
             var examQuestion = await examQuestionStore.FindByIdAsync(id);
             await examQuestionStore.DeleteAsync(examQuestion);
-            return RedirectToAction("Details","TeacherExamMan",new { id = examId});
+            return RedirectToAction("Details", "TeacherExamMan", new { id = examId });
         }
 
         private async Task<bool> ExamQuestionExists(string id)
         {
-            return (await examQuestionStore.FindByIdAsync(id))==null;
+            return (await examQuestionStore.FindByIdAsync(id)) == null;
         }
     }
 }

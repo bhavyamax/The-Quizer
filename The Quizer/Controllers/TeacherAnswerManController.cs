@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using The_Quizer.Data;
+using System.Threading.Tasks;
 using The_Quizer.Models;
 
 namespace The_Quizer.Controllers
 {
-    [Authorize(Roles ="Teacher")]
+    [Authorize(Roles = "Teacher")]
     public class TeacherAnswerManController : Controller
     {
         private readonly IQuestionAnswerStore questionAnswerStore;
@@ -38,7 +33,7 @@ namespace The_Quizer.Controllers
             if (ModelState.IsValid)
             {
                 await questionAnswerStore.CreateAsync(questionAnswer);
-                return RedirectToAction("Details","TeacherQuestionsMan",new { id = questionAnswer.Ques_ID});
+                return RedirectToAction("Details", "TeacherQuestionsMan", new { id = questionAnswer.Ques_ID });
             }
             return View(questionAnswer);
         }
@@ -88,7 +83,7 @@ namespace The_Quizer.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction("Details","TeacherQuestionsMan",new { id = questionAnswer.Ques_ID});
+                return RedirectToAction("Details", "TeacherQuestionsMan", new { id = questionAnswer.Ques_ID });
             }
             return View(questionAnswer);
         }
@@ -113,16 +108,16 @@ namespace The_Quizer.Controllers
         // POST: TeacherAnswerMan/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id,string Ques_ID)
+        public async Task<IActionResult> DeleteConfirmed(string id, string Ques_ID)
         {
             var questionAnswer = await questionAnswerStore.FindByIdAsync(id);
             await questionAnswerStore.DeleteAsync(questionAnswer);
-            return RedirectToAction("Details","TeacherQuestionsMan",new { id = Ques_ID});
+            return RedirectToAction("Details", "TeacherQuestionsMan", new { id = Ques_ID });
         }
 
         private async Task<bool> QuestionAnswerExists(string id)
         {
-            return await  questionAnswerStore.FindByIdAsync(id)!=null;
+            return await questionAnswerStore.FindByIdAsync(id) != null;
         }
     }
 }

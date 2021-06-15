@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using The_Quizer.Models;
@@ -10,7 +8,7 @@ using The_Quizer.ViewModels;
 
 namespace The_Quizer.Controllers
 {
-    [Authorize(Roles ="Admin")]
+    [Authorize(Roles = "Admin")]
     public class AdminManController : Controller
     {
         private readonly UserManager<ApplicationUser> userManager;
@@ -22,6 +20,7 @@ namespace The_Quizer.Controllers
             this.userManager = userManager;
             this.roleManager = roleManager;
         }
+
         [HttpGet]
         [Route("[Controller]/")]
         [Route("[Controller]/ListUsers")]
@@ -36,7 +35,7 @@ namespace The_Quizer.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            AdminRegisterViewModel adminRegisterViewModel = new ()
+            AdminRegisterViewModel adminRegisterViewModel = new()
             {
                 Password = "Admin@1",
                 UserRole = roleManager.Roles.Select(a => a.Name),
@@ -57,7 +56,7 @@ namespace The_Quizer.Controllers
                     Fname = model.Fname,
                     Lname = model.Lname
                 };
-                if (string.IsNullOrEmpty( model.Password))
+                if (string.IsNullOrEmpty(model.Password))
                 {
                     model.Password = "Admin@1";
                 }
@@ -84,8 +83,8 @@ namespace The_Quizer.Controllers
                 ViewBag.ErrorMessage = $"No User With ID = {id} found.";
                 return View("NotFound");
             }
-            else if (user.NormalizedEmail == "ADMIN@ADMIN.COM") return RedirectToAction("Index","Home");
-            AdminEditViewModel adminEditViewModel = new ()
+            else if (user.NormalizedEmail == "ADMIN@ADMIN.COM") return RedirectToAction("Index", "Home");
+            AdminEditViewModel adminEditViewModel = new()
             {
                 ID = id,
                 Fname = user.Fname,
@@ -106,7 +105,7 @@ namespace The_Quizer.Controllers
                 ViewBag.ErrorMeassage = $"No User With ID = {model.ID} found.";
                 return View("NotFound");
             }
-            else if (user.NormalizedEmail == "ADMIN@ADMIN.COM") return RedirectToAction("Index","Home");
+            else if (user.NormalizedEmail == "ADMIN@ADMIN.COM") return RedirectToAction("Index", "Home");
             if (ModelState.IsValid)
             {
                 user.UserName = user.Email = model.Email;
@@ -151,7 +150,7 @@ namespace The_Quizer.Controllers
                 ViewBag.ErrorMessage = $"No User With ID = {id} found.";
                 return View("NotFound");
             }
-            else if (user.NormalizedEmail == "ADMIN@ADMIN.COM") return RedirectToAction("Index","Home");
+            else if (user.NormalizedEmail == "ADMIN@ADMIN.COM") return RedirectToAction("Index", "Home");
             else
             {
                 var result = await userManager.DeleteAsync(user);

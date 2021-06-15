@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace The_Quizer.Models
 {
@@ -13,14 +10,18 @@ namespace The_Quizer.Models
         {
             ID = Guid.NewGuid().ToString();
         }
+
         [Key]
         [StringLength(450)]
         public string ID { get; set; }
+
         [Required]
         [ForeignKey("ExamQuestion")]
         public string Ques_ID { get; set; }
+
         [Required]
         public string Answer { get; set; }
+
         public bool isCorrect { get; set; }
 
         public virtual ExamQuestion ExamQuestion { get; set; }

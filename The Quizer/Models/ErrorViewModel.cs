@@ -1,5 +1,3 @@
-using System;
-
 namespace The_Quizer.Models
 {
     public class ErrorViewModel

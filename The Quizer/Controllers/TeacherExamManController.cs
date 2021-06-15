@@ -1,21 +1,15 @@
-﻿using System;
-using System.Security.Claims;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using The_Quizer.Data;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
 using The_Quizer.Models;
-using Microsoft.AspNetCore;
 using The_Quizer.ViewModels;
-using Microsoft.AspNetCore.Authorization;
 
 namespace The_Quizer.Controllers
 {
-    [Authorize(Roles ="Teacher")]
+    [Authorize(Roles = "Teacher")]
     public class TeacherExamManController : Controller
     {
         private readonly IExamQuestionStore examQuestionStore;
@@ -126,7 +120,6 @@ namespace The_Quizer.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return NotFound();
-
         }
 
         // GET: TeacherExamMan/Details/5
@@ -211,12 +204,13 @@ namespace The_Quizer.Controllers
             return View(examRes);
         }
 
-        public async Task<IActionResult> ExamReTest(string examId ,string userId )
+        public async Task<IActionResult> ExamReTest(string examId, string userId)
         {
             var userExam = await userExamStore.GetUserExamRecordAsync(userId, examId);
             await userExamStore.SetUserRetestAsync(userExam);
             return RedirectToAction("ExamResults", new { id = examId });
         }
+
         // GET: TeacherExamMan
         public async Task<IActionResult> Index()
         {

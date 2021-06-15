@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace The_Quizer.Models
@@ -13,7 +11,7 @@ namespace The_Quizer.Models
         /// <param name="exam"></param>
         /// <param name="userId"></param>
         /// <returns></returns>
-        Task<string> CreateAsync(Exam exam,string userId);
+        Task<string> CreateAsync(Exam exam, string userId);
 
         /// <summary>
         ///     Update a examQuestion
@@ -35,18 +33,21 @@ namespace The_Quizer.Models
         /// <param name="examId"></param>
         /// <returns></returns>
         Task<Exam> FindByIdAsync(string examId);
+
         /// <summary>
         ///     Find a examQuestion by id
         /// </summary>
         /// <param name="examId"></param>
         /// <returns></returns>
         Task<Exam> FindByIdWithQueAnsAsync(string examId);
+
         /// <summary>
         ///     List of all Exams for user
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
         Task<List<Exam>> GetAllForUserAsync(string userId);
+
         /// <summary>
         ///     List of all Exams for user
         /// </summary>

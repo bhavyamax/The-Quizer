@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using The_Quizer.Models;
@@ -10,7 +8,7 @@ using The_Quizer.ViewModels;
 
 namespace The_Quizer.Controllers
 {
-    [Authorize(Roles ="Admin")]
+    [Authorize(Roles = "Admin")]
     public class AdminStudentManController : Controller
     {
         private readonly UserManager<ApplicationUser> userManager;
@@ -22,6 +20,7 @@ namespace The_Quizer.Controllers
             this.userManager = userManager;
             this.roleManager = roleManager;
         }
+
         [HttpGet]
         [Route("[Controller]/")]
         [Route("[Controller]/ListUsers")]
@@ -35,7 +34,7 @@ namespace The_Quizer.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            AdminRegisterViewModel adminRegisterViewModel = new ()
+            AdminRegisterViewModel adminRegisterViewModel = new()
             {
                 Password = "Student@1",
                 UserRole = roleManager.Roles.Select(a => a.Name),
@@ -83,7 +82,7 @@ namespace The_Quizer.Controllers
                 ViewBag.ErrorMessage = $"No User With ID = {id} found.";
                 return View("NotFound");
             }
-            AdminEditViewModel adminEditViewModel = new ()
+            AdminEditViewModel adminEditViewModel = new()
             {
                 ID = id,
                 Fname = user.Fname,
@@ -104,7 +103,7 @@ namespace The_Quizer.Controllers
                 ViewBag.ErrorMeassage = $"No User With ID = {model.ID} found.";
                 return View("NotFound");
             }
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 user.UserName = user.Email = model.Email;
                 user.Fname = model.Fname;

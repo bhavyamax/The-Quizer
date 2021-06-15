@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using The_Quizer.Models;
 using The_Quizer.ViewModels;
@@ -21,6 +18,7 @@ namespace The_Quizer.Controllers
             this.userManager = userManager;
             this.signInManager = signInManager;
         }
+
         [AllowAnonymous]
         [HttpGet]
         public IActionResult Register()
@@ -69,7 +67,6 @@ namespace The_Quizer.Controllers
         {
             if (ModelState.IsValid)
             {
-
                 var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, false, false);
                 if (result.Succeeded)
                 {
@@ -80,7 +77,7 @@ namespace The_Quizer.Controllers
             }
             return View(model);
         }
-        
+
         [HttpGet]
         public IActionResult ChangePassword()
         {
@@ -92,8 +89,8 @@ namespace The_Quizer.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user =await userManager.GetUserAsync(User);
-                if (user==null)
+                var user = await userManager.GetUserAsync(User);
+                if (user == null)
                 {
                     RedirectToAction(nameof(Login));
                 }
@@ -110,7 +107,6 @@ namespace The_Quizer.Controllers
             }
             return View(model);
         }
-
 
         [HttpPost]
         public async Task<IActionResult> Logout()

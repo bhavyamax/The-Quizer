@@ -57,13 +57,13 @@
                         </tr>
                         <tr>
                             <th>
-                                <input asp-for="questionAnswers.Single().Answer" class="form-control"/>
+                                <input asp-for="questionAnswers.Single().Answer" class="form-control" />
                             </th>
                             <th>
-                                <input asp-for="questionAnswers.Single().isCorrect"class="form-control" value="false"/>
+                                <input asp-for="questionAnswers.Single().isCorrect"class="form-control" value="false" />
                             </th>
                             <th>
-                                <input type="button" id="add" name="add" class="btn btn-outline-primary form-control" value="Add New"/>
+                                <input type="button" id="add" name="add" class="btn btn-outline-primary form-control" value="Add New" />
                             </th>
                         </tr>
                     </table>*@
@@ -72,8 +72,6 @@
         </form>
     </div>
 </div>
-
-
 
 <div>
     <a asp-action="Details" asp-controller="TeacherExamMan" asp-route-id="@Model.Exam_id">Back to Exam Details</a>

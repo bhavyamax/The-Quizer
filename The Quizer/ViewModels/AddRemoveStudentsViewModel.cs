@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 using The_Quizer.Models;
 
 namespace The_Quizer.ViewModels
@@ -13,11 +10,13 @@ namespace The_Quizer.ViewModels
         public List<SelcteStu> Assigned { get; set; }
         public List<SelcteStu> notAssigned { get; set; }
     }
+
     public class SelcteStu
     {
-        [Display(Name ="In Exam")]
+        [Display(Name = "In Exam")]
         public bool isSelected { get; set; }
-        public string id{ get; set; }
+
+        public string id { get; set; }
         public ApplicationUser student { get; set; }
     }
 }

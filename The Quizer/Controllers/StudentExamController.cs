@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -11,7 +9,7 @@ using The_Quizer.ViewModels;
 
 namespace The_Quizer.Controllers
 {
-    [Authorize(Roles ="Student")]
+    [Authorize(Roles = "Student")]
     public class StudentExamController : Controller
     {
         private readonly IUserExamStore userExamStore;
@@ -24,16 +22,17 @@ namespace The_Quizer.Controllers
             this.examStore = examStore;
             this.examQuestionStore = examQuestionStore;
         }
+
         public async Task<IActionResult> Index()
         {
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             var model = await userExamStore.GetUserExamsAsync(userId);
 
-
             ViewData["Title"] = "Student Home";
             return View(model.OrderByDescending(a => a.Status).ToList());
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> GiveExam(string id)
@@ -54,7 +53,7 @@ namespace The_Quizer.Controllers
             }
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var userExam =await  userExamStore.GetUserExamRecordAsync(userId, id);
+            var userExam = await userExamStore.GetUserExamRecordAsync(userId, id);
             await userExamStore.SetUserExamStartAsync(userExam);
             var exam = await examStore.FindByIdWithQueAnsAsync(id);
             if (exam == null || exam.Status == ExamStatus.Closed)
@@ -66,7 +65,6 @@ namespace The_Quizer.Controllers
                 examId = exam.Id,
                 Title = exam.Title
             };
-
 
             foreach (var Ques in exam.ExamQuestions)
             {
@@ -109,13 +107,13 @@ namespace The_Quizer.Controllers
                             if (dbQues.QuestionAnswers.SingleOrDefault(a => a.ID == item.ansId && a.isCorrect) != null)
                             {
                                 Score += dbQues.points;
-                            } 
+                            }
                         }
                     }
                     else if (ques.quesType == QuestionType.Multiple_Choice)
                     {
                         ques.Answers = ques.Answers.Where(a => a.isSelected).ToList();
-                        var ansScore = dbQues.points/ dbQues.QuestionAnswers.Where(a => a.isCorrect).Count();
+                        var ansScore = dbQues.points / dbQues.QuestionAnswers.Where(a => a.isCorrect).Count();
                         foreach (var item in ques.Answers)
                         {
                             if (dbQues.QuestionAnswers.SingleOrDefault(a => a.ID == ques.Answers[0].ansId && a.isCorrect) != null)
@@ -126,7 +124,7 @@ namespace The_Quizer.Controllers
                     }
                     else if (ques.quesType == QuestionType.Text)
                     {
-                        var ansScore = dbQues.points/ dbQues.QuestionAnswers.Count;
+                        var ansScore = dbQues.points / dbQues.QuestionAnswers.Count;
                         foreach (var txtAns in ques.Answers)
                         {
                             foreach (var item in dbQues.QuestionAnswers)
@@ -135,7 +133,7 @@ namespace The_Quizer.Controllers
                                 {
                                     Score += ansScore;
                                 }
-                            } 
+                            }
                         }
                     }
                 }
@@ -146,6 +144,5 @@ namespace The_Quizer.Controllers
             }
             return NotFound();
         }
-
     }
 }

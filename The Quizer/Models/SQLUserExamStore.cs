@@ -12,7 +12,7 @@ namespace The_Quizer.Models
     {
         private readonly UserManager<ApplicationUser> userManager;
 
-        public SQLUserExamStore(AppDBContext context,UserManager<ApplicationUser> userManager)
+        public SQLUserExamStore(AppDBContext context, UserManager<ApplicationUser> userManager)
         {
             Context = context;
             AutoSaveChanges = true;
@@ -33,6 +33,7 @@ namespace The_Quizer.Models
                                              .SingleOrDefaultAsync(eu => eu.Id == examId);
             return exanRes;
         }
+
         public async Task<UserExam> GetUserResultsAsync(string userId)
         {
             if (string.IsNullOrEmpty(userId))
@@ -54,7 +55,6 @@ namespace The_Quizer.Models
             userExam.Status = UserExamStatus.Given;
             Context.Update(userExam);
             await SaveChanges();
-
         }
 
         private async Task SaveChanges()
@@ -98,7 +98,7 @@ namespace The_Quizer.Models
         public async Task<List<ApplicationUser>> UsersInExamAsync(string examId)
         {
             var userExams = await Context.UserExams.Where(i => i.Exam_id == examId).Select(d => d.User_id).ToListAsync();
-            var allStudents = await  userManager.GetUsersInRoleAsync("Student");
+            var allStudents = await userManager.GetUsersInRoleAsync("Student");
             var users = from user in allStudents
                         where userExams.Contains(user.Id)
                         select user;
@@ -108,7 +108,7 @@ namespace The_Quizer.Models
         public async Task<List<ApplicationUser>> UsersNotInExamAsync(string examId)
         {
             var userExams = await Context.UserExams.Where(i => i.Exam_id == examId).Select(d => d.User_id).ToListAsync();
-            var allStudents = await  userManager.GetUsersInRoleAsync("Student");
+            var allStudents = await userManager.GetUsersInRoleAsync("Student");
             var users = from user in allStudents
                         where !userExams.Contains(user.Id)
                         select user;
@@ -121,7 +121,7 @@ namespace The_Quizer.Models
             {
                 throw new ArgumentNullException(nameof(userId));
             }
-            var exams =await  Context.UserExams.Include(ue => ue.Exam).Where(ue => ue.User_id == userId).ToListAsync();
+            var exams = await Context.UserExams.Include(ue => ue.Exam).Where(ue => ue.User_id == userId).ToListAsync();
             return exams;
         }
 

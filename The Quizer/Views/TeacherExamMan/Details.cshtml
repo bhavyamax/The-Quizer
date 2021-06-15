@@ -44,7 +44,7 @@
 <br />
 <h4>Questions</h4>
 <a asp-action="Create" asp-controller="TeacherQuestionsMan" asp-route-examId="@Model.Exam.Id" class="btn btn-outline-primary mb-2">Create</a>
-<table id="tblQues"  class="table table-responsive">
+<table id="tblQues" class="table table-responsive">
     <thead class="thead-dark">
         <tr>
             <th>Question</th>
@@ -79,7 +79,7 @@
                     @Html.ActionLink("Select", "Details", new { quesId = item.ID }) |
                     @Html.ActionLink("Edit", "Edit", "TeacherQuestionsMan", new { id = item.ID, examId = Model.Exam.Id }) |
                     @Html.ActionLink("Details", "Details", "TeacherQuestionsMan", new { id = item.ID, examId = Model.Exam.Id }) |
-                    @Html.ActionLink("Delete", "Delete", "TeacherQuestionsMan", new { id = item.ID ,examId=Model.Exam.Id})
+                    @Html.ActionLink("Delete", "Delete", "TeacherQuestionsMan", new { id = item.ID, examId = Model.Exam.Id })
                 </td>
             </tr>
         }
@@ -134,7 +134,7 @@ else if (ViewBag.QuesId != null)
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.25/b-1.7.1/fc-3.3.3/sc-2.0.4/sb-1.1.0/sp-1.3.0/sl-1.3.3/datatables.min.css" />
 
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.25/b-1.7.1/fc-3.3.3/sc-2.0.4/sb-1.1.0/sp-1.3.0/sl-1.3.3/datatables.min.js"></script>
-<script>
+    <script>
     $(document).ready(function () {
         $("#tblQues").DataTable({
             paging: true
@@ -144,5 +144,5 @@ else if (ViewBag.QuesId != null)
             search: false
         });
     });
-</script>
+    </script>
 }

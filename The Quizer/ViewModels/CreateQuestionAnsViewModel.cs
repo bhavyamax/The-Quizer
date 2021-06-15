@@ -6,8 +6,8 @@ namespace The_Quizer.ViewModels
     {
         [Required]
         public string Answer { get; set; }
+
         [Required]
         public bool isCorrect { get; set; }
     }
-
 }

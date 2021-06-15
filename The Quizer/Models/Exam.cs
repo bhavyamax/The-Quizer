@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace The_Quizer.Models
 {
@@ -12,19 +10,21 @@ namespace The_Quizer.Models
         {
             Id = Guid.NewGuid().ToString();
         }
+
         [Key]
         [StringLength(450)]
         public string Id { get; set; }
+
         [Required]
         public string Title { get; set; }
+
         [Required]
         public ExamStatus Status { get; set; }
 
         public virtual ICollection<UserExam> UserExams { get; set; }
         public virtual ICollection<ExamQuestion> ExamQuestions { get; set; }
-
-
     }
+
     public enum ExamStatus
     {
         Unpublished,
