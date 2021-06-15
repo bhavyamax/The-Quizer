@@ -24,7 +24,7 @@ namespace The_Quizer.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            AdminRegisterViewModel adminRegisterViewModel = new AdminRegisterViewModel
+            AdminRegisterViewModel adminRegisterViewModel = new ()
             {
                 Password = "Teacher@1",
                 UserRole = roleManager.Roles.Select(a => a.Name),
@@ -97,7 +97,7 @@ namespace The_Quizer.Controllers
                 ViewBag.ErrorMessage = $"No User With ID = {id} found.";
                 return View("NotFound");
             }
-            AdminEditViewModel adminEditViewModel = new AdminEditViewModel
+            AdminEditViewModel adminEditViewModel = new ()
             {
                 ID = id,
                 Fname = user.Fname,

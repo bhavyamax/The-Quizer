@@ -7,10 +7,10 @@ namespace The_Quizer.Utilities
 {
     static class Extentions
     {
-        private static Random seed = new Random();
+        private static readonly Random seed = new ();
         public static void Shuffle<T>(this IList<T> list)
         {
-            Random rng = new Random(seed.Next(1000,int.MaxValue));
+            Random rng = new (seed.Next(1000,int.MaxValue));
             int n = list.Count;
             while (n > 1)
             {

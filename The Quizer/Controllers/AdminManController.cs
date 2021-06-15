@@ -82,7 +82,7 @@ namespace The_Quizer.Controllers
                 ViewBag.ErrorMessage = $"No User With ID = {id} found.";
                 return View("NotFound");
             }
-            AdminEditViewModel adminEditViewModel = new AdminEditViewModel
+            AdminEditViewModel adminEditViewModel = new ()
             {
                 ID = id,
                 Fname = user.Fname,

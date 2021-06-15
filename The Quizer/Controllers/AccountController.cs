@@ -73,7 +73,6 @@ namespace The_Quizer.Controllers
                 var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, false, false);
                 if (result.Succeeded)
                 {
-
                     return RedirectToAction("Index", "Home");
                 }
 

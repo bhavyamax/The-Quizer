@@ -26,7 +26,7 @@ namespace The_Quizer.Models
         {
             if (string.IsNullOrEmpty(examId))
             {
-                throw new ArgumentNullException("examId");
+                throw new ArgumentNullException(nameof(examId));
             }
             var exanRes = await Context.Exams.Include(eu => eu.UserExams)
                                              .ThenInclude(eu => eu.ApplicationUser)
@@ -37,7 +37,7 @@ namespace The_Quizer.Models
         {
             if (string.IsNullOrEmpty(userId))
             {
-                throw new ArgumentNullException("examId");
+                throw new ArgumentNullException(nameof(userId));
             }
             var exanRes = await Context.UserExams.Include(eu => eu.ApplicationUser)
                                                  .Include(eu => eu.Exam)
@@ -49,7 +49,7 @@ namespace The_Quizer.Models
         {
             if (userExam == null)
             {
-                throw new ArgumentNullException("userExam");
+                throw new ArgumentNullException(nameof(userExam));
             }
             userExam.Status = UserExamStatus.Given;
             Context.Update(userExam);
@@ -119,7 +119,7 @@ namespace The_Quizer.Models
         {
             if (string.IsNullOrEmpty(userId))
             {
-                throw new ArgumentNullException("userId");
+                throw new ArgumentNullException(nameof(userId));
             }
             var exams =await  Context.UserExams.Include(ue => ue.Exam).Where(ue => ue.User_id == userId).ToListAsync();
             return exams;

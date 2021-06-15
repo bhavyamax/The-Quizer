@@ -49,7 +49,7 @@ namespace The_Quizer.Controllers
         }
 
         // GET: TeacherQuestionsMan/Create
-        public async Task<IActionResult> Create(string examId= "d9ad4c4f-53d0-4f15-9c25-55bc28e50260")
+        public async Task<IActionResult> Create(string examId)
         {
             if (string.IsNullOrEmpty(examId))
             {
