@@ -84,6 +84,7 @@ namespace The_Quizer.Controllers
                 ViewBag.ErrorMessage = $"No User With ID = {id} found.";
                 return View("NotFound");
             }
+            else if (user.NormalizedEmail == "ADMIN@ADMIN.COM") return RedirectToAction("Index","Home");
             AdminEditViewModel adminEditViewModel = new ()
             {
                 ID = id,
@@ -105,7 +106,8 @@ namespace The_Quizer.Controllers
                 ViewBag.ErrorMeassage = $"No User With ID = {model.ID} found.";
                 return View("NotFound");
             }
-            if(ModelState.IsValid)
+            else if (user.NormalizedEmail == "ADMIN@ADMIN.COM") return RedirectToAction("Index","Home");
+            if (ModelState.IsValid)
             {
                 user.UserName = user.Email = model.Email;
                 user.Fname = model.Fname;
@@ -149,6 +151,7 @@ namespace The_Quizer.Controllers
                 ViewBag.ErrorMessage = $"No User With ID = {id} found.";
                 return View("NotFound");
             }
+            else if (user.NormalizedEmail == "ADMIN@ADMIN.COM") return RedirectToAction("Index","Home");
             else
             {
                 var result = await userManager.DeleteAsync(user);
