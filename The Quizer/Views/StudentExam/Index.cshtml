@@ -45,7 +45,11 @@
                 <td>
                     @if (item.Status.Equals(UserExamStatus.Pending))
                     {
-                        @Html.ActionLink("Give Exam", "GiveExam", new { id = item.Exam_id}, htmlAttributes: new { @class = "btn btn-outline-primary" })
+                        <form asp-action="GiveExam">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="id" value="@item.Exam_id" />
+                            <input type="submit" class = "btn btn-outline-primary" value="Give Exams"/>
+                        </form>
                     }
                     else
                     {
