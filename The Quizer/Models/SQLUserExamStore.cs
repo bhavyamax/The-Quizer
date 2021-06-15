@@ -51,7 +51,8 @@ namespace The_Quizer.Models
             {
                 throw new ArgumentNullException("userExam");
             }
-            await Context.AddAsync(userExam);
+            userExam.Status = UserExamStatus.Given;
+            Context.Update(userExam);
             await SaveChanges();
 
         }
