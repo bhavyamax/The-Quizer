@@ -1,0 +1,76 @@
+﻿@model List<UserExam>
+
+
+
+
+<table id="tblExams" class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Single().Exam.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Single().Score)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Single().Status)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            string rowClass="";
+            if (item.Status == UserExamStatus.Creator)
+            {
+                continue;
+            }else if (item.Status == UserExamStatus.Given)
+            {
+                rowClass = "list-group-item-secondary";
+            }
+            <tr class="@rowClass">
+                <td>
+                    @Html.DisplayFor(modelItem => item.Exam.Title)
+                </td>
+                <td>
+                    @if (item.Score != -1)
+                    {
+                        @Html.DisplayFor(modelItem => item.Score)
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                <td>
+                    @if (item.Status.Equals(UserExamStatus.Pending))
+                    {
+                        <form asp-action="GiveExam">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="id" value="@item.Exam_id" />
+                            <input type="submit" class = "btn btn-outline-primary" value="Give Exams"/>
+                        </form>
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Test Already Given", "index",null ,htmlAttributes: new { @class = "btn btn-danger disabled-link" })
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+
+
+@section Scripts{
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.25/b-1.7.1/fc-3.3.3/sc-2.0.4/sb-1.1.0/sp-1.3.0/sl-1.3.3/datatables.min.css" />
+
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.25/b-1.7.1/fc-3.3.3/sc-2.0.4/sb-1.1.0/sp-1.3.0/sl-1.3.3/datatables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#tblExams").DataTable();
+        });
+    </script>
+}

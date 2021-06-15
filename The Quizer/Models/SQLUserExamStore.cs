@@ -51,7 +51,8 @@ namespace The_Quizer.Models
             {
                 throw new ArgumentNullException("userExam");
             }
-            await Context.AddAsync(userExam);
+            userExam.Status = UserExamStatus.Given;
+            Context.Update(userExam);
             await SaveChanges();
 
         }
@@ -66,7 +67,9 @@ namespace The_Quizer.Models
 
         public async Task<UserExam> GetUserExamRecordAsync(string userId, string examId)
         {
-            var _userExam = await Context.UserExams.SingleOrDefaultAsync(ue => ue.User_id == userId && ue.Exam_id == examId);
+            var _userExam = await Context.UserExams.Include(a => a.Exam)
+                .Include(a => a.ApplicationUser)
+                .SingleOrDefaultAsync(ue => ue.User_id == userId && ue.Exam_id == examId);
             return _userExam;
         }
 
@@ -110,6 +113,24 @@ namespace The_Quizer.Models
                         where !userExams.Contains(user.Id)
                         select user;
             return users.ToList();
+        }
+
+        public async Task<List<UserExam>> GetUserExamsAsync(string userId)
+        {
+            if (string.IsNullOrEmpty(userId))
+            {
+                throw new ArgumentNullException("userId");
+            }
+            var exams =await  Context.UserExams.Include(ue => ue.Exam).Where(ue => ue.User_id == userId).ToListAsync();
+            return exams;
+        }
+
+        public async Task<UserExam> SetUserExamStartAsync(UserExam userExam)
+        {
+            userExam.Status = UserExamStatus.On_Going;
+            Context.Update(userExam);
+            await SaveChanges();
+            return userExam;
         }
     }
 }

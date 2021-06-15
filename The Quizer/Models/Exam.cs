@@ -28,7 +28,7 @@ namespace The_Quizer.Models
     public enum ExamStatus
     {
         Unpublished,
-        Active,
-        Inactive
+        Open,
+        Closed
     }
 }
