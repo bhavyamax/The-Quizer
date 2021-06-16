@@ -63,6 +63,7 @@ namespace The_Quizer.Controllers
                 if (result.Succeeded)
                 {
                     await userManager.AddToRoleAsync(user, model.SelectedRole);
+                    return RedirectToActionPermanent(nameof(ListUsers));
                 }
                 foreach (var error in result.Errors)
                 {
