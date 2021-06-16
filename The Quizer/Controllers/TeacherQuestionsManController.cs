@@ -23,11 +23,6 @@ namespace The_Quizer.Controllers
             this.questionAnswerStore = questionAnswerStore;
         }
 
-        //// GET: TeacherQuestionsMan
-        //public async Task<IActionResult> Index()
-        //{
-        //    return View(await examQuestionStore.GetAllAsync());
-        //}
 
         // GET: TeacherQuestionsMan/Details/5
         public async Task<IActionResult> Details(string id)
