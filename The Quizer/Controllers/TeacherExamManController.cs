@@ -43,28 +43,35 @@ namespace The_Quizer.Controllers
         {
             if (await examStore.FindByIdAsync(model.examId) != null)
             {
-                foreach (var item in model.Assigned)
+                if (model.Assigned!=null)
                 {
-                    if (item.isSelected == false)
+
+                    foreach (var item in model.Assigned)
                     {
-                        var userExam = await userExamStore.GetUserExamRecordAsync(userId: item.id, examId: model.examId);
-                        if (userExam != null)
-                            await userExamStore.RemoveUserFromExamAsync(userExam);
-                    }
+                        if (item.isSelected == false)
+                        {
+                            var userExam = await userExamStore.GetUserExamRecordAsync(userId: item.id, examId: model.examId);
+                            if (userExam != null)
+                                await userExamStore.RemoveUserFromExamAsync(userExam);
+                        }
+                    } 
                 }
-                foreach (var item in model.notAssigned)
+                if (model.notAssigned!=null)
                 {
-                    if (item.isSelected == true)
+                    foreach (var item in model.notAssigned)
                     {
-                        var userExam = await userExamStore.GetUserExamRecordAsync(userId: item.id, examId: model.examId);
-                        if (userExam == null)
-                            userExam = new()
-                            {
-                                User_id = item.id,
-                                Exam_id = model.examId
-                            };
-                        await userExamStore.AssingUserToExamAsync(userExam);
-                    }
+                        if (item.isSelected == true)
+                        {
+                            var userExam = await userExamStore.GetUserExamRecordAsync(userId: item.id, examId: model.examId);
+                            if (userExam == null)
+                                userExam = new()
+                                {
+                                    User_id = item.id,
+                                    Exam_id = model.examId
+                                };
+                            await userExamStore.AssingUserToExamAsync(userExam);
+                        }
+                    } 
                 }
                 return RedirectToAction(nameof(AddRemoveStudents), new { id = model.examId });
             }

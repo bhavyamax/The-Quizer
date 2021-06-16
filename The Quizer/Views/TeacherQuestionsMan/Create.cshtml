@@ -42,31 +42,31 @@
                 <div id="MultiAnswer">
 
                     <div id="AnswersContainer">
-                        @Html.EditorFor(Model=>Model.questionAnswers)
+                        @Html.EditorFor(Model => Model.questionAnswers)
                     </div>
                     <div class="row">
                         <div class="col-md-4">
                             <input class="btn btn-outline-primary" type="button" id="btnAdd" value="Add Answer" />
                         </div>
                     </div>
-    @*<table class="table table-responsive">
-                        <tr>
-                            <th>Answer</th>
-                            <th>isCorrect</th>
-                            <th></th>
-                        </tr>
-                        <tr>
-                            <th>
-                                <input asp-for="questionAnswers.Single().Answer" class="form-control" />
-                            </th>
-                            <th>
-                                <input asp-for="questionAnswers.Single().isCorrect"class="form-control" value="false" />
-                            </th>
-                            <th>
-                                <input type="button" id="add" name="add" class="btn btn-outline-primary form-control" value="Add New" />
-                            </th>
-                        </tr>
-                    </table>*@
+                    @*<table class="table table-responsive">
+                            <tr>
+                                <th>Answer</th>
+                                <th>isCorrect</th>
+                                <th></th>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <input asp-for="questionAnswers.Single().Answer" class="form-control" />
+                                </th>
+                                <th>
+                                    <input asp-for="questionAnswers.Single().isCorrect"class="form-control" value="false" />
+                                </th>
+                                <th>
+                                    <input type="button" id="add" name="add" class="btn btn-outline-primary form-control" value="Add New" />
+                                </th>
+                            </tr>
+                        </table>*@
                 </div>
             </fieldset>
         </form>

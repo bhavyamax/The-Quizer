@@ -1,7 +1,7 @@
 ﻿@model UserExam
 
 @{
-    ViewData["Title"] = "Exam"+Model.Exam.Title;
+    ViewData["Title"] = "Exam" + Model.Exam.Title;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -18,13 +18,13 @@
             @Html.DisplayFor(model => model.Exam.Title)
         </dd>
         <dt class="col-sm-2">
-           Exam @Html.DisplayNameFor(model => model.Exam.Status)
+            Exam @Html.DisplayNameFor(model => model.Exam.Status)
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Exam.Status)
         </dd>
         <dt class="col-sm-2">
-           Attempt @Html.DisplayNameFor(model => model.Status)
+            Attempt @Html.DisplayNameFor(model => model.Status)
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Status)
@@ -52,7 +52,7 @@
             else
             {
                 <p class="text-center text-danger">The Exam Has Been Closed</p>
-                <a asp-action="TakeExam" asp-route-id="@Model.Exam_id" class="btn btn-primary btn-lg btn-block">Give Exam</a>
+                <a asp-action="TakeExam" asp-route-id="@Model.Exam_id" class="btn btn-primary btn-lg btn-block disabled-link">Give Exam</a>
 
             }
             <a asp-action="Index" class="btn btn-success w-100">Back to List</a>

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -127,19 +128,23 @@ namespace The_Quizer.Controllers
                         var ansScore = dbQues.points / dbQues.QuestionAnswers.Count;
                         foreach (var txtAns in ques.Answers)
                         {
-                            foreach (var item in dbQues.QuestionAnswers)
+                            if (!string.IsNullOrEmpty(txtAns.ans))
                             {
-                                if (txtAns.ans.ToLower().Contains(item.Answer.ToLower()))
+
+                                foreach (var item in dbQues.QuestionAnswers)
                                 {
-                                    Score += ansScore;
-                                }
+                                    if (txtAns.ans.ToLower().Contains(item.Answer.ToLower()))
+                                    {
+                                        Score += ansScore;
+                                    }
+                                } 
                             }
                         }
                     }
                 }
-                userExam.Score = Score;
+                userExam.Score = (float?)Convert.ToDecimal(Score.ToString("{0:0.00}"));
                 userExam.Status = UserExamStatus.Given;
-                //await userExamStore.AddUserExamScoreAsync(userExam);
+                await userExamStore.AddUserExamScoreAsync(userExam);
                 return RedirectToAction(nameof(Index));
             }
             return NotFound();

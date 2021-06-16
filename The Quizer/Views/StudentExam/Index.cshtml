@@ -18,11 +18,16 @@
     <tbody>
         @foreach (var item in Model)
         {
-            string rowClass="";
+            if (item.Exam.Status==ExamStatus.Unpublished)
+            {
+                continue;
+            }
+            string rowClass = "";
             if (item.Status == UserExamStatus.Creator)
             {
                 continue;
-            }else if (item.Status == UserExamStatus.Given)
+            }
+            else if (item.Status == UserExamStatus.Given)
             {
                 rowClass = "list-group-item-secondary";
             }
@@ -45,12 +50,12 @@
                         <form asp-action="GiveExam">
                             @Html.AntiForgeryToken()
                             <input type="hidden" name="id" value="@item.Exam_id" />
-                            <input type="submit" class = "btn btn-outline-primary" value="Give Exams" />
+                            <input type="submit" class="btn btn-outline-primary" value="Give Exams" />
                         </form>
                     }
                     else
                     {
-                        @Html.ActionLink("Test Already Given", "index",null ,htmlAttributes: new { @class = "btn btn-danger disabled-link" })
+                        @Html.ActionLink("Test Already Given", "index", null, htmlAttributes: new { @class = "btn btn-danger disabled-link" })
                     }
                 </td>
             </tr>
