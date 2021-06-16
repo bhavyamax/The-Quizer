@@ -142,7 +142,7 @@ namespace The_Quizer.Controllers
                         }
                     }
                 }
-                userExam.Score = (float?)Convert.ToDecimal(Score.ToString("{0:0.00}"));
+                userExam.Score = Score;
                 userExam.Status = UserExamStatus.Given;
                 await userExamStore.AddUserExamScoreAsync(userExam);
                 return RedirectToAction(nameof(Index));
